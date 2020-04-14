@@ -1,0 +1,96 @@
+\documentclass{article}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath} 
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{enumerate}
+\usepackage{lineno}
+\usepackage{lmodern}
+\usepackage{caption}
+\usepackage[T1]{fontenc}
+\usepackage{microtype}
+\usepackage{systeme}
+\usepackage{amsmath,amssymb,amsthm,mathrsfs,latexsym,tikz,url}
+\usepackage{epigraph,graphicx}
+\usepackage{listings}
+\usepackage{listingsutf8}
+\usepackage{color}
+\usepackage{float}
+
+\DeclareGraphicsExtensions{.png,.pdf}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Python,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=4
+}
+
+
+\setlength{\parindent}{0.0cm}
+\setlength{\parskip}{0.1cm}
+\setlength{\voffset}{-1in}
+
+\begin{document}
+
+\title{DD2424: Project Proposal \\
+The impact of Fourier, and other, transforms in Deep Learning}
+\author{Anton Stråhle, Jan Alexandersson \& Fredrika Lundahl}
+\maketitle 
+
+\section{Project Description}
+
+In this project we aim to observe the impact of various transforms and data augmentation techniques on the accuracy of a convolutional neural network. Whilst we want to implement and observe the effects of many data augmentation techniques, as well as combination of several of them, we specifically want to observe how the Fourier transform impacts the accuracy. Another technique that we want to focus a bit more on is the usage of mixup (SOURCE) and how different weight distributions affect this method.
+
+\medskip
+
+In all, the focus is not entirely on maximizing the accuracy on a specific data set through a very complex CNN (although some decently performing base architecture will be used) but rather the observation of how different data augmentation techniques can affect the accuracy. It would of course be terrific to achieve a very high accuracy but this is not the main goal of the project.
+
+\section{Data}
+
+Our plan is to use BIRD data which can be found at ....
+
+\section{Deep Learning Packages \& Implementation}
+
+We will work in Python and use TensorFlow. We will hopefully be able to implement all the code necessary ourselves.
+
+\section{Experiments}
+
+Initially we want to create a CNN that without augmentation achieves a decent accuracy on the data set in question. After that we want to experiment how certain data augmentation techniques, and the combination of these, affect this accuracy. Some specific techniques that we want to try are
+
+\begin{enumerate}[(i)]
+ \item Fourier transform
+ \item Mixup
+ \item Color magnification 
+\end{enumerate}
+
+If we have enough time we might also try the techniques on a vastly different data set.
+
+\section{Measurement of Success}
+
+As our project is more of an observational study where we only wish to examine the effect of certain transforms we do not have target accuracy. Instead our success can be measured in how many interesting transforms, and combinations of these, we can draw conclusions about.
+
+\section{Knowledge \& Skills}
+
+All of us want to establish a solid base in TensorFlow and get and understanding on the effects of different data augmentations techniques, i.e. when and how to use them.
+
+\section{Grade}
+
+We are aiming for $\text{B}>$.
+
+\end{document}
+
