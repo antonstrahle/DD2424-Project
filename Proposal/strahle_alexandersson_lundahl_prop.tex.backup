@@ -58,7 +58,7 @@
 \begin{document}
 
 \title{DD2424: Project Proposal \\
-%The impact of Fourier, and other, transforms in Deep Learning \\
+The impact of Fourier, and other, transforms in Deep Learning \\
 Alternativ: The mechanisms, powers and limitations of some Data Augmentation techniques}
 
 \author{Anton Stråhle, Jan Alexandersson \& Fredrika Lundahl}
@@ -66,11 +66,10 @@ Alternativ: The mechanisms, powers and limitations of some Data Augmentation tec
 
 \section{Project Description}
 
-%In this project we aim to observe the mechanism and impact of various data augmentation techniques and transforms on the accuracy of a convolutional neural network. Whilst we want to implement and observe the effects of many data augmentation techniques, as well as combinations of several of them, we specifically want to observe how the Fourier transform impacts the accuracy and when. Another technique that we want to focus a bit more on is the usage of \href{https://arxiv.org/pdf/1710.09412.pdf}{Mixup} and how different weight distributions affect this method.
+In this project we aim to observe the mechanism and impact of various data augmentation techniques and transforms on the accuracy of a convolutional neural network. Whilst we want to implement and observe the effects of many data augmentation techniques, as well as combinations of several of them, we specifically want to observe how the Fourier transform impacts the accuracy and when. Another technique that we want to focus a bit more on is the usage of \href{https://arxiv.org/pdf/1710.09412.pdf}{Mixup} and how different weight distributions affect this method.
 
-%***Alternativt stycke:
-In this project we aim to observe the mechanism and impact of various data augmentation techniques and transforms on the accuracy of a convolutional neural network. Whilst we want to implement and observe the effects of many data augmentation techniques, as well as combinations of several of them, we specifically want to observe how different types of data augmentations impacts the accuracy and when. For example we want to try simple techniques as rotating and flipping, the usage of \href{https://arxiv.org/pdf/1710.09412.pdf}{Mixup} and how different weight distributions affect this method as well as investigating whether Fourier transformations can be of use. 
-We may also try, if time left, only performing mixup on the images and let majority in the mixup decide the label.
+***Alternativt stycke:
+In this project we aim to observe the mechanism and impact of various data augmentation techniques and transforms on the accuracy of a convolutional neural network. Whilst we want to implement and observe the effects of many data augmentation techniques, as well as combinations of several of them, we specifically want to observe how different types of data augmentations impacts the accuracy and when. For example we want to try simple techniques as rotating and flipping, the usage of \href{https://arxiv.org/pdf/1710.09412.pdf}{Mixup} and how different weight distributions affect this method as well as investigating whether Fourier transformations can be of use.
 
 \medskip
 
