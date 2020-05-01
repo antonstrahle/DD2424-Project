@@ -18,6 +18,12 @@ trainDirectory = "../Data/train"
 validationDirectory = "../Data/valid"
 testDirectory = "../Data/test"
 
+
+#Used a smaller dataset for testing
+trainDirectory = "../SmallData/train"
+validationDirectory = "../SmallData/valid"
+testDirectory = "../SmallData/test"
+
 classes = os.listdir(trainDirectory)
 num_classes = len(classes)
 
@@ -34,13 +40,17 @@ trainGen = mixupgen.MixupImageDataGenerator(trainDataGen,
 											distr = "beta",
 											params = 0.2)
 
-
-
-
-#trainGen = trainDataGen.flow_from_directory(trainDirectory,
+#trainGen = mixupgen.TestGenerator(trainDataGen, 
+											#trainDirectory,
 											#batch_size = batch_size,
-											#class_mode = "categorical",
-											#target_size = (IMG_HEIGHT, IMG_WIDTH)) 
+											#img_height=IMG_HEIGHT,
+											#img_width=IMG_WIDTH)
+
+#Without mixup
+trainGen = trainDataGen.flow_from_directory(trainDirectory,
+											batch_size = batch_size,
+											class_mode = "categorical",
+											target_size = (IMG_HEIGHT, IMG_WIDTH)) 
 
 #950 img belonging to 190 classes
 validGen = validDataGen.flow_from_directory(validationDirectory,
@@ -67,6 +77,8 @@ testModel = Sequential([
 	Dense(num_classes, activation = "softmax") #Need 190 since we have 190 classes
 	])
 
+
+
 testModel.compile(optimizer = RMSprop(lr = 0.001),
 				  loss = "categorical_crossentropy",
 				  metrics = ["acc"])
@@ -91,34 +103,39 @@ def plotImages(images_arr):
 plotImages(X)
 ###################################################################################
 
-
+#hist = testModel.fit_generator(trainGen.generate(),
+							   #steps_per_epoch = trainGen.get_steps_per_epoch(), #training images / batch size
+							   #epochs = 12,
+							   #validation_data = validGen,
+							   #validation_steps = 95,
+							   #verbose = 1)
 
 hist = testModel.fit_generator(trainGen,
-							   steps_per_epoch = trainGen.n//batch_size, #training images / batch size
+							   steps_per_epoch = 2851, #training images / batch size
 							   epochs = 2,
 							   validation_data = validGen,
 							   validation_steps = 95,
 							   verbose = 1)
 
-#acc = history.history['accuracy']
-#val_acc = history.history['val_accuracy']
+acc = history.history['accuracy']
+val_acc = history.history['val_accuracy']
 
-#loss=history.history['loss']
-#val_loss=history.history['val_loss']
+loss=history.history['loss']
+val_loss=history.history['val_loss']
 
-#epochs_range = range(epochs)
+epochs_range = range(epochs)
 
-#plt.figure(figsize=(8, 8))
-#plt.subplot(1, 2, 1)
-#plt.plot(epochs_range, acc, label='Training Accuracy')
-#plt.plot(epochs_range, val_acc, label='Validation Accuracy')
-#plt.legend(loc='lower right')
-#plt.title('Training and Validation Accuracy')
+plt.figure(figsize=(8, 8))
+plt.subplot(1, 2, 1)
+plt.plot(epochs_range, acc, label='Training Accuracy')
+plt.plot(epochs_range, val_acc, label='Validation Accuracy')
+plt.legend(loc='lower right')
+plt.title('Training and Validation Accuracy')
 
-#plt.subplot(1, 2, 2)
-#plt.plot(epochs_range, loss, label='Training Loss')
-#plt.plot(epochs_range, val_loss, label='Validation Loss')
-#plt.legend(loc='upper right')
-#plt.title('Training and Validation Loss')
-#plt.show()
+plt.subplot(1, 2, 2)
+plt.plot(epochs_range, loss, label='Training Loss')
+plt.plot(epochs_range, val_loss, label='Validation Loss')
+plt.legend(loc='upper right')
+plt.title('Training and Validation Loss')
+plt.show()
 
