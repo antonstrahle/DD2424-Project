@@ -13,25 +13,25 @@ import matplotlib.pyplot as plt
 IMG_HEIGHT = 224
 IMG_WIDTH = 224 
 epochs = 2
-batch_size  = 10
+batch_size  = 100
 
 trainDirectory = "../Data/train"
 validationDirectory = "../Data/valid"
 testDirectory = "../Data/test"
-
+"""
 
 #Used a smaller dataset for testing
 trainDirectory = "../SmallData/train"
 validationDirectory = "../SmallData/valid"
 testDirectory = "../SmallData/test"
-
+"""
 classes = os.listdir(trainDirectory)
 num_classes = len(classes)
 
 trainDataGen = ImageDataGenerator(rescale = 1./255.) #rescale as in previous assignment
 validDataGen = ImageDataGenerator(rescale = 1./255.) 
 testDataGen = ImageDataGenerator(rescale = 1./255.)
-
+"""
 #with mixup
 trainGen = mixupgen.MixupImageDataGenerator(trainDataGen, 
 											trainDirectory,
@@ -41,12 +41,12 @@ trainGen = mixupgen.MixupImageDataGenerator(trainDataGen,
 											distr = "beta",
 											params = 0.2)
 
-
+"""
 #Without mixup
-#trainGen = trainDataGen.flow_from_directory(trainDirectory,
-											#batch_size = batch_size,
-											#class_mode = "categorical",
-											#target_size = (IMG_HEIGHT, IMG_WIDTH)) 
+trainGen = trainDataGen.flow_from_directory(trainDirectory,
+											batch_size = batch_size,
+											class_mode = "categorical",
+											target_size = (IMG_HEIGHT, IMG_WIDTH)) 
 
 #950 img belonging to 190 classes
 validGen = validDataGen.flow_from_directory(validationDirectory,
@@ -64,18 +64,26 @@ testGen = testDataGen.flow_from_directory(testDirectory,
 testModel = Sequential([
 	Conv2D(16, 3, activation = "relu", input_shape = (IMG_HEIGHT, IMG_WIDTH, 3)),
 	MaxPooling2D(2,2),
+	tf.keras.layers.BatchNormalization(),
+	Dropout(0.35),
 	Conv2D(32, 3, activation = "relu"),
-	MaxPooling2D(2,2),
+	tf.keras.layers.BatchNormalization(),
 	Conv2D(64, 3, activation = "relu"),
 	MaxPooling2D(2,2),
+	tf.keras.layers.BatchNormalization(),
+	Dropout(0.35),
+	Conv2D(128, 3, activation = "relu"),
+	tf.keras.layers.BatchNormalization(),
 	Flatten(),
-	Dense(1024, activation = "relu"),
+	Dropout(0.5),
+	Dense(512, activation = "relu"),
+	tf.keras.layers.BatchNormalization(),
 	Dense(num_classes, activation = "softmax") #Need 190 since we have 190 classes
 	])
 
 
 
-testModel.compile(optimizer = SGD(lr = 0.001),
+testModel.compile(optimizer = SGD(lr = 0.01),
 				  loss = "categorical_crossentropy",
 				  metrics = ["acc"])
 
@@ -98,20 +106,20 @@ def plotImages(images_arr):
 
 plotImages(X)
 ###################################################################################
-
+"""
 history = testModel.fit_generator(trainGen.generate(),
 							   steps_per_epoch = trainGen.get_steps_per_epoch(), #training images / batch size
 							   epochs = 12,
 							   validation_data = validGen,
 							   validation_steps = 95,
 							   verbose = 1)
-
-#history = testModel.fit_generator(trainGen,
-							   #steps_per_epoch = 2851, #training images / batch size
-							   #epochs = 2,
-							   #validation_data = validGen,
-							   #validation_steps = 95,
-							   #verbose = 1)
+"""
+history = testModel.fit_generator(trainGen,
+							   steps_per_epoch = 25812//100, #training images / batch size
+							   epochs = 12,
+							   validation_data = validGen,
+							   validation_steps = 95,
+							   verbose = 1)
 
 #does not work yet
 
