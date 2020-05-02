@@ -3,6 +3,7 @@ import numpy as np
 import tensorflow as tf
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.optimizers import RMSprop
+from tensorflow.keras.optimizers import SGD
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Conv2D, Flatten, Dropout, MaxPooling2D
 import mixupGenerator as mixupgen
@@ -40,17 +41,12 @@ trainGen = mixupgen.MixupImageDataGenerator(trainDataGen,
 											distr = "beta",
 											params = 0.2)
 
-#trainGen = mixupgen.TestGenerator(trainDataGen, 
-											#trainDirectory,
-											#batch_size = batch_size,
-											#img_height=IMG_HEIGHT,
-											#img_width=IMG_WIDTH)
 
 #Without mixup
-trainGen = trainDataGen.flow_from_directory(trainDirectory,
-											batch_size = batch_size,
-											class_mode = "categorical",
-											target_size = (IMG_HEIGHT, IMG_WIDTH)) 
+#trainGen = trainDataGen.flow_from_directory(trainDirectory,
+											#batch_size = batch_size,
+											#class_mode = "categorical",
+											#target_size = (IMG_HEIGHT, IMG_WIDTH)) 
 
 #950 img belonging to 190 classes
 validGen = validDataGen.flow_from_directory(validationDirectory,
@@ -79,7 +75,7 @@ testModel = Sequential([
 
 
 
-testModel.compile(optimizer = RMSprop(lr = 0.001),
+testModel.compile(optimizer = SGD(lr = 0.001),
 				  loss = "categorical_crossentropy",
 				  metrics = ["acc"])
 
@@ -103,39 +99,41 @@ def plotImages(images_arr):
 plotImages(X)
 ###################################################################################
 
-#hist = testModel.fit_generator(trainGen.generate(),
-							   #steps_per_epoch = trainGen.get_steps_per_epoch(), #training images / batch size
-							   #epochs = 12,
-							   #validation_data = validGen,
-							   #validation_steps = 95,
-							   #verbose = 1)
-
-hist = testModel.fit_generator(trainGen,
-							   steps_per_epoch = 2851, #training images / batch size
-							   epochs = 2,
+history = testModel.fit_generator(trainGen.generate(),
+							   steps_per_epoch = trainGen.get_steps_per_epoch(), #training images / batch size
+							   epochs = 12,
 							   validation_data = validGen,
 							   validation_steps = 95,
 							   verbose = 1)
 
-acc = history.history['accuracy']
-val_acc = history.history['val_accuracy']
+#history = testModel.fit_generator(trainGen,
+							   #steps_per_epoch = 2851, #training images / batch size
+							   #epochs = 2,
+							   #validation_data = validGen,
+							   #validation_steps = 95,
+							   #verbose = 1)
 
-loss=history.history['loss']
-val_loss=history.history['val_loss']
+#does not work yet
 
-epochs_range = range(epochs)
+#acc = history.history['accuracy']
+#val_acc = history.history['val_accuracy']
 
-plt.figure(figsize=(8, 8))
-plt.subplot(1, 2, 1)
-plt.plot(epochs_range, acc, label='Training Accuracy')
-plt.plot(epochs_range, val_acc, label='Validation Accuracy')
-plt.legend(loc='lower right')
-plt.title('Training and Validation Accuracy')
+#loss=history.history['loss']
+#val_loss=history.history['val_loss']
 
-plt.subplot(1, 2, 2)
-plt.plot(epochs_range, loss, label='Training Loss')
-plt.plot(epochs_range, val_loss, label='Validation Loss')
-plt.legend(loc='upper right')
-plt.title('Training and Validation Loss')
-plt.show()
+#epochs_range = range(epochs)
+
+#plt.figure(figsize=(8, 8))
+#plt.subplot(1, 2, 1)
+#plt.plot(epochs_range, acc, label='Training Accuracy')
+#plt.plot(epochs_range, val_acc, label='Validation Accuracy')
+#plt.legend(loc='lower right')
+#plt.title('Training and Validation Accuracy')
+
+#plt.subplot(1, 2, 2)
+#plt.plot(epochs_range, loss, label='Training Loss')
+#plt.plot(epochs_range, val_loss, label='Validation Loss')
+#plt.legend(loc='upper right')
+#plt.title('Training and Validation Loss')
+#plt.show()
 
