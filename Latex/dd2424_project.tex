@@ -85,9 +85,37 @@ We will not always work with the full dataset but instead pick subsets of some s
 
 \section{Mixup}
 
-I will write some about mixup and our variations of mixup / JAN
+Mixup is a data augmentation teqnique which creates virtual training example by combining two images by 
+
+\begin{align*}
+ &\tilde{x} = \lambda x_i + (1-\lambda) x_j, \qquad \text{where $x_i$, $x_j$ are input vectors} \\
+ &\tilde{y} = \lambda y_i + (1-\lambda) y_j, \qquad \text{where $y_i$, $y_j$ are one-hot endoced labels}
+\end{align*}
 
 
+where $(x_i, y_i)$ and $(x_j, y_j)$ are two randomly drawn examples from the training data, and $\lambda$ 
+is a probability, that is $\lambda \in [0,1]$. Usually, $\lambda$ is randomly drawn from a Beta$(\alpha, \alpha)$ 
+distribution, for each pair of images which are to be combined. This distribution seems like a 
+reasonable chioce since it has the right support and the Beta-distribution is the most natural distribution to
+consider when working with probabilities. The Beta$(\alpha, \alpha)$-distribution is also symmetric around $0.5$, which may be 
+a desireable property, however this should not matter since we combine our randomly drawn examples with weights $\lambda$ and $1-\lambda$ and 
+it would not matter if, for example $\lambda = 0.2$ or $\lambda = 0.8$ since it would yield the same two weights, but in different order, but 
+since our examples are randomly drawn the order of the weight should not have an impact. 
+
+When reading about mixup, the use of the Beta-distribution is usually taken for granted, however, there are many other distribution which 
+could be considered since the only requirement is that the distribution satisfy $\lambda \in [0,1]$. We will therfore not only consider the 
+Beta-distribution. 
+
+WRITE ABOUT OTHER DISTRIBUTION(S) (logit-normal)
+
+We will also consider only performing mixup on the input vectors of the training images but letting $\tilde{y}$ keep the label of the exemple 
+with the highest weight. That is,
+
+\begin{align*}
+ \tilde{y} = I_{\{ \lambda \leq 0.5 \}} y_i + (1-I_{\{ \lambda \leq 0.5 \}}) y_j, 
+\end{align*}
+
+where $I_{\{ \lambda \leq 0.5 \}} = 1$ if $\lambda \leq 0.5$ and $0$ otherwise.
 
 \section{Experiments}
 
