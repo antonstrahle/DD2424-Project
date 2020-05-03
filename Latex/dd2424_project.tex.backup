@@ -1,0 +1,97 @@
+
+\documentclass{article}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath} 
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{enumerate}
+\usepackage{lineno}
+\usepackage{lmodern}
+\usepackage{caption}
+\usepackage[T1]{fontenc}
+\usepackage{microtype}
+\usepackage{systeme}
+\usepackage{amsmath,amssymb,amsthm,mathrsfs,latexsym,tikz,url}
+\usepackage{epigraph,graphicx}
+\usepackage{listings}
+\usepackage{listingsutf8}
+\usepackage{color}
+\usepackage{float}
+
+\DeclareGraphicsExtensions{.png,.pdf}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Python,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=4
+}
+
+
+\usepackage{hyperref}
+\hypersetup{
+	colorlinks=true,
+	linkcolor=blue,
+	filecolor=magenta,      
+	urlcolor=cyan,
+}
+\urlstyle{same}
+
+\setlength{\parindent}{0.0cm}
+\setlength{\parskip}{0.1cm}
+\setlength{\voffset}{-1in}
+
+\begin{document}
+
+\title{DD2424: Project \\
+%The impact of Fourier, and other, transforms in Deep Learning \\
+The mechanisms, powers and limitations of some Data Augmentation techniques}
+
+\author{Anton Stråhle, Jan Alexandersson \& Fredrika Lundahl}
+\maketitle 
+
+\section{Introduction}
+
+After being briefly introduced to some data augmentation techniques during the lectures we wanted to explore this topic further. 
+To deepen our knowledge about this topic we read \href{https://arxiv.org/pdf/1710.09412.pdf} about the data augmentation technique \textit{mixup} which 
+really got our interest because of it's ability to improve performance while being very simple. We therefore wanted to further try out this technique 
+in practice and compare it with some other data augmentation teqniques, such as color magnification, rotation and other translations, to see how they can improve 
+image classification. To clarify, our project does not aim to obtain the highest possible testing accuracy but rather aim to show the impact of data augmentation 
+on the accuracy. 
+
+\section{Data}
+
+In this project we will work with a dataset consisting of images of different species of birds, 
+\href{https://www.kaggle.com/gpiosenka/100-bird-species}{Bird Species Dataset}. Each image has the format $224 \times 224 \times 3$ and there are 
+a total of $190$ species. The training data consist of $25812$ images, but the data is not balanced, however each species has a least $100$ training images. 
+Both the validation set and the test set consist of $5$ images of each species. 
+It should also be saif that the around $80\%$ of the images are of male birds and $20\%$ of female 
+birds which, by the nature of birds, may look entirely different. 
+We will not always work with the full dataset but instead pick subsets of some species. 
+
+\section{Mixup}
+
+
+
+
+
+\section{Experiments}
+
+
+
+
+\end{document}
