@@ -7,13 +7,15 @@ from tensorflow.keras.optimizers import SGD
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Conv2D, Flatten, Dropout, MaxPooling2D, BatchNormalization
 import mixupGenerator as mixupgen
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 
 IMG_HEIGHT = 224
 IMG_WIDTH = 224 
 EPOCHS = 10
-batch_size  = 50
+batch_size  = 10
 
 
 """
@@ -33,22 +35,23 @@ num_classes = len(classes)
 trainDataGen = ImageDataGenerator(rescale = 1./255.) #rescale as in previous assignment
 validDataGen = ImageDataGenerator(rescale = 1./255.) 
 testDataGen = ImageDataGenerator(rescale = 1./255.)
-"""
+
 #with mixup
 trainGen = mixupgen.MixupImageDataGenerator(trainDataGen, 
 											trainDirectory,
 											batch_size = batch_size,
 											img_height=IMG_HEIGHT,
 											img_width=IMG_WIDTH,
-											distr = "beta",
-											params = 0.2)
+											distr = "trunc_norm",
+											params = [0.2, 0.2],
+											majority_vote = 1)
 
-"""
+
 #Without mixup
-trainGen = trainDataGen.flow_from_directory(trainDirectory,
-											batch_size = batch_size,
-											class_mode = "categorical",
-											target_size = (IMG_HEIGHT, IMG_WIDTH)) 
+#trainGen = trainDataGen.flow_from_directory(trainDirectory,
+											#batch_size = batch_size,
+											#class_mode = "categorical",
+											#target_size = (IMG_HEIGHT, IMG_WIDTH)) 
 
 #950 img belonging to 190 classes
 validGen = validDataGen.flow_from_directory(validationDirectory,
@@ -108,20 +111,20 @@ def plotImages(images_arr):
 
 plotImages(X)
 ###################################################################################
-"""
+
 history = testModel.fit_generator(trainGen.generate(),
-							   steps_per_epoch = trainGen.get_steps_per_epoch(), #training images / batch size
+							   steps_per_epoch = trainGen.steps_per_epoch(), #training images / batch size
 							   epochs = EPOCHS,
 							   validation_data = validGen,
 							   validation_steps = 95,
 							   verbose = 1)
-"""
-history = testModel.fit_generator(trainGen,
-							   steps_per_epoch = 1497//batch_size, #training images / batch size
-							   epochs = EPOCHS,
-							   validation_data = validGen,
-							   validation_steps = 50//batch_size,
-							   verbose = 1)
+
+#history = testModel.fit_generator(trainGen,
+							   #steps_per_epoch = 1497//batch_size, #training images / batch size
+							   #epochs = EPOCHS,
+							   #validation_data = validGen,
+							   #validation_steps = 50//batch_size,
+							   #verbose = 1)
 
 #does not work yet
 
