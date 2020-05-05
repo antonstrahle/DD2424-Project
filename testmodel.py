@@ -69,17 +69,17 @@ testGen = testDataGen.flow_from_directory(testDirectory,
 
 
 testModel = Sequential([
-	Conv2D(16, 3, activation = "relu", input_shape = (IMG_HEIGHT, IMG_WIDTH, 3)),
+	Conv2D(64, 3, activation = "relu", input_shape = (IMG_HEIGHT, IMG_WIDTH, 3)),
 	MaxPooling2D(2,2),
 	BatchNormalization(),
 	Dropout(0.35),
-	Conv2D(32, 3, activation = "relu"),
+	Conv2D(64, 3, activation = "relu"),
 	BatchNormalization(),
 	Conv2D(64, 3, activation = "relu"),
 	MaxPooling2D(2,2),
 	BatchNormalization(),
-	Dropout(0.5),
-	Conv2D(128, 3, activation = "relu"),
+	Dropout(0.35),
+	Conv2D(64, 3, activation = "relu"),
 	BatchNormalization(),
 	Flatten(),
 	Dropout(0.5),
@@ -123,10 +123,10 @@ history = testModel.fit_generator(trainGen.generate(),
 """
 
 history = testModel.fit_generator(trainGen,
-							   steps_per_epoch = 28510//batch_size, #training images / batch size
+							   steps_per_epoch = 26769//batch_size, #training images / batch size
 							   epochs = EPOCHS,
 							   validation_data = validGen,
-							   validation_steps = 950//batch_size,
+							   validation_steps = 975//batch_size,
 							   verbose = 1)
 
 #does not work yet
