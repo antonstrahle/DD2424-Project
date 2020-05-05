@@ -33,8 +33,22 @@ testDirectory = "../SmallData/test"
 classes = os.listdir(trainDirectory)
 num_classes = len(classes)
 
+"""
+#Base Generators
 trainDataGen = ImageDataGenerator(rescale = 1./255.) #rescale as in previous assignment
 validDataGen = ImageDataGenerator(rescale = 1./255.) 
+testDataGen = ImageDataGenerator(rescale = 1./255.)
+
+"""
+
+trainDataGen = ImageDataGenerator(rescale = 1./255.,
+								  horizontal_flip = True,
+								  rotation_range = 45,
+								  zoom_range = 0.2,
+								  sheer_range = 0.2)
+
+validDataGen = ImageDataGenerator(rescale = 1./255.) 
+
 testDataGen = ImageDataGenerator(rescale = 1./255.)
 
 """
