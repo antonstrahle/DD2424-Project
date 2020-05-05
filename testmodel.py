@@ -14,11 +14,10 @@ import matplotlib.pyplot as plt
 
 IMG_HEIGHT = 224
 IMG_WIDTH = 224 
-EPOCHS = 10
-batch_size  = 10
+EPOCHS = 20
+batch_size  = 100
 
 
-"""
 trainDirectory = "../Data/train"
 validationDirectory = "../Data/valid"
 testDirectory = "../Data/test"
@@ -28,6 +27,8 @@ testDirectory = "../Data/test"
 trainDirectory = "../SmallData/train"
 validationDirectory = "../SmallData/valid"
 testDirectory = "../SmallData/test"
+"""
+
 
 classes = os.listdir(trainDirectory)
 num_classes = len(classes)
@@ -36,6 +37,7 @@ trainDataGen = ImageDataGenerator(rescale = 1./255.) #rescale as in previous ass
 validDataGen = ImageDataGenerator(rescale = 1./255.) 
 testDataGen = ImageDataGenerator(rescale = 1./255.)
 
+"""
 #with mixup
 trainGen = mixupgen.MixupImageDataGenerator(trainDataGen, 
 											trainDirectory,
@@ -46,12 +48,12 @@ trainGen = mixupgen.MixupImageDataGenerator(trainDataGen,
 											params = [0.2, 0.2],
 											majority_vote = 1)
 
-
+"""
 #Without mixup
-#trainGen = trainDataGen.flow_from_directory(trainDirectory,
-											#batch_size = batch_size,
-											#class_mode = "categorical",
-											#target_size = (IMG_HEIGHT, IMG_WIDTH)) 
+trainGen = trainDataGen.flow_from_directory(trainDirectory,
+											batch_size = batch_size,
+											class_mode = "categorical",
+											target_size = (IMG_HEIGHT, IMG_WIDTH)) 
 
 #950 img belonging to 190 classes
 validGen = validDataGen.flow_from_directory(validationDirectory,
@@ -111,20 +113,21 @@ def plotImages(images_arr):
 
 plotImages(X)
 ###################################################################################
-
+"""
 history = testModel.fit_generator(trainGen.generate(),
 							   steps_per_epoch = trainGen.steps_per_epoch(), #training images / batch size
 							   epochs = EPOCHS,
 							   validation_data = validGen,
 							   validation_steps = 95,
 							   verbose = 1)
+"""
 
-#history = testModel.fit_generator(trainGen,
-							   #steps_per_epoch = 1497//batch_size, #training images / batch size
-							   #epochs = EPOCHS,
-							   #validation_data = validGen,
-							   #validation_steps = 50//batch_size,
-							   #verbose = 1)
+history = testModel.fit_generator(trainGen,
+							   steps_per_epoch = 2851//batch_size, #training images / batch size
+							   epochs = EPOCHS,
+							   validation_data = validGen,
+							   validation_steps = 950//batch_size,
+							   verbose = 1)
 
 #does not work yet
 
