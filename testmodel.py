@@ -130,7 +130,7 @@ history = testModel.fit_generator(trainGen,
 							   verbose = 1)
 
 #does not work yet
-
+"""
 acc = history.history['acc']
 val_acc = history.history['val_acc']
 
@@ -153,4 +153,4 @@ plt.plot(eRange, val_loss, label='Validation Loss')
 plt.legend(loc='upper right')
 plt.title('Training and Validation Loss')
 plt.show()
-
+"""
