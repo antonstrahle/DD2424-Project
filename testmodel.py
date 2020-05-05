@@ -48,7 +48,7 @@ trainDataGen = ImageDataGenerator(rescale = 1./255.,
 validDataGen = ImageDataGenerator(rescale = 1./255.) 
 testDataGen = ImageDataGenerator(rescale = 1./255.)
 
-"""
+
 #with mixup
 trainGen = mixupgen.MixupImageDataGenerator(trainDataGen, 
 											trainDirectory,
