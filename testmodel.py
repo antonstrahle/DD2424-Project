@@ -67,7 +67,7 @@ testGen = testDataGen.flow_from_directory(testDirectory,
 											class_mode = "categorical",
 											target_size = (IMG_HEIGHT, IMG_WIDTH)) 
 
-"""
+
 #General Model. Reliable Model 60% val after a few epochs.
 
 testModel = Sequential([
@@ -95,33 +95,6 @@ testModel.compile(optimizer = SGD(lr = 0.005, decay = 1e-6, momentum = 0.9),
 				  metrics = ["acc"])
 
 #Try changing LR to 0.01
-"""
-#IDEK
-testModel = Sequential([
-	Conv2D(16, 1, activation = "relu", input_shape = (IMG_HEIGHT, IMG_WIDTH, 3)),
-	BatchNormalization(),
-	Conv2D(32, 3, activation = "relu"),
-	BatchNormalization(),
-	Conv2D(64, 3, activation = "relu"),
-	BatchNormalization(),
-	MaxPooling2D(2,2),
-	Dropout(0.5),
-	Conv2D(64, 3, activation = "relu"),
-	BatchNormalization(),
-	Dropout(0.5),
-	Conv2D(64, 3, activation = "relu"),
-	BatchNormalization(),
-	Dropout(0.5),
-	Flatten(),
-	Dropout(0.5),
-	Dense(512, activation = "relu"),
-	BatchNormalization(),
-	Dense(num_classes, activation = "softmax") #Need 190 since we have 190 classes
-	])
-
-testModel.compile(optimizer = SGD(lr = 0.01, decay = 1e-6, momentum = 0.9),
-				  loss = "categorical_crossentropy",
-				  metrics = ["acc"])
 
 testModel.summary()
 
