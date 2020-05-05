@@ -67,7 +67,7 @@ testGen = testDataGen.flow_from_directory(testDirectory,
 											class_mode = "categorical",
 											target_size = (IMG_HEIGHT, IMG_WIDTH)) 
 
-"""
+
 testModel = Sequential([
 	Conv2D(16, 3, activation = "relu", input_shape = (IMG_HEIGHT, IMG_WIDTH, 3)),
 	BatchNormalization(),
@@ -117,7 +117,7 @@ testModel = Sequential([
 	Dense(num_classes, activation = "softmax") #Need 190 since we have 190 classes
 	])
 
-
+"""
 
 testModel.compile(optimizer = SGD(lr = 0.01),
 				  loss = "categorical_crossentropy",
