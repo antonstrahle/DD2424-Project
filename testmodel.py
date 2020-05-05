@@ -98,9 +98,9 @@ testModel.compile(optimizer = SGD(lr = 0.001, decay = 1e-6, momentum = 0.9),
 """
 
 testModel = Sequential([
-	Conv2D(16, 3, activation = "relu", input_shape = (IMG_HEIGHT, IMG_WIDTH, 3)),
+	Conv2D(64, 3, activation = "relu", input_shape = (IMG_HEIGHT, IMG_WIDTH, 3)),
 	BatchNormalization(),
-	Conv2D(32, 3, activation = "relu"),
+	Conv2D(64, 3, activation = "relu"),
 	MaxPooling2D(2,2),
 	BatchNormalization(),
 	Dropout(0.4),
@@ -114,14 +114,14 @@ testModel = Sequential([
 	BatchNormalization(),
 	Flatten(),
 	Dropout(0.5),
-	Dense(256, activation = "relu"),
+	Dense(512, activation = "relu"),
 	BatchNormalization(),
 	Dense(num_classes, activation = "softmax") #Need 190 since we have 190 classes
 	])
 
 
 
-testModel.compile(optimizer = SGD(lr = 0.01, decay = 1e-6, momentum = 0.9),
+testModel.compile(optimizer = SGD(lr = 0.01),
 				  loss = "categorical_crossentropy",
 				  metrics = ["acc"])
 
