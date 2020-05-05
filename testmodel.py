@@ -104,11 +104,9 @@ testModel = Sequential([
 	Dense(num_classes, activation = "softmax") #Need 190 since we have 190 classes
 	])
 
-testModel.compile(optimizer = SGD(lr = 0.005, decay = 1e-6, momentum = 0.9),
+testModel.compile(optimizer = SGD(lr = 0.01, decay = 1e-6, momentum = 0.9),
 				  loss = "categorical_crossentropy",
 				  metrics = ["acc"])
-
-#Try changing LR to 0.01
 
 testModel.summary()
 
