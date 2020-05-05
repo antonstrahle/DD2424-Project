@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 
 IMG_HEIGHT = 224
 IMG_WIDTH = 224 
-EPOCHS = 20
+EPOCHS = 10
 batch_size  = 100
 
 
@@ -69,17 +69,17 @@ testGen = testDataGen.flow_from_directory(testDirectory,
 
 
 testModel = Sequential([
-	Conv2D(64, 3, activation = "relu", input_shape = (IMG_HEIGHT, IMG_WIDTH, 3)),
+	Conv2D(32, 3, activation = "relu", input_shape = (IMG_HEIGHT, IMG_WIDTH, 3)),
 	MaxPooling2D(2,2),
 	BatchNormalization(),
-	Dropout(0.35),
+	Dropout(0.4),
 	Conv2D(64, 3, activation = "relu"),
 	BatchNormalization(),
-	Conv2D(64, 3, activation = "relu"),
+	Conv2D(128, 3, activation = "relu"),
 	MaxPooling2D(2,2),
 	BatchNormalization(),
-	Dropout(0.35),
-	Conv2D(64, 3, activation = "relu"),
+	Dropout(0.4),
+	Conv2D(256, 3, activation = "relu"),
 	BatchNormalization(),
 	Flatten(),
 	Dropout(0.5),
