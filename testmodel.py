@@ -98,7 +98,7 @@ testModel.compile(optimizer = SGD(lr = 0.001, decay = 1e-6, momentum = 0.9),
 """
 
 testModel = Sequential([
-	Conv2D(64, 3, activation = "relu"),
+	Conv2D(64, 3, activation = "relu", input_shape = (IMG_HEIGHT, IMG_WIDTH, 3)),
 	MaxPooling2D(2,2),
 	BatchNormalization(),
 	Dropout(0.4),
