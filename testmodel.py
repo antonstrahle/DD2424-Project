@@ -123,7 +123,7 @@ history = testModel.fit_generator(trainGen.generate(),
 """
 
 history = testModel.fit_generator(trainGen,
-							   steps_per_epoch = 2851//batch_size, #training images / batch size
+							   steps_per_epoch = 28510//batch_size, #training images / batch size
 							   epochs = EPOCHS,
 							   validation_data = validGen,
 							   validation_steps = 950//batch_size,
