@@ -123,13 +123,13 @@ testModel = Sequential([
 	Conv2D(64, 3, activation = "relu", input_shape = (IMG_HEIGHT, IMG_WIDTH, 3)),
 	MaxPooling2D(2,2),
 	BatchNormalization(),
-	Dropout(0.35),
+	Dropout(0.4),
 	Conv2D(64, 3, activation = "relu"),
 	BatchNormalization(),
 	Conv2D(64, 3, activation = "relu"),
 	MaxPooling2D(2,2),
 	BatchNormalization(),
-	Dropout(0.35),
+	Dropout(0.4),
 	Conv2D(64, 3, activation = "relu"),
 	BatchNormalization(),
 	Flatten(),
@@ -139,7 +139,7 @@ testModel = Sequential([
 	Dense(num_classes, activation = "softmax") #Need 190 since we have 190 classes
 	])
 
-testModel.compile(optimizer = SGD(lr = 0.01),
+testModel.compile(optimizer = SGD(lr = 0.01, decay = 1e-6, momentum = 0.9),
 				  loss = "categorical_crossentropy",
 				  metrics = ["acc"])
 
