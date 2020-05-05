@@ -69,7 +69,9 @@ testGen = testDataGen.flow_from_directory(testDirectory,
 
 
 testModel = Sequential([
-	Conv2D(32, 3, activation = "relu", input_shape = (IMG_HEIGHT, IMG_WIDTH, 3)),
+	Conv2D(16, 3, activation = "relu", input_shape = (IMG_HEIGHT, IMG_WIDTH, 3)),
+	BatchNormalization(),
+	Conv2D(32, 3, activation = "relu"),
 	MaxPooling2D(2,2),
 	BatchNormalization(),
 	Dropout(0.4),
@@ -77,9 +79,6 @@ testModel = Sequential([
 	BatchNormalization(),
 	Conv2D(128, 3, activation = "relu"),
 	MaxPooling2D(2,2),
-	BatchNormalization(),
-	Dropout(0.4),
-	Conv2D(256, 3, activation = "relu"),
 	BatchNormalization(),
 	Flatten(),
 	Dropout(0.5),
@@ -90,7 +89,7 @@ testModel = Sequential([
 
 
 
-testModel.compile(optimizer = SGD(lr = 0.01),
+testModel.compile(optimizer = SGD(lr = 0.001, decay = 1e-6, momentum = 0.9),
 				  loss = "categorical_crossentropy",
 				  metrics = ["acc"])
 
