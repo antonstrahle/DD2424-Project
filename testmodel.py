@@ -68,20 +68,20 @@ testGen = testDataGen.flow_from_directory(testDirectory,
 											target_size = (IMG_HEIGHT, IMG_WIDTH)) 
 
 """
+#General Model. Reliable Model 60% val after a few epochs.
+
 testModel = Sequential([
-	Conv2D(16, 3, activation = "relu", input_shape = (IMG_HEIGHT, IMG_WIDTH, 3)),
-	BatchNormalization(),
-	Conv2D(32, 3, activation = "relu"),
+	Conv2D(64, 3, activation = "relu", input_shape = (IMG_HEIGHT, IMG_WIDTH, 3)),
 	MaxPooling2D(2,2),
 	BatchNormalization(),
-	Dropout(0.4),
+	Dropout(0.5),
 	Conv2D(64, 3, activation = "relu"),
 	BatchNormalization(),
-	Conv2D(128, 3, activation = "relu"),
+	Conv2D(64, 3, activation = "relu"),
 	MaxPooling2D(2,2),
 	BatchNormalization(),
-	Dropout(0.4),
-	Conv2D(256, 3, activation = "relu"),
+	Dropout(0.5),
+	Conv2D(64, 3, activation = "relu"),
 	BatchNormalization(),
 	Flatten(),
 	Dropout(0.5),
@@ -90,48 +90,31 @@ testModel = Sequential([
 	Dense(num_classes, activation = "softmax") #Need 190 since we have 190 classes
 	])
 
-
-
-testModel.compile(optimizer = SGD(lr = 0.001, decay = 1e-6, momentum = 0.9),
+testModel.compile(optimizer = SGD(lr = 0.005, decay = 1e-6, momentum = 0.9),
 				  loss = "categorical_crossentropy",
 				  metrics = ["acc"])
 
-
-testModel = Sequential([
-	Conv2D(64, 3, activation = "relu", input_shape = (IMG_HEIGHT, IMG_WIDTH, 3)),
-	MaxPooling2D(2,2),
-	BatchNormalization(),
-	Dropout(0.4),
-	Conv2D(64, 3, activation = "relu"),
-	BatchNormalization(),
-	Conv2D(64, 3, activation = "relu"),
-	MaxPooling2D(2,2),
-	BatchNormalization(),
-	Dropout(0.4),
-	Conv2D(64, 3, activation = "relu"),
-	BatchNormalization(),
-	Flatten(),
-	Dropout(0.5),
-	Dense(512, activation = "relu"),
-	BatchNormalization(),
-	Dense(num_classes, activation = "softmax") #Need 190 since we have 190 classes
-	])
-
+#Try changing LR to 0.01
 """
-
+#IDEK
 testModel = Sequential([
-	Conv2D(64, 3, activation = "relu", input_shape = (IMG_HEIGHT, IMG_WIDTH, 3)),
+	Conv2D(16, 1, activation = "relu", input_shape = (IMG_HEIGHT, IMG_WIDTH, 3)),
+	BatchNormalization(),
+	Conv2D(32, 3, activation = "relu"),
+	BatchNormalization(),
+	Conv2D(64, 3, activation = "relu"),
+	BatchNormalization(),
 	MaxPooling2D(2,2),
-	BatchNormalization(),
-	Dropout(0.4),
+	Dropout(0.5),
 	Conv2D(64, 3, activation = "relu"),
 	BatchNormalization(),
-	Conv2D(64, 3, activation = "relu"),
 	MaxPooling2D(2,2),
-	BatchNormalization(),
-	Dropout(0.4),
+	Dropout(0.5),
 	Conv2D(64, 3, activation = "relu"),
 	BatchNormalization(),
+	MaxPooling2D(2,2),
+	Dropout(0.5),
+	Conv2D(64, 3, activation = "relu"),
 	Flatten(),
 	Dropout(0.5),
 	Dense(512, activation = "relu"),
