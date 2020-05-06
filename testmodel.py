@@ -7,6 +7,7 @@ from tensorflow.keras.optimizers import SGD
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Conv2D, Flatten, Dropout, MaxPooling2D, BatchNormalization
 import mixupGenerator as mixupgen
+import fourierGenerator as fouriergen
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -15,19 +16,19 @@ import matplotlib.pyplot as plt
 IMG_HEIGHT = 224
 IMG_WIDTH = 224 
 EPOCHS = 10
-batch_size  = 100
+batch_size  = 10
 
 
-trainDirectory = "../Data/train"
-validationDirectory = "../Data/valid"
-testDirectory = "../Data/test"
+#trainDirectory = "../Data/train"
+#validationDirectory = "../Data/valid"
+#testDirectory = "../Data/test"
 
-"""
+
 #Used a smaller dataset for testing
 trainDirectory = "../SmallData/train"
 validationDirectory = "../SmallData/valid"
 testDirectory = "../SmallData/test"
-"""
+
 
 
 classes = os.listdir(trainDirectory)
@@ -39,28 +40,60 @@ trainDataGen = ImageDataGenerator(rescale = 1./255.) #rescale as in previous ass
 validDataGen = ImageDataGenerator(rescale = 1./255.) 
 testDataGen = ImageDataGenerator(rescale = 1./255.)
 
-"""
-trainDataGen = ImageDataGenerator(rescale = 1./255.,
-								  horizontal_flip = True,
-								  rotation_range = 45,
-								  zoom_range = 0.2,
-								  sheer_range = 0.2)
-validDataGen = ImageDataGenerator(rescale = 1./255.) 
-testDataGen = ImageDataGenerator(rescale = 1./255.)
+
+#trainDataGen = ImageDataGenerator(rescale = 1./255.,
+								  #horizontal_flip = True,
+								  #rotation_range = 45,
+								  #zoom_range = 0.2,
+								  #sheer_range = 0.2)
+#validDataGen = ImageDataGenerator(rescale = 1./255.) 
+#testDataGen = ImageDataGenerator(rescale = 1./255.)
 
 
+#====================================================================================											
 #with mixup
-trainGen = mixupgen.MixupImageDataGenerator(trainDataGen, 
-											trainDirectory,
-											batch_size = batch_size,
-											img_height=IMG_HEIGHT,
-											img_width=IMG_WIDTH,
-											distr = "trunc_norm",
-											params = [0.2, 0.2],
-											majority_vote = 1)
+#====================================================================================
+#trainGen = mixupgen.MixupImageDataGenerator(trainDataGen, 
+											#trainDirectory,
+											#batch_size = batch_size,
+											#img_height=IMG_HEIGHT,
+											#img_width=IMG_WIDTH,
+											#distr = "trunc_norm",
+											#params = [0.2, 0.2],
+											#majority_vote = 1)
+											
+#validGen = validDataGen.flow_from_directory(validationDirectory,
+											#batch_size = batch_size,
+											#class_mode = "categorical",
+											#target_size = (IMG_HEIGHT, IMG_WIDTH)) 
 
-"""
-#Without mixup
+
+#testGen = testDataGen.flow_from_directory(testDirectory,
+											#batch_size = batch_size,
+											#class_mode = "categorical",
+											#target_size = (IMG_HEIGHT, IMG_WIDTH)) 										
+#====================================================================================											
+#with fourier
+#====================================================================================
+#trainGen = fouriergen.FourierImageDataGenerator(trainDataGen, 
+											#trainDirectory,
+											#batch_size = batch_size,
+											#img_height=IMG_HEIGHT,
+											#img_width=IMG_WIDTH)											
+
+#validGen = validDataGen.flow_from_directory(validationDirectory,
+											#batch_size = batch_size,
+											#class_mode = "categorical",
+											#target_size = (IMG_HEIGHT, IMG_WIDTH)) 
+
+
+#testGen = testDataGen.flow_from_directory(testDirectory,
+											#batch_size = batch_size,
+											#class_mode = "categorical",
+											#target_size = (IMG_HEIGHT, IMG_WIDTH)) 
+#====================================================================================											
+#Standard
+#====================================================================================
 trainGen = trainDataGen.flow_from_directory(trainDirectory,
 											batch_size = batch_size,
 											class_mode = "categorical",
@@ -77,6 +110,10 @@ testGen = testDataGen.flow_from_directory(testDirectory,
 											batch_size = batch_size,
 											class_mode = "categorical",
 											target_size = (IMG_HEIGHT, IMG_WIDTH)) 
+
+#====================================================================================											
+#
+#====================================================================================
 
 
 #General Model. Reliable Model 60% val after a few epochs.
@@ -111,6 +148,7 @@ testModel.summary()
 ###################################################################################
 #this is an example on how to plot a batch of images in the training data
 (X, y) = next(trainGen)
+trainGen.reset_index()
 
 def plotImages(images_arr):
     fig, axes = plt.subplots(1, 5, figsize=(10,10))
@@ -123,21 +161,31 @@ def plotImages(images_arr):
 
 plotImages(X)
 ###################################################################################
-"""
-history = testModel.fit_generator(trainGen.generate(),
-							   steps_per_epoch = trainGen.steps_per_epoch(), #training images / batch size
-							   epochs = EPOCHS,
-							   validation_data = validGen,
-							   validation_steps = 95,
-							   verbose = 1)
-"""
 
+
+#====================================================================================											
+#Use this for mixup or fourier
+#====================================================================================
+#history = testModel.fit_generator(trainGen.generate(),
+							   #steps_per_epoch = trainGen.steps_per_epoch(), #training images / batch size
+							   #epochs = EPOCHS,
+							   #validation_data = validGen,
+							   #validation_steps = 40,
+							   #verbose = 1)
+
+#====================================================================================											
+#Standard
+#====================================================================================
 history = testModel.fit_generator(trainGen,
 							   steps_per_epoch = 26769//batch_size, #training images / batch size
 							   epochs = EPOCHS,
 							   validation_data = validGen,
 							   validation_steps = 975//batch_size,
 							   verbose = 1)
+#====================================================================================											
+
+#====================================================================================
+
 
 #does not work yet
 """
