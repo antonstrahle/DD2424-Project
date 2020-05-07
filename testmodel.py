@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 IMG_HEIGHT = 224
 IMG_WIDTH = 224 
 EPOCHS = 10
-batch_size  = 10
+batch_size  = 100
 
 
 #trainDirectory = "../Data/train"
@@ -73,7 +73,7 @@ testDataGen = ImageDataGenerator(rescale = 1./255.)
 											#class_mode = "categorical",
 											#target_size = (IMG_HEIGHT, IMG_WIDTH)) 										
 #====================================================================================											
-#with fourier
+#with fourier / IGNORE THIS, PREPROCESSING IS HANDLED BY SAVEING NEW IMAGES, see transform_image_and_save.py
 #====================================================================================
 #trainGen = fouriergen.FourierImageDataGenerator(trainDataGen, 
 											#trainDirectory,
@@ -148,7 +148,6 @@ testModel.summary()
 ###################################################################################
 #this is an example on how to plot a batch of images in the training data
 (X, y) = next(trainGen)
-trainGen.reset_index()
 
 def plotImages(images_arr):
     fig, axes = plt.subplots(1, 5, figsize=(10,10))
@@ -164,7 +163,7 @@ plotImages(X)
 
 
 #====================================================================================											
-#Use this for mixup or fourier
+#Use this for mixup
 #====================================================================================
 #history = testModel.fit_generator(trainGen.generate(),
 							   #steps_per_epoch = trainGen.steps_per_epoch(), #training images / batch size
