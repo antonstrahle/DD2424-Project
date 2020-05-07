@@ -5,7 +5,7 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.optimizers import RMSprop
 from tensorflow.keras.optimizers import SGD
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Conv2D, Flatten, Dropout, MaxPooling2D, BatchNormalization
+from tensorflow.keras.layers import Dense, Conv2D, Flatten, Dropout, MaxPooling2D, BatchNormalization, GlobalAveragePooling2D
 import mixupGenerator as mixupgen
 import fourierGenerator as fouriergen
 import matplotlib
@@ -15,24 +15,23 @@ import matplotlib.pyplot as plt
 
 IMG_HEIGHT = 224
 IMG_WIDTH = 224 
-EPOCHS = 10
+EPOCHS = 3
 batch_size  = 100
 
 
-#trainDirectory = "../Data/train"
-#validationDirectory = "../Data/valid"
-#testDirectory = "../Data/test"
+trainDirectory = "../Data/train"
+validationDirectory = "../Data/valid"
+testDirectory = "../Data/test"
 
 
 #Used a smaller dataset for testing
-trainDirectory = "../SmallData/train"
-validationDirectory = "../SmallData/valid"
-testDirectory = "../SmallData/test"
-
+#trainDirectory = "../SmallData/train"
+#validationDirectory = "../SmallData/valid"
+#testDirectory = "../SmallData/test"
 
 
 classes = os.listdir(trainDirectory)
-num_classes = len(classes)
+num_classes = len(classes) #Note that the dataset on the virtual machine has 195 classes (due to an update of the data set)
 
 
 #Base Generators
@@ -40,7 +39,7 @@ trainDataGen = ImageDataGenerator(rescale = 1./255.) #rescale as in previous ass
 validDataGen = ImageDataGenerator(rescale = 1./255.) 
 testDataGen = ImageDataGenerator(rescale = 1./255.)
 
-
+#Basic Augemntation
 #trainDataGen = ImageDataGenerator(rescale = 1./255.,
 								  #horizontal_flip = True,
 								  #rotation_range = 45,
@@ -48,7 +47,6 @@ testDataGen = ImageDataGenerator(rescale = 1./255.)
 								  #sheer_range = 0.2)
 #validDataGen = ImageDataGenerator(rescale = 1./255.) 
 #testDataGen = ImageDataGenerator(rescale = 1./255.)
-
 
 #====================================================================================											
 #with mixup
@@ -116,50 +114,24 @@ testGen = testDataGen.flow_from_directory(testDirectory,
 #====================================================================================
 
 
-#General Model. Reliable Model 60% val after a few epochs.
 
-testModel = Sequential([
-	Conv2D(64, 3, activation = "relu", input_shape = (IMG_HEIGHT, IMG_WIDTH, 3)),
-	MaxPooling2D(2,2),
-	BatchNormalization(),
-	Dropout(0.4),
-	Conv2D(64, 3, activation = "relu"),
-	BatchNormalization(),
-	Conv2D(64, 3, activation = "relu"),
-	MaxPooling2D(2,2),
-	BatchNormalization(),
-	Dropout(0.4),
-	Conv2D(64, 3, activation = "relu"),
-	BatchNormalization(),
-	Flatten(),
-	Dropout(0.5),
-	Dense(512, activation = "relu"),
-	BatchNormalization(),
-	Dense(num_classes, activation = "softmax") #Need 190 since we have 190 classes
+resnet50 = tf.keras.applications.ResNet50(input_shape = (IMG_HEIGHT, IMG_WIDTH, 3),
+											   include_top = False,
+                                               weights='imagenet')
+
+resnet50.trainable = False #we dont alter the pre-trained weights in resnet
+
+model = Sequential([
+	resnet50, #resnet50
+	GlobalAveragePooling2D(), #pooling
+	Dense(num_classes, activation = "softmax") #predictive
 	])
 
-testModel.compile(optimizer = SGD(lr = 0.01, decay = 1e-6, momentum = 0.9),
+model.compile(optimizer = SGD(lr = 0.01, decay = 1e-6, momentum = 0.9),
 				  loss = "categorical_crossentropy",
 				  metrics = ["acc"])
 
-testModel.summary()
-
-
-###################################################################################
-#this is an example on how to plot a batch of images in the training data
-(X, y) = next(trainGen)
-
-def plotImages(images_arr):
-    fig, axes = plt.subplots(1, 5, figsize=(10,10))
-    axes = axes.flatten()
-    for img, ax in zip( images_arr, axes):
-        ax.imshow(img)
-        ax.axis('off')
-    plt.tight_layout()
-    plt.show()
-
-plotImages(X)
-###################################################################################
+model.summary()
 
 
 #====================================================================================											
@@ -175,39 +147,14 @@ plotImages(X)
 #====================================================================================											
 #Standard
 #====================================================================================
-history = testModel.fit_generator(trainGen,
+
+history = model.fit_generator(trainGen,
 							   steps_per_epoch = 26769//batch_size, #training images / batch size
 							   epochs = EPOCHS,
 							   validation_data = validGen,
 							   validation_steps = 975//batch_size,
 							   verbose = 1)
-#====================================================================================											
-
-#====================================================================================
 
 
-#does not work yet
-"""
-acc = history.history['acc']
-val_acc = history.history['val_acc']
 
-loss=history.history['loss']
-val_loss=history.history['val_loss']
 
-eRange = range(EPOCHS)
-
-#plt.figure(figsize=(8, 8))
-#plt.subplot(1, 2, 1)
-plt.plot(eRange, acc, label='Training Accuracy')
-plt.plot(eRange, val_acc, label='Validation Accuracy')
-plt.legend(loc='lower right')
-plt.title('Training and Validation Accuracy')
-plt.show()
-
-#plt.subplot(1, 2, 2)
-plt.plot(eRange, loss, label='Training Loss')
-plt.plot(eRange, val_loss, label='Validation Loss')
-plt.legend(loc='upper right')
-plt.title('Training and Validation Loss')
-plt.show()
-"""
