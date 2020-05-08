@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 
 IMG_HEIGHT = 224
 IMG_WIDTH = 224 
-EPOCHS = 3
+EPOCHS = 10
 batch_size = 100
 
 #Base data
@@ -127,7 +127,7 @@ mobilenet = tf.keras.applications.MobileNetV2(input_shape = (IMG_HEIGHT, IMG_WID
                                                weights='imagenet')
 
 #We cant examine fourier transform without using trainable = True as the preset weights are based on actual imagery and not angles/amps
-mobilenet.trainable = False #we dont alter the pre-trained weights in mobilenet
+mobilenet.trainable = True #we dont alter the pre-trained weights in mobilenet
 
 model = Sequential([
 	mobilenet, #mobilenet
