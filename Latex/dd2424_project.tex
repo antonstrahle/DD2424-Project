@@ -207,7 +207,23 @@ The sizes decide the number of training images per species, the number of specie
 
 \subsection{Underlying CNN}
 
+In order to examine the effects of our data augmentation methods we wanted to observe them for a variety of networks with different baseline performances. We used both transfer as well as deep learning in order to examine the data augmentation techniques. Below are the networks we examined and roughly their baseline, i.e. without any augmentation, accuracy on the birds dataset after some training.
+
+\begin{enumerate}[(i)]
+ \item Basic CNN (65\%)
+ \item MobileNet trained on Imagenet (75\%)
+ \item ResNet50 trained on Imagenet (95\%)
+\end{enumerate}
+
 \subsection{Augmentations}
+
+\textbf{Attempted experiments:}
+
+Fourier (angles) does not seem to work with MobileNet at all when training for 10 epochs. In this case we do not use the base weights but instead use the base architecture of MobileNet and random initalization (note that this is used as the weights available are from imagenet which by no means can be related to our Fourier transformed data). 10 epochs. Why is this, small network? Validation accuracy seems to stagnate close to 0.56\%.
+
+Fourier (angles) seem to work a bit better on the Base CNN when training for very few epochs. The validation accuracy seems to stagnate at around 25\% which of course is a major decrease compared to the 60\% obtained using no augmentation.
+
+
 
 \section{Conclusions}
 

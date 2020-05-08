@@ -17,17 +17,22 @@ IMG_WIDTH = 224
 EPOCHS = 10
 batch_size  = 100
 
+#Base Data
+#trainDirectory = "../Data/train"
+#validationDirectory = "../Data/valid"
+#testDirectory = "../Data/test"
 
-trainDirectory = "../Data/train"
-validationDirectory = "../Data/valid"
-testDirectory = "../Data/test"
+#FourierData
+trainDirectory = "../FourierData/train"
+validationDirectory = "../FourierData/valid"
+testDirectory = "../FourierData/test"
 
-"""
+
 #Used a smaller dataset for testing
-trainDirectory = "../SmallData/train"
-validationDirectory = "../SmallData/valid"
-testDirectory = "../SmallData/test"
-"""
+#trainDirectory = "../SmallData/train"
+#validationDirectory = "../SmallData/valid"
+#testDirectory = "../SmallData/test"
+
 
 
 classes = os.listdir(trainDirectory)
@@ -39,27 +44,27 @@ trainDataGen = ImageDataGenerator(rescale = 1./255.) #rescale as in previous ass
 validDataGen = ImageDataGenerator(rescale = 1./255.) 
 testDataGen = ImageDataGenerator(rescale = 1./255.)
 
-"""
-trainDataGen = ImageDataGenerator(rescale = 1./255.,
-								  horizontal_flip = True,
-								  rotation_range = 45,
-								  zoom_range = 0.2,
-								  sheer_range = 0.2)
-validDataGen = ImageDataGenerator(rescale = 1./255.) 
-testDataGen = ImageDataGenerator(rescale = 1./255.)
+
+#trainDataGen = ImageDataGenerator(rescale = 1./255.,
+								  #horizontal_flip = True,
+								  #rotation_range = 45,
+								  #zoom_range = 0.2,
+								  #sheer_range = 0.2)
+#validDataGen = ImageDataGenerator(rescale = 1./255.) 
+#testDataGen = ImageDataGenerator(rescale = 1./255.)
 
 
-#with mixup
-trainGen = mixupgen.MixupImageDataGenerator(trainDataGen, 
-											trainDirectory,
-											batch_size = batch_size,
-											img_height=IMG_HEIGHT,
-											img_width=IMG_WIDTH,
-											distr = "trunc_norm",
-											params = [0.2, 0.2],
-											majority_vote = 1)
+##with mixup
+#trainGen = mixupgen.MixupImageDataGenerator(trainDataGen, 
+											#trainDirectory,
+											#batch_size = batch_size,
+											#img_height=IMG_HEIGHT,
+											#img_width=IMG_WIDTH,
+											#distr = "trunc_norm",
+											#params = [0.2, 0.2],
+											#majority_vote = 1)
 
-"""
+
 #Without mixup
 trainGen = trainDataGen.flow_from_directory(trainDirectory,
 											batch_size = batch_size,
