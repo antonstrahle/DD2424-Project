@@ -124,7 +124,7 @@ testGen = testDataGen.flow_from_directory(testDirectory,
 
 mobilenet = tf.keras.applications.MobileNetV2(input_shape = (IMG_HEIGHT, IMG_WIDTH, 3),
 											   include_top = False,
-                                               weights='imagenet')
+                                               weights='none') #'none' for fourier and 'imagenet' for regular data
 
 #We cant examine fourier transform without using trainable = True as the preset weights are based on actual imagery and not angles/amps
 mobilenet.trainable = True #we dont alter the pre-trained weights in mobilenet
