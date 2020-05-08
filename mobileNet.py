@@ -144,7 +144,7 @@ history = model.fit_generator(trainGen.generate(),
 							   steps_per_epoch = 26769//100, #training images / batch size
 							   epochs = EPOCHS,
 							   validation_data = validGen,
-							   validation_steps = 950//100,
+							   validation_steps = 975//100,
 							   verbose = 1)
 
 #====================================================================================											
