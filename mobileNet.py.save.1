@@ -6,7 +6,6 @@ from tensorflow.keras.optimizers import RMSprop
 from tensorflow.keras.optimizers import SGD
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Conv2D, Flatten, Dropout, MaxPooling2D, BatchNormalization, GlobalAveragePooling2D
-from keras import backend as K
 import mixupGenerator as mixupgen
 import fourierGenerator as fouriergen
 import matplotlib
@@ -16,7 +15,7 @@ import matplotlib.pyplot as plt
 
 IMG_HEIGHT = 224
 IMG_WIDTH = 224 
-EPOCHS = 15
+EPOCHS = 3
 batch_size  = 100
 
 
@@ -52,8 +51,8 @@ testDataGen = ImageDataGenerator(rescale = 1./255.)
 #====================================================================================											
 #with mixup
 #====================================================================================
-#trainGen = mixupgen.MixupImageDataGenerator(trainDataGen, 
-											#trainDirectory,
+trainGen = mixupgen.MixupImageDataGenerator(trainDataGen, 
+												#trainDirectory,
 											#batch_size = batch_size,
 											#img_height=IMG_HEIGHT,
 											#img_width=IMG_WIDTH,
@@ -116,24 +115,16 @@ testGen = testDataGen.flow_from_directory(testDirectory,
 
 
 
-resnet50 = tf.keras.applications.ResNet50(input_shape = (IMG_HEIGHT, IMG_WIDTH, 3),
+mobilenet = tf.keras.applications.MobileNetV2(input_shape = (IMG_HEIGHT, IMG_WIDTH, 3),
 											   include_top = False,
                                                weights='imagenet')
 
-#https://github.com/keras-team/keras/issues/9214. By making everything untrainable muMA and vaMA for imagenet is used.
-for layer in resnet50.layers:
-        if hasattr(layer, 'moving_mean') and hasattr(layer, 'moving_variance'):
-            layer.trainable = True
-            K.eval(K.update(layer.moving_mean, K.zeros_like(layer.moving_mean)))
-            K.eval(K.update(layer.moving_variance, K.zeros_like(layer.moving_variance)))
-        else:
-            layer.trainable = False
-
-#resnet50.trainable = False #we dont alter the pre-trained weights in resnet
+mobilenet.trainable = False #we dont alter the pre-trained weights in mobilenet
 
 model = Sequential([
-	resnet50, #resnet50
-	GlobalAveragePooling2D(), #pooling
+	mobilenet, #mobilenet
+	#GlobalAveragePooling2D(), #pooling
+	Flatten(), #different apåproach
 	Dense(num_classes, activation = "softmax") #predictive
 	])
 
