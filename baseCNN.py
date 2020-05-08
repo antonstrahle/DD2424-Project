@@ -19,14 +19,14 @@ EPOCHS = 3
 batch_size  = 100
 
 #Base data
-#trainDirectory = "../Data/train"
-#validationDirectory = "../Data/valid"
-#testDirectory = "../Data/test"
+trainDirectory = "../Data/train"
+validationDirectory = "../Data/valid"
+testDirectory = "../Data/test"
 
 #Fourier
-trainDirectory = "../FourierData/train"
-validationDirectory = "../FourierData/valid"
-testDirectory = "../FourierData/test"
+#trainDirectory = "../FourierData/train"
+#validationDirectory = "../FourierData/valid"
+#testDirectory = "../FourierData/test"
 
 #Used a smaller dataset for testing
 #trainDirectory = "../SmallData/train"
