@@ -48,6 +48,12 @@ def fourier_transform_folder_phase(directory):
 				
 				
 #MAKE A BACKUP OF THE IMAGES BEFORE RUNNING THIS BECAUSE IT WILL OVERWRITE EXISTING IMAGES
-fourier_transform_folder_phase("../SmallData/train")
-fourier_transform_folder_phase("../SmallData/valid")
-fourier_transform_folder_phase("../SmallData/test")
+
+#fourier_transform_folder_phase("../FourierData/train")
+#fourier_transform_folder_phase("../FourierData/valid")
+#fourier_transform_folder_phase("../FourierData/test")
+		
+
+
+
+

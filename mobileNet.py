@@ -16,12 +16,17 @@ import matplotlib.pyplot as plt
 IMG_HEIGHT = 224
 IMG_WIDTH = 224 
 EPOCHS = 3
-batch_size  = 25
+batch_size  = 
 
-
-trainDirectory = "../Data/train"
-validationDirectory = "../Data/valid"
-testDirectory = "../Data/test"
+#Base data
+#trainDirectory = "../Data/train"
+#validationDirectory = "../Data/valid"
+#testDirectory = "../Data/test"
+ 
+#Fourier
+trainDirectory = "../FourierData/train"
+validationDirectory = "../FourierData/valid"
+testDirectory = "../FourierData/test"
 
 
 #Used a smaller dataset for testing
@@ -98,13 +103,13 @@ trainGen = trainDataGen.flow_from_directory(trainDirectory,
 											class_mode = "categorical",
 											target_size = (IMG_HEIGHT, IMG_WIDTH)) 
 
-950 img belonging to 190 classes
+#950 img belonging to 190 classes
 validGen = validDataGen.flow_from_directory(validationDirectory,
 											batch_size = batch_size,
 											class_mode = "categorical",
 											target_size = (IMG_HEIGHT, IMG_WIDTH)) 
 
-950 img belonging to 190 classes
+#950 img belonging to 190 classes
 testGen = testDataGen.flow_from_directory(testDirectory,
 											batch_size = batch_size,
 											class_mode = "categorical",
@@ -121,6 +126,7 @@ mobilenet = tf.keras.applications.MobileNetV2(input_shape = (IMG_HEIGHT, IMG_WID
 											   include_top = False,
                                                weights='imagenet')
 
+#We cant examine fourier transform without using trainable = True as the preset weights are based on actual imagery and not angles/amps
 mobilenet.trainable = False #we dont alter the pre-trained weights in mobilenet
 
 model = Sequential([
