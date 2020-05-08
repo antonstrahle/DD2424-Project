@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 IMG_HEIGHT = 224
 IMG_WIDTH = 224 
 EPOCHS = 3
-batch_size  = 
+batch_size = 100
 
 #Base data
 #trainDirectory = "../Data/train"
