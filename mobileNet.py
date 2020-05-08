@@ -123,7 +123,8 @@ mobilenet.trainable = False #we dont alter the pre-trained weights in mobilenet
 
 model = Sequential([
 	mobilenet, #mobilenet
-	GlobalAveragePooling2D(), #pooling
+	#GlobalAveragePooling2D(), #pooling
+	Flatten(), #different apåproach
 	Dense(num_classes, activation = "softmax") #predictive
 	])
 

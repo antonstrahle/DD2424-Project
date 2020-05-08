@@ -6,6 +6,7 @@ from tensorflow.keras.optimizers import RMSprop
 from tensorflow.keras.optimizers import SGD
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Conv2D, Flatten, Dropout, MaxPooling2D, BatchNormalization, GlobalAveragePooling2D
+from keras import backend as K
 import mixupGenerator as mixupgen
 import fourierGenerator as fouriergen
 import matplotlib
@@ -119,7 +120,16 @@ resnet50 = tf.keras.applications.ResNet50(input_shape = (IMG_HEIGHT, IMG_WIDTH, 
 											   include_top = False,
                                                weights='imagenet')
 
-resnet50.trainable = False #we dont alter the pre-trained weights in resnet
+#https://github.com/keras-team/keras/issues/9214. By making everything untrainable muMA and vaMA for imagenet is used.
+for layer in resnet50.layers:
+        if hasattr(layer, 'moving_mean') and hasattr(layer, 'moving_variance'):
+            layer.trainable = True
+            K.eval(K.update(layer.moving_mean, K.zeros_like(layer.moving_mean)))
+            K.eval(K.update(layer.moving_variance, K.zeros_like(layer.moving_variance)))
+        else:
+            layer.trainable = False
+
+#resnet50.trainable = False #we dont alter the pre-trained weights in resnet
 
 model = Sequential([
 	resnet50, #resnet50
