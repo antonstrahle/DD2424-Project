@@ -34,7 +34,7 @@ class MixupImageDataGenerator():
 		
 	def reset_index(self):
 		self.gen1._set_index_array()
-		self.gen1._set_index_array()
+		self.gen2._set_index_array()
 	
 	def __len__(self):
 		return (self.n + self.batch_size - 1) // self.batch_size

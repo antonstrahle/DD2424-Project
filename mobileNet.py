@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 IMG_HEIGHT = 224
 IMG_WIDTH = 224 
 EPOCHS = 3
-batch_size  = 100
+batch_size  = 25
 
 
 trainDirectory = "../Data/train"
@@ -51,19 +51,19 @@ testDataGen = ImageDataGenerator(rescale = 1./255.)
 #====================================================================================											
 #with mixup
 #====================================================================================
-trainGen = mixupgen.MixupImageDataGenerator(trainDataGen, 
-											trainDirectory,
-											batch_size = batch_size,
-											img_height=IMG_HEIGHT,
-											img_width=IMG_WIDTH,
-											distr = "trunc_norm",
-											params = [0.2, 0.2],
-											majority_vote = 1)
+#trainGen = mixupgen.MixupImageDataGenerator(trainDataGen, 
+											#trainDirectory,
+											#batch_size = batch_size,
+											#img_height=IMG_HEIGHT,
+											#img_width=IMG_WIDTH,
+											#distr = "trunc_norm",
+											#params = [0.2, 0.2],
+											#majority_vote = 1)
 											
-validGen = validDataGen.flow_from_directory(validationDirectory,
-											batch_size = batch_size,
-											class_mode = "categorical",
-											target_size = (IMG_HEIGHT, IMG_WIDTH)) 
+#validGen = validDataGen.flow_from_directory(validationDirectory,
+											#batch_size = batch_size,
+											#class_mode = "categorical",
+											#target_size = (IMG_HEIGHT, IMG_WIDTH)) 
 
 
 #testGen = testDataGen.flow_from_directory(testDirectory,
@@ -93,22 +93,22 @@ validGen = validDataGen.flow_from_directory(validationDirectory,
 #Standard
 #====================================================================================
 
-#trainGen = trainDataGen.flow_from_directory(trainDirectory,
-										#	batch_size = batch_size,
-										#	class_mode = "categorical",
-										#	target_size = (IMG_HEIGHT, IMG_WIDTH)) 
+trainGen = trainDataGen.flow_from_directory(trainDirectory,
+											batch_size = batch_size,
+											class_mode = "categorical",
+											target_size = (IMG_HEIGHT, IMG_WIDTH)) 
 
-#950 img belonging to 190 classes
-#validGen = validDataGen.flow_from_directory(validationDirectory,
-											#batch_size = batch_size,
-											#class_mode = "categorical",
-											#target_size = (IMG_HEIGHT, IMG_WIDTH)) 
+950 img belonging to 190 classes
+validGen = validDataGen.flow_from_directory(validationDirectory,
+											batch_size = batch_size,
+											class_mode = "categorical",
+											target_size = (IMG_HEIGHT, IMG_WIDTH)) 
 
-#950 img belonging to 190 classes
-#testGen = testDataGen.flow_from_directory(testDirectory,
-											#batch_size = batch_size,
-											#class_mode = "categorical",
-											#target_size = (IMG_HEIGHT, IMG_WIDTH)) 
+950 img belonging to 190 classes
+testGen = testDataGen.flow_from_directory(testDirectory,
+											batch_size = batch_size,
+											class_mode = "categorical",
+											target_size = (IMG_HEIGHT, IMG_WIDTH)) 
 
 
 #====================================================================================											
@@ -140,23 +140,23 @@ model.summary()
 #====================================================================================											
 #Use this for mixup
 #====================================================================================
-history = model.fit_generator(trainGen.generate(),
-							   steps_per_epoch = 26769//100, #training images / batch size
-							   epochs = EPOCHS,
-							   validation_data = validGen,
-							   validation_steps = 975//100,
-							   verbose = 1)
+#history = model.fit_generator(trainGen.generate(),
+							   #steps_per_epoch = trainGen.get_steps_per_epoch(), #training images / batch size
+							   #epochs = EPOCHS,
+							   #validation_data = validGen,
+							   #validation_steps = 50//batch_size,
+							   #verbose = 1)
 
 #====================================================================================											
 #Standard
 #====================================================================================
 
-#history = model.fit_generator(trainGen,
-							  #steps_per_epoch = 26769//batch_size, #training images / batch size
-							   #epochs = EPOCHS,
-							   #validation_data = validGen,
-							   #validation_steps = 975//batch_size,
-							   #verbose = 1)
+history = model.fit_generator(trainGen,
+							  steps_per_epoch = 26769//batch_size, #training images / batch size
+							   epochs = EPOCHS,
+							   validation_data = validGen,
+							   validation_steps = 975//batch_size,
+							   verbose = 1)
 
 
 
