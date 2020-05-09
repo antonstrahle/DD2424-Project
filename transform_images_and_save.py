@@ -10,10 +10,16 @@ import math
 
 
 #MAKE A BACKUP OF THE IMAGES BEFORE RUNNING THIS BECAUSE IT WILL OVERWRITE EXISTING IMAGES
-def fourier_transform_folder_amplitude(directory):
+def fourier_transform_folder_amplitude(directory, to_directory):
 	for i in os.listdir(directory):
 		folders = []
 		folders.append(os.path.join(directory, i))
+		to_folderpath = os.path.join(to_directory, i)
+		try:
+			os.makedirs(to_folderpath)
+		except FileExistsError:
+			print("Directory already exist, saving images in the existing folders and overwriting existing images.")
+			
 		for j in folders:
 			for k in os.listdir(j):
 				filename = os.path.join(j, k)
@@ -25,12 +31,20 @@ def fourier_transform_folder_amplitude(directory):
 				
 				#rescale to [0,1] if wanted
 				img = (img - img.min()) / (img.max() - img.min())
+				
+				filename = to_directory + filename[len(directory)::]
 				mimage.imsave(filename, img)
 
-def fourier_transform_folder_phase(directory):
+def fourier_transform_folder_phase(directory, to_directory):
 	for i in os.listdir(directory):
 		folders = []
 		folders.append(os.path.join(directory, i))
+		to_folderpath = os.path.join(to_directory, i)
+		try:
+			os.makedirs(to_folderpath)
+		except FileExistsError:
+			print("Directory already exist, saving images in the existing folders and overwriting existing images.")
+			
 		for j in folders:
 			for k in os.listdir(j):
 				filename = os.path.join(j, k)
@@ -44,12 +58,50 @@ def fourier_transform_folder_phase(directory):
 				
 				#rescale to [0,1] if wanted
 				ang = (ang - ang.min()) / (ang.max() - ang.min())
+				
+				filename = to_directory + filename[len(directory)::]
 				mimage.imsave(filename, ang)
 				
+
+def fourier_transform_folder_both(directory, to_directory):
+	for i in os.listdir(directory):
+		folders = []
+		folders.append(os.path.join(directory, i))
+		to_folderpath = os.path.join(to_directory, i)
+		try:
+			os.makedirs(to_folderpath)
+		except FileExistsError:
+			print("Directory already exist, saving images in the existing folders and overwriting existing images.")
+
+		for j in folders:
+			for k in os.listdir(j):
+				filename = os.path.join(j, k)
 				
+				img=mimage.imread(filename)
+				img = img/255
+				img = np.fft.fftshift(np.fft.fft2(img))
+				#gives the angles in radians in the range [-pi, pi]
+				#Important! imaginary part first in arctan2
+				ang = np.arctan2(img.imag, img.real)
+				
+				#rescale to [0,1] if wanted
+				ang = (ang - ang.min()) / (ang.max() - ang.min())
+				
+				img = np.log(np.abs(img)+1)
+				img = (img - img.min()) / (img.max() - img.min())
+				
+				#concatenate along the second axis, that is, put the images side by side
+				both = np.concatenate([ang, img], -2)
+				
+				filename = to_directory + filename[len(directory)::]
+				#print(filename)
+				mimage.imsave(filename, both)
+
 #MAKE A BACKUP OF THE IMAGES BEFORE RUNNING THIS BECAUSE IT WILL OVERWRITE EXISTING IMAGES
 
-#fourier_transform_folder_phase("../FourierData/train")
+fourier_transform_folder_both("../SmallData/valid", "../SmallData2/valid")
+
+
 #fourier_transform_folder_phase("../FourierData/valid")
 #fourier_transform_folder_phase("../FourierData/test")
 		

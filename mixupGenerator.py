@@ -53,19 +53,21 @@ class MixupImageDataGenerator():
 		else:
 			self.batch_index = 0
 			
-		# random sample the lambda value from beta distribution.
-		if self.distr == "beta":
-			l = np.random.beta(self.params[0], self.params[1], self.batch_size)
-		if self.distr == "trunc_norm":
-			l = scipy.stats.truncnorm.rvs((0-self.params[0])/self.params[1],(1-self.params[0])/self.params[1],loc=self.params[0],scale=self.params[1],size=self.batch_size)
-		
-		X_l = l.reshape(self.batch_size, 1, 1, 1)
-		y_l = l.reshape(self.batch_size, 1)
-		
-		
+	
 		# Get a pair of inputs and outputs from two iterators.
 		X1, y1 = self.gen1.next()
 		X2, y2 = self.gen2.next()
+		
+				# random sample the lambda value from beta distribution.
+		if self.distr == "beta":
+			l = np.random.beta(self.params[0], self.params[1], len(X1))
+		if self.distr == "trunc_norm":
+			l = scipy.stats.truncnorm.rvs((0-self.params[0])/self.params[1],(1-self.params[0])/self.params[1],loc=self.params[0],scale=self.params[1],size=len(X1))
+			
+		X_l = l.reshape(len(X1), 1, 1, 1)
+		y_l = l.reshape(len(y1), 1)
+		
+		
 		
 		# Perform the mixup
 		X = X1 * X_l + X2 * (1 - X_l)
