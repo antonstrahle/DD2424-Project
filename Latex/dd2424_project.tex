@@ -115,6 +115,41 @@ overview of results
 
 0.5-0.75 pages
 
+
+
+
+\section{Data}
+
+0.5-0.75 pages
+
+In this project we have worked with a dataset consisting of images of different species of birds, 
+\href{https://www.kaggle.com/gpiosenka/100-bird-species}{Bird Species Dataset}. Each image has the format $224 \times 224 \times 3$ and the images are cropped such that the bird covers at least $50$\% of the pixels.
+There are 
+a total of $190$ species. The training data consist of $25812$ images, but the data is not balanced, however each species has a least $100$ training images. 
+Both the validation set and the test set consist of $5$ images of each species. 
+It should also be said that the around $80\%$ of the images are of male birds and $20\%$ of female 
+birds which, by the nature of birds, may look entirely different, which has sometimes caused some trouble when the data set has been used.
+
+We will not always work with the full dataset but instead use the following subsets:
+
+\begin{itemize}
+	\item Randomized selection of birds
+	\item Black and White birds
+	\item Bright colored birds
+	\item Dull colored birds 
+\end{itemize}
+
+and small-, medium- and large sized subsets of all of them.
+***specificera antalet i small, medium,large ***
+The sizes decide the number of training images per species, the number of species we have in a subset is XXX.
+ 
+
+\section{Methods}
+
+1.5-2.5 pages
+\textit{Discuss your approach for solving the problems thatyou set up in the introduction. Why is your approach the right thing todo? Did you consider alternative approaches? You should demonstratethat you have applied ideas and skills built up during the course totackle  your  problem  of  choice.   It  may  be  helpful  to  include  figures,diagrams, or tables to describe your method or compare it with othermethods.}
+
+
 \subsection{Mixup}
 The concept of Mixup was introduced by \href{https://arxiv.org/pdf/1710.09412.pdf}{Zhang et al}(2018) and is really fascinating because of its' creativeness and ability to improve performance while being very simple. 
 
@@ -127,7 +162,7 @@ Mixup is a data augmentation teqnique which creates virtual training example by 
 
 
 where $(x_i, y_i)$ and $(x_j, y_j)$ are two randomly drawn examples from the training data, and $\lambda$ 
-is a probability, that is $\lambda \in [0,1]$. Usually, $\lambda$ is randomly drawn from a Beta$(\alpha, \alpha)$ 
+is a probability, that is $\lambda \in [0,1]$. Some examples where mixup where performed is shown in Figure 1.  Usually, $\lambda$ is randomly drawn from a Beta$(\alpha, \alpha)$ 
 distribution, for each pair of images which are to be combined. This distribution seems like a 
 reasonable chioce since it has the right support and the Beta-distribution is the most natural distribution to
 consider when working with probabilities. The Beta$(\alpha, \alpha)$-distribution is also symmetric around $0.5$, which may be 
@@ -162,42 +197,46 @@ where $I_{\{ \lambda \leq 0.5 \}} = 1$ if $\lambda \leq 0.5$ and $0$ otherwise.
 	\minipage{0.32\textwidth}%
 	\includegraphics[trim=3cm 2cm 3cm 3cm, width=\linewidth]{mixup3.pdf}
 	\endminipage
-	\caption{Three examples of mixup on images of different birds.}
+	\caption{Three examples of mixup performed om images of different bird species.}
 \end{figure}
 
 \subsection{Fourier Transformation}
 
+The 2D Fourier transform is used in for instance in image compression and gave us the idea of the possibility using it in deep learning and image classification. 
+The 2D fast Fourier transform take our image, with size $[224 \times 224 \times 3]$, as input and return a complex matrix of the same size. From this output we can now get the amplitudes 
+by taking the absolute value of each element in the matrix and the phase angles by computing $arctan(y, x)$, where $x$ is the real part and $y$ is the complex part. 
+An interesting property is that the phase angels are more important than the amplitudes and contain more information necessary to recreate the image again. 
+As an example, in Figure 2 the Fourier transform was applied to two images which yielded amplitudes and phase angles respectively. 
+The images were then recreated using the amplitudes from the first image and the phase angles from the second image and vise versa. 
 
-\section{Data}
+\begin{figure}[!htb]
+	\centering
+	\includegraphics[scale = 0.25]{fourier.jpg}
+	\caption{Example of recreation of images using amplitudes and phase angles of the Fourier transformation. 
+	Bottom left image use the amplitudes from the first image and the phase angels from the second image and 
+	bottom left image use the phase angles from the first image and the amplitudes from the second image}
+\end{figure}
 
-0.5-0.75 pages
 
-In this project we have worked with a dataset consisting of images of different species of birds, 
-\href{https://www.kaggle.com/gpiosenka/100-bird-species}{Bird Species Dataset}. Each image has the format $224 \times 224 \times 3$ and the images are cropped such that the bird covers at least $50$\% of the pixels.
-There are 
-a total of $190$ species. The training data consist of $25812$ images, but the data is not balanced, however each species has a least $100$ training images. 
-Both the validation set and the test set consist of $5$ images of each species. 
-It should also be said that the around $80\%$ of the images are of male birds and $20\%$ of female 
-birds which, by the nature of birds, may look entirely different, which has sometimes caused some trouble when the data set has been used.
+Using this as the inspiration we wanted to see if it is true that the phase angles contain more essential information about the image by image classification on the amplitudes 
+and phase angels respectively to see if our hypothesis of higher accuracy on the phase angles is satisfied or not. 
 
-We will not always work with the full dataset but instead use the following subsets:
+Initially we had no expectations that using the fourier transform as augmentation would yield an increase the classification accuracy compared to using 
+the raw data, however we thougt it would be an interesting experiment. 
+In Figure 3 we can see an example of the Fourier transformation on one of the images in our dataset. 
 
-\begin{itemize}
-	\item Randomized selection of birds
-	\item Black and White birds
-	\item Bright colored birds
-	\item Dull colored birds 
-\end{itemize}
+\begin{figure}[!htb]
+	\minipage{0.32\textwidth}
+	\raggedleft
+	\includegraphics[scale=0.30]{fourier1}
+	\endminipage
+	\minipage{0.32\textwidth}
+	\raggedleft
+	\includegraphics[trim=0cm 0cm 0cm 0cm, scale=0.30]{fourier2}
+	\endminipage
+	\caption{Left: Original image. Middle: Phase angles. Right: Amplitudes.}
+\end{figure}
 
-and small-, medium- and large sized subsets of all of them.
-***specificera antalet i small, medium,large ***
-The sizes decide the number of training images per species, the number of species we have in a subset is XXX.
- 
-
-\section{Methods}
-
-1.5-2.5 pages
-\textit{Discuss your approach for solving the problems thatyou set up in the introduction. Why is your approach the right thing todo? Did you consider alternative approaches? You should demonstratethat you have applied ideas and skills built up during the course totackle  your  problem  of  choice.   It  may  be  helpful  to  include  figures,diagrams, or tables to describe your method or compare it with othermethods.}
 
 \section{Experiments}
 
@@ -229,7 +268,13 @@ Fourier (angles) seem to work a bit better on the Base CNN when training for ver
 
 0.25-0.5 pages
 
-\textit{Summarize your key results - what have you learned?Suggest ideas for future extensions or new applications of your ideas.}
+\textit{Summarize your key results - what have you learned? Suggest ideas for future extensions or new applications of your ideas.}
+
+What we have implemented is \textit{input mixup} where we do all augmentation before training and input the images in the network after performing mixup, however https://arxiv.org/pdf/1806.05236.pdf 
+suggest a new algorithm called \textit{manifold mixup} where mixup is performed at an intermediate layer or final layer in the network. In an intermediate layer 
+the feature spaces are more aligned than that of the input and it is suggested that mixup will produce better augmented data if the mixup is performed on this layer. Therefore, this would be 
+a natural possible future extention to this project. 
+
 
 \section*{References}
 
