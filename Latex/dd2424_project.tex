@@ -149,6 +149,23 @@ The sizes decide the number of training images per species, the number of specie
 1.5-2.5 pages
 \textit{Discuss your approach for solving the problems thatyou set up in the introduction. Why is your approach the right thing todo? Did you consider alternative approaches? You should demonstratethat you have applied ideas and skills built up during the course totackle  your  problem  of  choice.   It  may  be  helpful  to  include  figures,diagrams, or tables to describe your method or compare it with othermethods.}
 
+To get a deeper understanding of the impacts different kinds of data augmentations we have chosen three different categories: basic data augmentations which focuses on producing more relevant training images, manipulations, where we have chosen mixup which manipulates and blends two images together and transformations, where we have tried out Fourier transforms. 
+
+\subsection{Basic Data Augmentations}
+The idea behind Data Augmentation is to increase the relevant training data using the available data. This is obtained by manipulating the image such that it appears to be a new image with new valuable information to the network. For this project we have chosen some of the most common and simple Data Augmentation techniques to see what difference simple changes can make.
+
+Figure 1 shows 4 versions of the same picture, rotation, flipping, brightness and shearing (a kind of stretching) is applied. Other common techniques are location shifts and zooming, but since the pictures are cropped such that at least 50\% of the pictures are covered by the bird applying any of those techniques often leads to the bird being beheaded  or more, which might not be a relevant image.
+
+\begin{figure}[h]
+	\includegraphics[width=0.24\textwidth]{aug1.jpeg}
+\includegraphics[width=0.24\textwidth]{aug2.jpeg}
+\includegraphics[width=0.24\textwidth]{aug3.jpeg}
+\includegraphics[width=0.24\textwidth]{aug4.jpeg}
+	\caption{Rotation, shearing, flipping and brightness adjustments applied to a picture}
+\end{figure}
+
+
+
 
 \subsection{Mixup}
 The concept of Mixup was introduced by \href{https://arxiv.org/pdf/1710.09412.pdf}{Zhang et al}(2018) and is really fascinating because of its' creativeness and ability to improve performance while being very simple. 
@@ -253,6 +270,11 @@ In order to examine the effects of our data augmentation methods we wanted to ob
  \item MobileNet trained on Imagenet (75\%)
  \item ResNet50 trained on Imagenet (95\%)
 \end{enumerate}
+
+\begin{figure}[h]
+	\includegraphics[width=0.9\textwidth]{conv.png}
+	\caption{Layers of the basic CNN}
+\end{figure}
 
 \subsection{Augmentations}
 

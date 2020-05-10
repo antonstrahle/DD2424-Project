@@ -10,6 +10,7 @@ import mixupGenerator as mixupgen
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+import makesubsets
 
 
 IMG_HEIGHT = 224
@@ -42,12 +43,13 @@ trainDataGen = ImageDataGenerator(rescale = 1./255.) #rescale as in previous ass
 validDataGen = ImageDataGenerator(rescale = 1./255.) 
 testDataGen = ImageDataGenerator(rescale = 1./255.)
 
-
+# With basic augmentations:
 #trainDataGen = ImageDataGenerator(rescale = 1./255.,
 								  #horizontal_flip = True,
-								  #rotation_range = 45,
+								  #rotation_range = 25,
 								  #zoom_range = 0.2,
-								  #sheer_range = 0.2)
+								  #shear_range = 0.4,
+                                  #brightness_range = (0.5,1.5))
 #validDataGen = ImageDataGenerator(rescale = 1./255.) 
 #testDataGen = ImageDataGenerator(rescale = 1./255.)
 
@@ -185,5 +187,127 @@ history = model.fit_generator(trainGen.generate(),
 							   #validation_data = validGen,
 							   #validation_steps = 975//batch_size,
 							   #verbose = 1)
+                               
+'''
+####### loop through everything:                               
+           
+                    
+# Create different training sets:
+       
+makesubsets.create_subsets(small = 5, medium = 50)
+                        
+#loop to go through all datasets:
+
+subsets = ["RandomSmall", "RandomMedium", "AllData", "BrightSmall",
+               "BrightMedium", "BrightFull", "DullSmall", "DullMedium",
+               "DullFull", "BWSmall", "BWMedium", "BWFull"]
+
+for subset in subsets:
+    
+    trainDirectory = "../Subsets/"+subset+"/train"
+    if "small" in subset:
+        validationDirectory = "../Subsets/"+subset+"/valid"
+        testDirectory = "../Subsets/"+subset+"test"    
+    elif subset is RandomMedium:
+        validationDirectory = "../Subsets/RandomSmall/valid"
+        testDirectory = "../Subsets/RandomSmall/test"
+    elif subset is BrightMedium:
+        validationDirectory = "../Subsets/BrightSmall/valid"
+        testDirectory = "../Subsets/BrightSmall/test"    
+    elif subset is DullMedium:
+        validationDirectory = "../Subsets/DullSmall/valid"
+        testDirectory = "../Subsets/DullSmall/test"
+    elif subset is BWMedium:
+        validationDirectory = "../Subsets/BWSmall/valid"
+        testDirectory = "../Subsets/BWSmall/test"
 
 
+    for aug in ["none", "mixup", "fourier", "basicnocolor", "basicwcolor"]:
+        
+        trainDataGen = ImageDataGenerator(rescale = 1./255.) 
+        validDataGen = ImageDataGenerator(rescale = 1./255.) 
+        testDataGen = ImageDataGenerator(rescale = 1./255.)
+        
+        if aug is "basicnocolor":
+            
+            trainDataGen = ImageDataGenerator(rescale = 1./255.,
+								  horizontal_flip = True,
+								  rotation_range = 30,
+								  shear_range = 0.4)
+                                
+            validDataGen = ImageDataGenerator(rescale = 1./255.) 
+            testDataGen = ImageDataGenerator(rescale = 1./255.)
+            
+        if aug is "basicwcolor":
+            
+            trainDataGen = ImageDataGenerator(rescale = 1./255.,
+								  horizontal_flip = True,
+								  rotation_range = 30,
+								  shear_range = 0.4, 
+                                  brightness_range = (0.3, 1.3)) 
+                                
+            validDataGen = ImageDataGenerator(rescale = 1./255.) 
+            testDataGen = ImageDataGenerator(rescale = 1./255.)
+            
+        if aug is "none" or "basicnocolor" or "basicwcolor":
+            trainGen = trainDataGen.flow_from_directory(trainDirectory,
+											batch_size = batch_size,
+											class_mode = "categorical",
+											target_size = (IMG_HEIGHT, IMG_WIDTH)) 
+
+            validGen = validDataGen.flow_from_directory(validationDirectory,
+											batch_size = batch_size,
+											class_mode = "categorical",
+											target_size = (IMG_HEIGHT, IMG_WIDTH)) 
+            
+            testGen = testDataGen.flow_from_directory(testDirectory,
+											batch_size = batch_size,
+											class_mode = "categorical",
+											target_size = (IMG_HEIGHT, IMG_WIDTH)) 
+            history = model.fit_generator(trainGen,
+							   steps_per_epoch = 26769//batch_size, #training images / batch size
+							   epochs = EPOCHS,
+							   validation_data = validGen,
+							   validation_steps = 975//batch_size,
+							   verbose = 1)
+            
+        if aug is "mixup":
+           
+            trainGen = mixupgen.MixupImageDataGenerator(trainDataGen, 
+											trainDirectory,
+											batch_size = batch_size,
+											img_height=IMG_HEIGHT,
+											img_width=IMG_WIDTH,
+											distr = "trunc_norm",
+											params = [0.2, 0.2],
+											majority_vote = 1)
+											
+            validGen = validDataGen.flow_from_directory(validationDirectory,
+											batch_size = batch_size,
+											class_mode = "categorical",
+											target_size = (IMG_HEIGHT, IMG_WIDTH)) 
+
+
+            testGen = testDataGen.flow_from_directory(testDirectory,
+											batch_size = batch_size,
+											class_mode = "categorical",
+											target_size = (IMG_HEIGHT, IMG_WIDTH)) 	
+
+
+            history = model.fit_generator(trainGen.generate(),
+							   steps_per_epoch = trainGen.steps_per_epoch(), #training images / batch size
+							   epochs = EPOCHS,
+							   validation_data = validGen,
+							   validation_steps = 40,
+							   verbose = 1)
+
+
+        #Finish with Fourir as it overwrites the data. 
+        if aug is "fourier":
+            #use transform_image_and_save.py and edit so that it has path to the created subset folder
+'''    
+        
+                                                
+    
+
+                           

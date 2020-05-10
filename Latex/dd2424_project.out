@@ -2,10 +2,11 @@
 \BOOKMARK [1][-]{section.2}{Related Work}{}% 2
 \BOOKMARK [1][-]{section.3}{Data}{}% 3
 \BOOKMARK [1][-]{section.4}{Methods}{}% 4
-\BOOKMARK [2][-]{subsection.4.1}{Mixup}{section.4}% 5
-\BOOKMARK [2][-]{subsection.4.2}{Fourier Transformation}{section.4}% 6
-\BOOKMARK [1][-]{section.5}{Experiments}{}% 7
-\BOOKMARK [2][-]{subsection.5.1}{Underlying CNN}{section.5}% 8
-\BOOKMARK [2][-]{subsection.5.2}{Augmentations}{section.5}% 9
-\BOOKMARK [1][-]{section.6}{Conclusions}{}% 10
-\BOOKMARK [1][-]{section.7}{info \(ska ej vara med i rapporten\)}{}% 11
+\BOOKMARK [2][-]{subsection.4.1}{Basic Data Augmentations}{section.4}% 5
+\BOOKMARK [2][-]{subsection.4.2}{Mixup}{section.4}% 6
+\BOOKMARK [2][-]{subsection.4.3}{Fourier Transformation}{section.4}% 7
+\BOOKMARK [1][-]{section.5}{Experiments}{}% 8
+\BOOKMARK [2][-]{subsection.5.1}{Underlying CNN}{section.5}% 9
+\BOOKMARK [2][-]{subsection.5.2}{Augmentations}{section.5}% 10
+\BOOKMARK [1][-]{section.6}{Conclusions}{}% 11
+\BOOKMARK [1][-]{section.7}{info \(ska ej vara med i rapporten\)}{}% 12
