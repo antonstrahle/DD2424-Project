@@ -6,6 +6,7 @@ from tensorflow.keras.optimizers import RMSprop
 from tensorflow.keras.optimizers import SGD
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Conv2D, Flatten, Dropout, MaxPooling2D, BatchNormalization, GlobalAveragePooling2D
+from keras.callbacks import EarlyStopping, ModelCheckpoint
 import mixupGenerator as mixupgen
 import matplotlib
 matplotlib.use('Agg')
@@ -19,19 +20,19 @@ EPOCHS = 3
 batch_size  = 100
 
 #Base data
-trainDirectory = "../Data/train"
-validationDirectory = "../Data/valid"
-testDirectory = "../Data/test"
+#trainDirectory = "../Data/train"
+#validationDirectory = "../Data/valid"
+#testDirectory = "../Data/test"
 
 #Fourier
-#trainDirectory = "../FourierData/train"
-#validationDirectory = "../FourierData/valid"
-#testDirectory = "../FourierData/test"
+trainDirectory = "../FourierDataPhase/train"
+validationDirectory = "../FourierDataPhase/valid"
+testDirectory = "../FourierDataPhase/test"
 
 #Used a smaller dataset for testing
-trainDirectory = "../SmallData/train"
-validationDirectory = "../SmallData/valid"
-testDirectory = "../SmallData/test"
+#trainDirectory = "../SmallData/train"
+#validationDirectory = "../SmallData/valid"
+#testDirectory = "../SmallData/test"
 
 
 classes = os.listdir(trainDirectory)
@@ -57,25 +58,25 @@ testDataGen = ImageDataGenerator(rescale = 1./255.)
 #====================================================================================											
 #with mixup
 #====================================================================================
-trainGen = mixupgen.MixupImageDataGenerator(trainDataGen, 
-											trainDirectory,
-											batch_size = batch_size,
-											img_height=IMG_HEIGHT,
-											img_width=IMG_WIDTH,
-											distr = "trunc_norm",
-											params = [0.2, 0.2],
-											majority_vote = 1)
+#trainGen = mixupgen.MixupImageDataGenerator(trainDataGen, 
+											#trainDirectory,
+											#batch_size = batch_size,
+											#img_height=IMG_HEIGHT,
+											#img_width=IMG_WIDTH,
+											#distr = "trunc_norm",
+											#params = [0.2, 0.2],
+											#majority_vote = 1)
 											
-validGen = validDataGen.flow_from_directory(validationDirectory,
-											batch_size = batch_size,
-											class_mode = "categorical",
-											target_size = (IMG_HEIGHT, IMG_WIDTH)) 
+#validGen = validDataGen.flow_from_directory(validationDirectory,
+											#batch_size = batch_size,
+											#class_mode = "categorical",
+											#target_size = (IMG_HEIGHT, IMG_WIDTH)) 
 
 
-testGen = testDataGen.flow_from_directory(testDirectory,
-											batch_size = batch_size,
-											class_mode = "categorical",
-											target_size = (IMG_HEIGHT, IMG_WIDTH)) 										
+#testGen = testDataGen.flow_from_directory(testDirectory,
+											#batch_size = batch_size,
+											#class_mode = "categorical",
+											#target_size = (IMG_HEIGHT, IMG_WIDTH)) 										
 #====================================================================================											
 #with fourier / IGNORE THIS, PREPROCESSING IS HANDLED BY SAVEING NEW IMAGES, see transform_image_and_save.py
 #====================================================================================
@@ -98,22 +99,22 @@ testGen = testDataGen.flow_from_directory(testDirectory,
 #====================================================================================											
 #Standard
 #====================================================================================
-#trainGen = trainDataGen.flow_from_directory(trainDirectory,
-											#batch_size = batch_size,
-											#class_mode = "categorical",
-											#target_size = (IMG_HEIGHT, IMG_WIDTH)) 
+trainGen = trainDataGen.flow_from_directory(trainDirectory,
+											batch_size = batch_size,
+											class_mode = "categorical",
+											target_size = (IMG_HEIGHT, IMG_WIDTH)) 
 
-##950 img belonging to 190 classes
-#validGen = validDataGen.flow_from_directory(validationDirectory,
-											#batch_size = batch_size,
-											#class_mode = "categorical",
-											#target_size = (IMG_HEIGHT, IMG_WIDTH)) 
+#950 img belonging to 190 classes
+validGen = validDataGen.flow_from_directory(validationDirectory,
+											batch_size = batch_size,
+											class_mode = "categorical",
+											target_size = (IMG_HEIGHT, IMG_WIDTH)) 
 
-##950 img belonging to 190 classes
-#testGen = testDataGen.flow_from_directory(testDirectory,
-											#batch_size = batch_size,
-											#class_mode = "categorical",
-											#target_size = (IMG_HEIGHT, IMG_WIDTH)) 
+#950 img belonging to 190 classes
+testGen = testDataGen.flow_from_directory(testDirectory,
+											batch_size = batch_size,
+											class_mode = "categorical",
+											target_size = (IMG_HEIGHT, IMG_WIDTH)) 
 
 #====================================================================================											
 #
@@ -168,28 +169,38 @@ model.summary()
 ###################################################################################
 
 
+es = EarlyStopping(monitor = 'loss', min_delta = 0.005, patience = 3, mode = "min", verbose = 1)
+mc = ModelCheckpoint("baseCNNFourierAmps.h5", monitor = "val_loss", verbose = 1, save_best_only = True)
+
 #====================================================================================											
 #Use this for mixup
 #====================================================================================
-history = model.fit_generator(trainGen.generate(),
-							   steps_per_epoch = trainGen.steps_per_epoch(), #training images / batch size
-							   epochs = EPOCHS,
-							   validation_data = validGen,
-							   validation_steps = 40,
-							   verbose = 1)
+#history = model.fit_generator(trainGen.generate(),
+							   #steps_per_epoch = trainGen.steps_per_epoch(), #training images / batch size
+							   #epochs = EPOCHS,
+							   #validation_data = validGen,
+							   #validation_steps = 975//batch_size,
+							   #verbose = 1,
+							   #callbacks = [es, mc])
 
 #====================================================================================											
 #Standard
 #====================================================================================
-#history = model.fit_generator(trainGen,
-							   #steps_per_epoch = 26769//batch_size, #training images / batch size
-							   #epochs = EPOCHS,
-							   #validation_data = validGen,
-							   #validation_steps = 975//batch_size,
-							   #verbose = 1)
-                               
+history = model.fit_generator(trainGen,
+							   steps_per_epoch = 26769//batch_size, #training images / batch size
+							   epochs = EPOCHS,
+							   validation_data = validGen,
+							   validation_steps = 975//batch_size,
+							   verbose = 1,
+							   callbacks = [es, mc])
+
+
+score = model.evaluate_generator(testGen,
+								 975//batch_size)
+
+
 '''
-####### loop through everything:                               
+#loop through everything:                               
            
                     
 # Create different training sets:
