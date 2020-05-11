@@ -243,7 +243,7 @@ the raw data, however we thougt it would be an interesting experiment.
 In Figure 3 we can see an example of the Fourier transformation on one of the images in our dataset. 
 
 \begin{figure}[!htb]
-	\minipage{0.32\textwidth}
+	\minipage{0.4\textwidth}
 	\raggedleft
 	\includegraphics[scale=0.30]{fourier1}
 	\endminipage
@@ -267,24 +267,43 @@ In order to examine the effects of our data augmentation methods we wanted to ob
 
 \begin{enumerate}[(i)]
  \item Basic CNN (65\%)
- \item MobileNet trained on Imagenet (75\%)
- \item ResNet50 trained on Imagenet (95\%)
+ \item MobileNet trained on ImageNet (75\%)
+ \item ResNet50 trained on ImageNet (95\%)
 \end{enumerate}
 
 \begin{figure}[h]
-	\includegraphics[width=0.9\textwidth]{conv.png}
+	\centering
+	\includegraphics[width=0.9\textwidth]{conv.PNG}
 	\caption{Layers of the basic CNN}
 \end{figure}
 
 \subsection{Augmentations}
 
-\textbf{Attempted experiments:}
+\subsubsection{The Fourier Transform}
 
-Fourier (angles) does not seem to work with MobileNet at all when training for 10 epochs. In this case we do not use the base weights but instead use the base architecture of MobileNet and random initalization (note that this is used as the weights available are from imagenet which by no means can be related to our Fourier transformed data). 10 epochs. Why is this, small network? Validation accuracy seems to stagnate close to 0.56\%.
+In order to ascertain what components of the fourier transform, that is the angles, the amplitudes or the combination of them, which generated the best results we examined their respective performances using the basic CNN architechture. The network was trained for 20 epochs in each experiment using a batch size of 100 and a learning rate of 0.01 in combination with momentum and some decay. It should be noted that the training time increases drastically when taking both the angles and the amplitudes into account as the dimensions of the input increases.
 
-Fourier (angles) seem to work a bit better on the Base CNN when training for very few epochs. The validation accuracy seems to stagnate at around 25\% which of course is a major decrease compared to the 60\% obtained using no augmentation.
+\begin{table}[H]
+  \caption{Basic CNN}
+  \label{sample-table}
+  \centering
+  \begin{tabular}{ll}
+    \toprule
+    Data & Accuracy (\%) \\
+    \midrule
+    Raw Images  & 64.59 \\
+    Fourier Angles & 28.84   \\
+    Fourier Amplitudes & 48.42 \\
+    Fourier Angles \& Amplitueds & 47.42 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
 
+For the basic CNN it seems as if using only the amplitudes generated the highest accuracy which seems to contradict what we initially thought about the phase angles containing more information about the content of the image. In all it seems as if the Fourier transform of the input data is not a valid method in order to improve the performance of a CNN, or at least not in the case of our bird data. An interesting extension could be to apply this method to different datasets with more internal variety, such as for example CIFAR-100. 
 
+\medskip
+
+Due to computational constraints as well as the quite clear results from the performance on the Basic CNN we did not evaluate the effects of the Fourier Transform on either MobileNet or ResNet50. A major reason for this is that the pre-trained weights from ImageNet are in no way compatible with our angles and amplitudes which would imply a complete re-training using the base architechtures.
 
 \section{Conclusions}
 
