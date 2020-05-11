@@ -99,12 +99,20 @@ def fourier_transform_folder_both(directory, to_directory):
 
 #MAKE A BACKUP OF THE IMAGES BEFORE RUNNING THIS BECAUSE IT WILL OVERWRITE EXISTING IMAGES
 
-fourier_transform_folder_both("../SmallData/valid", "../SmallData2/valid")
+#fourier_transform_folder_both("../SmallData/valid", "../SmallData2/valid")
 
-
-#fourier_transform_folder_phase("../FourierData/valid")
-#fourier_transform_folder_phase("../FourierData/test")
-		
+print("Amp")
+fourier_transform_folder_amplitude("../Data/valid", "../FourierDataAmp/valid")
+fourier_transform_folder_amplitude("../Data/test", "../FourierDataAmp/test")
+fourier_transform_folder_amplitude("../Data/train", "../FourierDataAmp/train")
+print("Phase")
+fourier_transform_folder_phase("../Data/valid", "../FourierDataPhase/valid")
+fourier_transform_folder_phase("../Data/test", "../FourierDataPhase/test")
+fourier_transform_folder_phase("../Data/train", "../FourierDataPhase/train")		
+print("Both")
+fourier_transform_folder_both("../Data/valid", "../FourierDataBoth/valid")
+fourier_transform_folder_both("../Data/test", "../FourierDataBoth/test")
+fourier_transform_folder_both("../Data/train", "../FourierDataBoth/train")
 
 
 
