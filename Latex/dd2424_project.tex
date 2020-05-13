@@ -85,7 +85,7 @@
 
 300 words maximum, currently 100 words
 
-To obtain good results in deep learning the quality and quantity of the data is crucial. A smart and cheap way of increasing and improving the available data is data augmentation. In this project we have tried different augmentation techniques such as mix up, Fourier transforms, colour magnification and ordinary rotations and translations on top of a two different decently performing CNNs and tried to see during which circumstances the augmentations have effect, and how big that effect is. The data set used consist of about 25 000 coloured images of 190 bird species, mostly from the United States.  Our results show… .
+To obtain good results in deep learning the quality and quantity of the data is crucial. A smart and cheap way of increasing and improving the available data is data augmentation. In this project we have tried different augmentation techniques such as mix up, Fourier transforms, colour magnification and ordinary rotations and translations on top of a two different decently performing CNNs and tried to see during which circumstances the augmentations have effect, and how big that effect is. The data set used consist of about 25 000 coloured images of 195 bird species, mostly from the United States.  Our results show… .
 
 
 \end{abstract}
@@ -125,7 +125,7 @@ overview of results
 In this project we have worked with a dataset consisting of images of different species of birds, 
 \href{https://www.kaggle.com/gpiosenka/100-bird-species}{Bird Species Dataset}. Each image has the format $224 \times 224 \times 3$ and the images are cropped such that the bird covers at least $50$\% of the pixels.
 There are 
-a total of $190$ species. The training data consist of $25812$ images, but the data is not balanced, however each species has a least $100$ training images. 
+a total of $195$ species. The training data consist of $26769$ images, but the data is not balanced, however each species has a least $100$ training images. 
 Both the validation set and the test set consist of $5$ images of each species. 
 It should also be said that the around $80\%$ of the images are of male birds and $20\%$ of female 
 birds which, by the nature of birds, may look entirely different, which has sometimes caused some trouble when the data set has been used.
@@ -234,7 +234,6 @@ The images were then recreated using the amplitudes from the first image and the
 	bottom left image use the phase angles from the first image and the amplitudes from the second image}
 \end{figure}
 
-
 Using this as the inspiration we wanted to see if it is true that the phase angles contain more essential information about the image by image classification on the amplitudes 
 and phase angels respectively to see if our hypothesis of higher accuracy on the phase angles is satisfied or not. 
 
@@ -254,13 +253,6 @@ In Figure 3 we can see an example of the Fourier transformation on one of the im
 	\caption{Left: Original image. Middle: Phase angles. Right: Amplitudes.}
 \end{figure}
 
-
-\section{Experiments}
-
-1.5-2.5 pages
-
-\textit{Discuss the experiments that you performed todemonstrate  that  your  approach  solves  the  problem.   The  exact  ex-periments will vary depending on the project, but you might comparewith previously published methods, perform an ablation study to de-termine the impact of various components of your system, experimentwith different hyperparameters or architectural choices, use visualiza-tion  techniques  to  gain  insight  into  how  your  model  works,  discuss common failure modes of your model, etc.  You should include graphs,tables, or other figures to illustrate your experimental results.}
-
 \subsection{Underlying CNN}
 
 In order to examine the effects of our data augmentation methods we wanted to observe them for a variety of networks with different baseline performances. We used both transfer as well as deep learning in order to examine the data augmentation techniques. Below are the networks we examined and roughly their baseline, i.e. without any augmentation, accuracy on the birds dataset after some training.
@@ -271,11 +263,17 @@ In order to examine the effects of our data augmentation methods we wanted to ob
  \item ResNet50 trained on ImageNet (95\%)
 \end{enumerate}
 
-\begin{figure}[h]
+\begin{figure}[H]
 	\centering
 	\includegraphics[width=0.9\textwidth]{conv.PNG}
 	\caption{Layers of the basic CNN}
 \end{figure}
+
+\section{Experiments}
+
+1.5-2.5 pages
+
+\textit{Discuss the experiments that you performed todemonstrate  that  your  approach  solves  the  problem.   The  exact  ex-periments will vary depending on the project, but you might comparewith previously published methods, perform an ablation study to de-termine the impact of various components of your system, experimentwith different hyperparameters or architectural choices, use visualization  techniques  to  gain  insight  into  how  your  model  works,  discuss common failure modes of your model, etc.  You should include graphs,tables, or other figures to illustrate your experimental results.}
 
 \subsection{Augmentations}
 

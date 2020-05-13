@@ -5,9 +5,9 @@
 \BOOKMARK [2][-]{subsection.4.1}{Basic Data Augmentations}{section.4}% 5
 \BOOKMARK [2][-]{subsection.4.2}{Mixup}{section.4}% 6
 \BOOKMARK [2][-]{subsection.4.3}{Fourier Transformation}{section.4}% 7
-\BOOKMARK [1][-]{section.5}{Experiments}{}% 8
-\BOOKMARK [2][-]{subsection.5.1}{Underlying CNN}{section.5}% 9
-\BOOKMARK [2][-]{subsection.5.2}{Augmentations}{section.5}% 10
-\BOOKMARK [3][-]{subsubsection.5.2.1}{The Fourier Transform}{subsection.5.2}% 11
+\BOOKMARK [2][-]{subsection.4.4}{Underlying CNN}{section.4}% 8
+\BOOKMARK [1][-]{section.5}{Experiments}{}% 9
+\BOOKMARK [2][-]{subsection.5.1}{Augmentations}{section.5}% 10
+\BOOKMARK [3][-]{subsubsection.5.1.1}{The Fourier Transform}{subsection.5.1}% 11
 \BOOKMARK [1][-]{section.6}{Conclusions}{}% 12
 \BOOKMARK [1][-]{section.7}{info \(ska ej vara med i rapporten\)}{}% 13
