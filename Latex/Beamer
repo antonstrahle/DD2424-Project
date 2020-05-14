@@ -126,7 +126,11 @@
 
 \begin{frame}{Mixup}
 
-Bird 1 + Bird 2 = Bird 3 images!!
+\begin{figure}[h]
+	\subfloat{\includegraphics[width=\textwidth]{mixupbirds1.png}} +\\[0.05in]
+	\subfloat{\includegraphics[width=\textwidth]{mixupbirds2.png}} =\\[0.05in]
+	\subfloat{\includegraphics[width=\textwidth]{mixup.png}}
+\end{figure}
 
 \end{frame}
 
