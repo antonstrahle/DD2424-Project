@@ -61,7 +61,11 @@
 
 \begin{frame}{Data}
 
-MASSA F\AA GELBILDER
+\begin{figure}[h]
+	\subfloat{\includegraphics[width=\textwidth]{birds1.png}} \\[0.05in]
+	\subfloat{\includegraphics[width=\textwidth]{birds2.png}} \\[0.05in]
+	\subfloat{\includegraphics[width=\textwidth]{birds3.png}}
+\end{figure}
 
 \end{frame}
 

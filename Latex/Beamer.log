@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2020.5.1)  14 MAY 2020 10:13
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2020.5.1)  14 MAY 2020 10:55
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -930,48 +930,97 @@ thkerncmss.
 )
 [2
 
-] [3
+]
+! Undefined control sequence.
+\beamer@doifinframe ...egin {figure}[h] \subfloat 
+                                                  {\includegraphics [width=\...
+l.70 \end{frame}
+                
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
 
-] [4
+<birds1.png, id=70, 973.6375pt x 181.67876pt>
+File: birds1.png Graphic file (type png)
+<use birds1.png>
+Package pdftex.def Info: birds1.png  used on input line 70.
+(pdftex.def)             Requested size: 307.28987pt x 57.33998pt.
+! Undefined control sequence.
+\beamer@doifinframe ...png}} \\[0.05in] \subfloat 
+                                                  {\includegraphics [width=\...
+l.70 \end{frame}
+                
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+<birds2.png, id=72, 973.6375pt x 181.67876pt>
+File: birds2.png Graphic file (type png)
+<use birds2.png>
+Package pdftex.def Info: birds2.png  used on input line 70.
+(pdftex.def)             Requested size: 307.28987pt x 57.33998pt.
+! Undefined control sequence.
+\beamer@doifinframe ...png}} \\[0.05in] \subfloat 
+                                                  {\includegraphics [width=\...
+l.70 \end{frame}
+                
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+<birds3.png, id=73, 973.6375pt x 181.67876pt>
+File: birds3.png Graphic file (type png)
+<use birds3.png>
+Package pdftex.def Info: birds3.png  used on input line 70.
+(pdftex.def)             Requested size: 307.28987pt x 57.33998pt.
+[3
+
+ <./birds1.png> <./birds2.png> <./birds3.png>] [4
 
 ]
-<aug1.jpeg, id=120, 224.84pt x 224.84pt>
+<aug1.jpeg, id=127, 224.84pt x 224.84pt>
 File: aug1.jpeg Graphic file (type jpg)
 <use aug1.jpeg>
-Package pdftex.def Info: aug1.jpeg  used on input line 88.
+Package pdftex.def Info: aug1.jpeg  used on input line 92.
 (pdftex.def)             Requested size: 73.75125pt x 73.75142pt.
-<aug2.jpeg, id=121, 224.84pt x 224.84pt>
+<aug2.jpeg, id=128, 224.84pt x 224.84pt>
 File: aug2.jpeg Graphic file (type jpg)
 <use aug2.jpeg>
-Package pdftex.def Info: aug2.jpeg  used on input line 88.
+Package pdftex.def Info: aug2.jpeg  used on input line 92.
 (pdftex.def)             Requested size: 73.75125pt x 73.75142pt.
-<aug3.jpeg, id=122, 224.84pt x 224.84pt>
+<aug3.jpeg, id=129, 224.84pt x 224.84pt>
 File: aug3.jpeg Graphic file (type jpg)
 <use aug3.jpeg>
-Package pdftex.def Info: aug3.jpeg  used on input line 88.
+Package pdftex.def Info: aug3.jpeg  used on input line 92.
 (pdftex.def)             Requested size: 73.75125pt x 73.75142pt.
-<aug4.jpeg, id=123, 224.84pt x 224.84pt>
+<aug4.jpeg, id=130, 224.84pt x 224.84pt>
 File: aug4.jpeg Graphic file (type jpg)
 <use aug4.jpeg>
-Package pdftex.def Info: aug4.jpeg  used on input line 88.
+Package pdftex.def Info: aug4.jpeg  used on input line 92.
 (pdftex.def)             Requested size: 73.75125pt x 73.75142pt.
  [5
 
  <./aug1.jpeg> <./aug2.jpeg> <./aug3.jpeg> <./aug4.jpeg>]
-<fourier1.jpg, id=151, 224.84pt x 224.84pt>
+<fourier1.jpg, id=158, 224.84pt x 224.84pt>
 File: fourier1.jpg Graphic file (type jpg)
 <use fourier1.jpg>
-Package pdftex.def Info: fourier1.jpg  used on input line 103.
+Package pdftex.def Info: fourier1.jpg  used on input line 107.
 (pdftex.def)             Requested size: 74.19742pt x 74.19742pt.
 
-Overfull \hbox (74.19742pt too wide) in paragraph at lines 103--103
+Overfull \hbox (74.19742pt too wide) in paragraph at lines 107--107
  [][]
  []
 
-<fourier2.jpg, id=152, 449.68pt x 224.84pt>
+<fourier2.jpg, id=159, 449.68pt x 224.84pt>
 File: fourier2.jpg Graphic file (type jpg)
 <use fourier2.jpg>
-Package pdftex.def Info: fourier2.jpg  used on input line 103.
+Package pdftex.def Info: fourier2.jpg  used on input line 107.
 (pdftex.def)             Requested size: 148.39485pt x 74.19742pt.
 [6
 
@@ -980,20 +1029,20 @@ Package pdftex.def Info: fourier2.jpg  used on input line 103.
 ] [8
 
 ]
-<mixup1.pdf, id=230, 578.16pt x 433.62pt>
+<mixup1.pdf, id=237, 578.16pt x 433.62pt>
 File: mixup1.pdf Graphic file (type pdf)
 <use mixup1.pdf>
-Package pdftex.def Info: mixup1.pdf  used on input line 144.
+Package pdftex.def Info: mixup1.pdf  used on input line 148.
 (pdftex.def)             Requested size: 98.335pt x 70.31815pt.
-<mixup2.pdf, id=231, 578.16pt x 433.62pt>
+<mixup2.pdf, id=238, 578.16pt x 433.62pt>
 File: mixup2.pdf Graphic file (type pdf)
 <use mixup2.pdf>
-Package pdftex.def Info: mixup2.pdf  used on input line 144.
+Package pdftex.def Info: mixup2.pdf  used on input line 148.
 (pdftex.def)             Requested size: 98.335pt x 70.31815pt.
-<mixup3.pdf, id=232, 578.16pt x 433.62pt>
+<mixup3.pdf, id=239, 578.16pt x 433.62pt>
 File: mixup3.pdf Graphic file (type pdf)
 <use mixup3.pdf>
-Package pdftex.def Info: mixup3.pdf  used on input line 144.
+Package pdftex.def Info: mixup3.pdf  used on input line 148.
 (pdftex.def)             Requested size: 98.335pt x 70.31815pt.
  [9
 
@@ -1017,19 +1066,19 @@ pdfs with page group included in a single page
 \tf@snm=\write8
 \openout8 = `Beamer.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 152.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 152.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 156.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 156.
  (./Beamer.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 152.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 152.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 156.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 156.
 Package rerunfilecheck Info: File `Beamer.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 18933 strings out of 493484
- 354115 string characters out of 6145181
+ 18949 strings out of 493484
+ 354330 string characters out of 6145181
  428064 words of memory out of 5000000
- 21899 multiletter control sequences out of 15000+600000
+ 21912 multiletter control sequences out of 15000+600000
  8988 words of font info for 34 fonts, out of 8000000 for 9000
  891 hyphenation exceptions out of 8191
  56i,16n,55p,790b,578s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1038,10 +1087,10 @@ r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/share/texli
 ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmss9.pfb></usr/share/texlive/texm
 f-dist/fonts/type1/public/wasy2-ps/wasy10.pfb>
-Output written on Beamer.pdf (10 pages, 958804 bytes).
+Output written on Beamer.pdf (10 pages, 2130891 bytes).
 PDF statistics:
- 316 PDF objects out of 1000 (max. 8388607)
- 278 compressed objects within 3 object streams
+ 323 PDF objects out of 1000 (max. 8388607)
+ 279 compressed objects within 3 object streams
  22 named destinations out of 1000 (max. 500000)
- 88 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 103 words of extra memory for PDF output out of 10000 (max. 10000000)
 
