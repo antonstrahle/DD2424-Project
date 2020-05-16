@@ -133,7 +133,8 @@ for layer in resnet50.layers:
 
 model = Sequential([
 	resnet50, #resnet50
-	GlobalAveragePooling2D(), #pooling
+	#GlobalAveragePooling2D(), #pooling
+	Flatten(),
 	Dense(num_classes, activation = "softmax") #predictive
 	])
 
@@ -144,26 +145,34 @@ model.compile(optimizer = SGD(lr = 0.01, decay = 1e-6, momentum = 0.9),
 model.summary()
 
 
+es = EarlyStopping(monitor = 'loss', min_delta = 0.005, patience = 3, mode = "min", verbose = 1)
+mc = ModelCheckpoint("bestModel.h5", monitor = "val_loss", verbose = 1, save_best_only = True)
+
 #====================================================================================											
 #Use this for mixup
 #====================================================================================
-#history = testModel.fit_generator(trainGen.generate(),
-							   #steps_per_epoch = trainGen.steps_per_epoch(), #training images / batch size
+#history = model.fit_generator(trainGen.generate(),
+							   #steps_per_epoch = trainGen.get_steps_per_epoch(), #training images / batch size
 							   #epochs = EPOCHS,
 							   #validation_data = validGen,
-							   #validation_steps = 40,
-							   #verbose = 1)
+							   #validation_steps = 50//batch_size,
+							   #verbose = 1,
+							   #callbacks = [es, mc])
 
 #====================================================================================											
 #Standard
 #====================================================================================
 
 history = model.fit_generator(trainGen,
-							   steps_per_epoch = 26769//batch_size, #training images / batch size
+							  steps_per_epoch = 26769//batch_size, #training images / batch size
 							   epochs = EPOCHS,
 							   validation_data = validGen,
 							   validation_steps = 975//batch_size,
-							   verbose = 1)
+							   verbose = 1,
+							   callbacks = [es, mc])
+
+score = model.evaluate_generator(testGen,
+								 975//batch_size)
 
 
 
