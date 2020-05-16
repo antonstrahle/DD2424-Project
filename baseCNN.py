@@ -170,7 +170,7 @@ model.summary()
 ###################################################################################
 
 
-es = EarlyStopping(monitor = 'loss', min_delta = 0.005, patience = 3, mode = "min", verbose = 1)
+es = EarlyStopping(monitor = 'loss', min_delta = 0.005, patience = 3, mode = "min", verbose = 1, restore_best_weights=True)
 mc = ModelCheckpoint("bestModel.h5", monitor = "val_loss", verbose = 1, save_best_only = True)
 
 #====================================================================================											
@@ -195,9 +195,9 @@ history = model.fit_generator(trainGen,
 							   verbose = 1,
 							   callbacks = [es, mc])
 
-bestModel = load_model("bestModel.h5")
+#bestModel = load_model("bestModel.h5")
 
-score = bestModel.evaluate_generator(testGen,
+score = model.evaluate_generator(testGen,
 								 975//batch_size)
 
 
