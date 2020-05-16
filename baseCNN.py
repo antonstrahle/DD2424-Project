@@ -12,7 +12,7 @@ import mixupGenerator as mixupgen
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-import makesubsets
+#import makesubsets
 
 
 IMG_HEIGHT = 224
@@ -58,26 +58,26 @@ testDataGen = ImageDataGenerator(rescale = 1./255.)
 
 #====================================================================================											
 #with mixup
-====================================================================================
-trainGen = mixupgen.MixupImageDataGenerator(trainDataGen, 
-											trainDirectory,
-											batch_size = batch_size,
-											img_height=IMG_HEIGHT,
-											img_width=IMG_WIDTH,
-											distr = "beta",
-											params = [0.2, 0.2],
-											majority_vote = 1)
+#====================================================================================
+#trainGen = mixupgen.MixupImageDataGenerator(trainDataGen, 
+											#trainDirectory,
+											#batch_size = batch_size,
+											#img_height=IMG_HEIGHT,
+											#img_width=IMG_WIDTH,
+											#distr = "beta",
+											#params = [0.2, 0.2],
+											#majority_vote = 1)
 											
-validGen = validDataGen.flow_from_directory(validationDirectory,
-											batch_size = batch_size,
-											class_mode = "categorical",
-											target_size = (IMG_HEIGHT, IMG_WIDTH)) 
+#validGen = validDataGen.flow_from_directory(validationDirectory,
+											#batch_size = batch_size,
+											#class_mode = "categorical",
+											#target_size = (IMG_HEIGHT, IMG_WIDTH)) 
 
 
-testGen = testDataGen.flow_from_directory(testDirectory,
-											batch_size = batch_size,
-											class_mode = "categorical",
-											target_size = (IMG_HEIGHT, IMG_WIDTH)) 										
+#testGen = testDataGen.flow_from_directory(testDirectory,
+											#batch_size = batch_size,
+											#class_mode = "categorical",
+											#target_size = (IMG_HEIGHT, IMG_WIDTH)) 										
 #====================================================================================											
 #with fourier / IGNORE THIS, PREPROCESSING IS HANDLED BY SAVEING NEW IMAGES, see transform_image_and_save.py
 #====================================================================================
@@ -100,22 +100,22 @@ testGen = testDataGen.flow_from_directory(testDirectory,
 #====================================================================================											
 #Standard
 #====================================================================================
-#trainGen = trainDataGen.flow_from_directory(trainDirectory,
-											#batch_size = batch_size,
-											#class_mode = "categorical",
-											#target_size = (IMG_HEIGHT, IMG_WIDTH)) 
+trainGen = trainDataGen.flow_from_directory(trainDirectory,
+											batch_size = batch_size,
+											class_mode = "categorical",
+											target_size = (IMG_HEIGHT, IMG_WIDTH)) 
 
-##950 img belonging to 190 classes
-#validGen = validDataGen.flow_from_directory(validationDirectory,
-											#batch_size = batch_size,
-											#class_mode = "categorical",
-											#target_size = (IMG_HEIGHT, IMG_WIDTH)) 
+#950 img belonging to 190 classes
+validGen = validDataGen.flow_from_directory(validationDirectory,
+											batch_size = batch_size,
+											class_mode = "categorical",
+											target_size = (IMG_HEIGHT, IMG_WIDTH)) 
 
-##950 img belonging to 190 classes
-#testGen = testDataGen.flow_from_directory(testDirectory,
-											#batch_size = batch_size,
-											#class_mode = "categorical",
-											#target_size = (IMG_HEIGHT, IMG_WIDTH)) 
+#950 img belonging to 190 classes
+testGen = testDataGen.flow_from_directory(testDirectory,
+											batch_size = batch_size,
+											class_mode = "categorical",
+											target_size = (IMG_HEIGHT, IMG_WIDTH)) 
 
 #====================================================================================											
 #
@@ -123,19 +123,19 @@ testGen = testDataGen.flow_from_directory(testDirectory,
 
 
 
-#General Model. Reliable Model 60% val after a few epochs. Try changing layers to ascending in base 2 (i.e. 16, 32, 64 etc) as well as the stride from 3 to perhaps 1.
+#General Model. Reliable Model 60% val after a few epochs. Tried changing layers to ascending in base 2 (i.e. 16, 32, 64 etc) as well as the stride from 3 to perhaps 2 or 1. This did however not seem to yield significant changes in the test accuracy. Usually dropout is not used in the convolutional layers due to the low number of parameters but after some experimentation this did actually seem to generate an increase in the testing accuracy.
 
 model = Sequential([
 	Conv2D(64, 3, activation = "relu", input_shape = (IMG_HEIGHT, IMG_WIDTH, 3)),
 	MaxPooling2D(2,2),
 	BatchNormalization(),
-	Dropout(0.4),
+	#Dropout(0.4),
 	Conv2D(64, 3, activation = "relu"),
 	BatchNormalization(),
 	Conv2D(64, 3, activation = "relu"),
 	MaxPooling2D(2,2),
 	BatchNormalization(),
-	Dropout(0.4),
+	#Dropout(0.4),
 	Conv2D(64, 3, activation = "relu"),
 	BatchNormalization(),
 	Flatten(),
@@ -176,24 +176,24 @@ mc = ModelCheckpoint("bestModel.h5", monitor = "val_loss", verbose = 1, save_bes
 #====================================================================================											
 #Use this for mixup
 #====================================================================================
-history = model.fit_generator(trainGen.generate(),
-							   steps_per_epoch = 26769//batch_size, #training images / batch size
-							   epochs = EPOCHS,
-							   validation_data = validGen,
-							   validation_steps = 975//batch_size,
-							   verbose = 1,
-							   callbacks = [es, mc])
-
-#====================================================================================											
-#Standard
-#====================================================================================
-#history = model.fit_generator(trainGen,
+#history = model.fit_generator(trainGen.generate(),
 							   #steps_per_epoch = 26769//batch_size, #training images / batch size
 							   #epochs = EPOCHS,
 							   #validation_data = validGen,
 							   #validation_steps = 975//batch_size,
 							   #verbose = 1,
 							   #callbacks = [es, mc])
+
+#====================================================================================											
+#Standard
+#====================================================================================
+history = model.fit_generator(trainGen,
+							   steps_per_epoch = 26769//batch_size, #training images / batch size
+							   epochs = EPOCHS,
+							   validation_data = validGen,
+							   validation_steps = 975//batch_size,
+							   verbose = 1,
+							   callbacks = [es, mc])
 
 bestModel = load_model("bestModel.h5")
 
