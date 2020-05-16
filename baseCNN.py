@@ -7,6 +7,7 @@ from tensorflow.keras.optimizers import SGD
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Conv2D, Flatten, Dropout, MaxPooling2D, BatchNormalization, GlobalAveragePooling2D
 from keras.callbacks import EarlyStopping, ModelCheckpoint
+from keras.models import load_model
 import mixupGenerator as mixupgen
 import matplotlib
 matplotlib.use('Agg')
@@ -170,7 +171,7 @@ model.summary()
 
 
 es = EarlyStopping(monitor = 'loss', min_delta = 0.005, patience = 3, mode = "min", verbose = 1)
-mc = ModelCheckpoint("baseCNNFourierAmps.h5", monitor = "val_loss", verbose = 1, save_best_only = True)
+mc = ModelCheckpoint("bestModel.h5", monitor = "val_loss", verbose = 1, save_best_only = True)
 
 #====================================================================================											
 #Use this for mixup
@@ -194,9 +195,11 @@ history = model.fit_generator(trainGen,
 							   verbose = 1,
 							   callbacks = [es, mc])
 
+bestModel = load_model("bestModel.h5")
 
-score = model.evaluate_generator(testGen,
+score = bestModel.evaluate_generator(testGen,
 								 975//batch_size)
+
 
 
 '''

@@ -169,8 +169,9 @@ history = model.fit_generator(trainGen,
 							   verbose = 1,
 							   callbacks = [es, mc])
 
-score = model.evaluate_generator(testGen,
-								 975//batch_size)
+bestModel = load_model("bestModel.h5")
 
+score = bestModel.evaluate_generator(testGen,
+								 975//batch_size)
 
 
