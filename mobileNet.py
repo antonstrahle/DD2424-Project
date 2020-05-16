@@ -6,6 +6,7 @@ from tensorflow.keras.optimizers import RMSprop
 from tensorflow.keras.optimizers import SGD
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Conv2D, Flatten, Dropout, MaxPooling2D, BatchNormalization, GlobalAveragePooling2D
+from keras.callbacks import EarlyStopping, ModelCheckpoint
 import mixupGenerator as mixupgen
 import fourierGenerator as fouriergen
 import matplotlib
