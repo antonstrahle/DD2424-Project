@@ -83,24 +83,32 @@
 
 \begin{abstract}
 
-300 words maximum, currently 100 words
 
-To obtain good results in deep learning the quality and quantity of the data is crucial. A smart and cheap way of increasing and improving the available data is data augmentation. In this project we have tried different augmentation techniques such as mix up, Fourier transforms and more ordinary manipulations such as rotations and brightness adjustments on top of a decently performing CNN as well as some experiments on Resnet and Mobilenet. We have tried to see during which circumstances the augmentations have effect, and how big that effect is. The data set used consist of about 25 000 colored images of 200 bird species, mostly from the United States. The data has further been divided into subsets of different size and difficulty. Our results show that the Fourier transform does not seem to have a positive effect on the accruacy. We also see that basic data augmentations techniques seem to increase the performance, whilst MixUp does not seem to impact the performance in a positive manner, in all examined cases.
+To obtain good results in deep learning the quality and quantity of the data is crucial. A smart and cheap way of increasing and 
+improving the available data is data augmentation. In this project we have tried different 
+augmentation techniques such as Mixup, Fourier transforms and more ordinary manipulations 
+such as rotations and brightness adjustments on top of a decently performing CNN as well as some experiments on 
+Resnet. We have tried to see during which circumstances the augmentations have effect and how big that 
+effect is. The data set used consist of about 25 000 colored images of 200 bird species, mostly from the United States. 
+The data has further been divided into subsets of different size and difficulty. Our results show that the 
+Fourier transform does not seem to have a positive effect on the accruacy. 
+We also see that basic data augmentations techniques seem to increase the performance, whilst Mixup does not 
+seem to impact the performance in a positive manner, in all examined cases.
 
 
 \end{abstract}
 
 \section{Introduction}
 
-0.5-0.75 pages
-
-\textit{Describe the problem you are working on and why it is important. Then also briefly describe what you did and give an overview of your results.}
+% 0.5-0.75 pages
+% 
+% \textit{Describe the problem you are working on and why it is important. Then also briefly describe what you did and give an overview of your results.}
 
 One of the major drawbacks of supervised learning is the need of immense amounts labeled data, producing such in the quantity needed for optimal results can be both costly and extremely time demanding, if even possible at all, which may be the case with medical data where only a limited number of known and active cases may exist.  (Shorten \& Khoshgoftaar, 2019). 
 
 Data augmentation provides a partly solution to this issue when it comes to image classification and after being briefly introduced to some data augmentation techniques during the lectures we wanted to explore this topic further and investigate the payoff (or lack of) from some data augmentation techniques as well as getting an understanding of when it is worth the effort. We are interested in interpretability and have used this project to in an experimental way find the how, when and whys. 
 
-Our main focus is to try out mixup and Fourier transformation in practice, but we have also chosen to apply some more standard augmentations such as rotations simple adjustments to have something to compare with.
+Our main focus is to try out Mixup and Fourier transformation in practice, but we have also chosen to apply some more standard augmentations such as rotations simple adjustments to have something to compare with.
 
 To clarify, our project does not aim to obtain the highest possible testing accuracy but rather aim to show the impact of data augmentations 
 on the accuracy. 
@@ -129,7 +137,7 @@ It creates virtual training example by combining two images by
 
 
 where $(x_i, y_i)$ and $(x_j, y_j)$ are two randomly drawn examples from the training data, and $\lambda$ 
-is a probability, that is $\lambda \in [0,1]$. Some examples where mixup where performed is shown in Figure 1.  Usually, $\lambda$ is randomly drawn from a Beta$(\alpha, \alpha)$ 
+is a probability, that is $\lambda \in [0,1]$. Some examples where Mixup where performed is shown in Figure 1.  Usually, $\lambda$ is randomly drawn from a Beta$(\alpha, \alpha)$ 
 distribution, for each pair of images which are to be combined. Examples and further applicational details are shown under Methods. 
 
 
@@ -159,10 +167,19 @@ The dull and bright colored species has been determined by inspection. For each 
 
 \section{Methods}
 
-1.5-2.5 pages
-\textit{Discuss your approach for solving the problems thatyou set up in the introduction. Why is your approach the right thing todo? Did you consider alternative approaches? You should demonstratethat you have applied ideas and skills built up during the course totac	kle  your  problem  of  choice.   It  may  be  helpful  to  include  figures,diagrams, or tables to describe your method or compare it with othermethods.}
+% 1.5-2.5 pages
+% \textit{Discuss your approach for solving the problems thatyou set up in the introduction. Why is your approach the right thing todo? Did you consider alternative approaches? You should demonstratethat you have applied ideas and skills built up during the course totac	kle  your  problem  of  choice.   It  may  be  helpful  to  include  figures,diagrams, or tables to describe your method or compare it with othermethods.}
 
-To get a deeper understanding of the impacts different kinds of data augmentations we have chosen three different categories: basic data augmentations which focuses on producing more relevant training images, manipulations, where we have chosen mixup which manipulates and blends two images together and transformations, where we have tried out Fourier transforms. 
+% To get a deeper understanding of the impacts different kinds of data augmentations 
+% we have chosen four different categories: basic data augmentations which focuses on 
+% producing more relevant training images, manipulations, where we have chosen Mixup which 
+% manipulates and blends two images together and transformations, where we have tried out Fourier transforms. 
+
+
+To get a deeper understanding of the impacts different kinds of data augmentations 
+we have chosen four different categories: \textit{Basic data augmentations} which consists of transformations such as rotatios and flips, 
+\textit{Mixup}, which blends images and labels for different images, \textit{Random Erasing}, which erases a random part of an image and last 
+\textit{Fourier Transform}, which we consider an interesting experiment.
 
 \subsection{Basic Data Augmentations}
 The idea behind Data Augmentation is to increase the relevant training data using the available data. This is obtained by manipulating the image such that it appears to be a new image with new valuable information to the network. For this project we have chosen some of the most common and simple Data Augmentation techniques to see what difference simple changes can make (or not), and to be able to compare with more sophisticated methods. 
@@ -182,7 +199,7 @@ Figure 1 demonstrates some simple augmentations, there are 4 versions of the sam
 
 \subsection{Mixup}
 
-As mentioned under Related Work, mixup creates virtual training example by combining two images by 
+As mentioned under Related Work, Mixup creates virtual training example by combining two images by 
 
 \begin{align*}
 &\tilde{x} = \lambda x_i + (1-\lambda) x_j, \qquad \text{where $x_i$, $x_j$ are input vectors} \\
@@ -192,18 +209,20 @@ As mentioned under Related Work, mixup creates virtual training example by combi
 where $\lambda \sim$ Beta$(\alpha, \alpha)$.
  This distribution seems like a 
 reasonable chioce since it has the right support and the Beta-distribution is the most natural distribution to
-consider when working with probabilities. The Beta$(\alpha, \alpha)$-distribution is also symmetric around $0.5$, which may be 
+consider when working with probabilities. 
+An example of Mixup performed on images can be seen in Figure 2.
+The Beta$(\alpha, \alpha)$-distribution is also symmetric around $0.5$, which may be 
 a desireable property, however this should not matter since we combine our randomly drawn examples with weights $\lambda$ and $1-\lambda$ and 
 it would not matter if, for example $\lambda = 0.2$ or $\lambda = 0.8$ since it would yield the same two weights, but in different order, but 
 since our examples are randomly drawn the order of the weight should not have an impact. 
 
-% When reading about mixup, the use of the Beta-distribution is usually taken for granted, however, there are many other distribution which 
+% When reading about Mixup, the use of the Beta-distribution is usually taken for granted, however, there are many other distribution which 
 % could be considered since the only requirement is that the distribution satisfy $\lambda \in [0,1]$. We will therfore not only consider the 
 % Beta-distribution. 
 % 
 % WRITE ABOUT OTHER DISTRIBUTION(S) (logit-normal)
 
-We will also consider only performing mixup on the input vectors of the training images but letting $\tilde{y}$ keep the label of the exemple 
+We will also consider only performing Mixup on the input vectors of the training images but letting $\tilde{y}$ keep the label of the exemple 
 with the highest weight. That is,
 
 \begin{align*}
@@ -222,7 +241,7 @@ where $I_{\{ \lambda \leq 0.5 \}} = 1$ if $\lambda \leq 0.5$ and $0$ otherwise.
 	\minipage{0.32\textwidth}%
 	\includegraphics[trim=3cm 2cm 3cm 3cm, width=\linewidth]{mixup3.pdf}
 	\endminipage
-	\caption{Three examples of mixup performed om images of different bird species.}
+	\caption{Three examples of Mixup performed om images of different bird species.}
 \end{figure}
 
 \subsection{Random Erasing}
@@ -302,9 +321,9 @@ We also chose to use ResNet50 in order to observe how the data augmentations tec
 
 \section{Experiments}
 
-1.5-2.5 pages
-
-\textit{Discuss the experiments that you performed todemonstrate  that  your  approach  solves  the  problem.   The  exact  ex-periments will vary depending on the project, but you might comparewith previously published methods, perform an ablation study to de-termine the impact of various components of your system, experimentwith different hyperparameters or architectural choices, use visualization  techniques  to  gain  insight  into  how  your  model  works,  discuss common failure modes of your model, etc.  You should include graphs,tables, or other figures to illustrate your experimental results.}	
+% 1.5-2.5 pages
+% 
+% \textit{Discuss the experiments that you performed todemonstrate  that  your  approach  solves  the  problem.   The  exact  ex-periments will vary depending on the project, but you might comparewith previously published methods, perform an ablation study to de-termine the impact of various components of your system, experimentwith different hyperparameters or architectural choices, use visualization  techniques  to  gain  insight  into  how  your  model  works,  discuss common failure modes of your model, etc.  You should include graphs,tables, or other figures to illustrate your experimental results.}	
 
 \subsection{Basic Augmentation}
 In table 1-3 the results are shown for the runs with all three CNNs on all subsets(except the full datasets is which is excluded since the medium ones have performed very well already) with and without data augmentations. For ResNet where the Small datasets performed very well did not run anything for the Medium size. Recall that there are the same number of species in all datasets(15), what differs is the number of training images(excluding augmentations) for each species(5 or 50).
@@ -353,33 +372,33 @@ It should be said that each combination have only been run once and we do not kn
 
 
 
-\begin{table}[H]
-	\caption{MobileNet and Basic Augmentations}
-	\label{sample-table}
-	\centering
-	\begin{tabular}{lllll}
-		\toprule
-		Data & Loss No Aug & Loss Basic Aug & Acc No Aug(\%)& Acc Basic Aug(\%) \\
-		\midrule
-		RandomSmall  & 10.91&38.78& 0.37 &0.35  \\
-		RandomMedium & 7.02 &     & 0.59 &      \\
-		BrightSmall  & 22.43&51.06& 0.37 &0.3   \\
-		BrightMedium & 17.20&     & 0.37 &      \\
-		DullSmall    & 6.10 &47.69& 0.54 &0.3   \\
-		DullMedium   & 22.13&     & 0.14 &      \\
-		\bottomrule
-	\end{tabular}
-\end{table}
+% \begin{table}[H]
+% 	\caption{MobileNet and Basic Augmentations}
+% 	\label{sample-table}
+% 	\centering
+% 	\begin{tabular}{lllll}
+% 		\toprule
+% 		Data & Loss No Aug & Loss Basic Aug & Acc No Aug(\%)& Acc Basic Aug(\%) \\
+% 		\midrule
+% 		RandomSmall  & 10.91&38.78& 0.37 &0.35  \\
+% 		RandomMedium & 7.02 &     & 0.59 &      \\
+% 		BrightSmall  & 22.43&51.06& 0.37 &0.3   \\
+% 		BrightMedium & 17.20&     & 0.37 &      \\
+% 		DullSmall    & 6.10 &47.69& 0.54 &0.3   \\
+% 		DullMedium   & 22.13&     & 0.14 &      \\
+% 		\bottomrule
+% 	\end{tabular}
+% \end{table}
 
 As the Random datasets perform very similarly to the Dull ones we continue only with the Bright- and Dull subsets in our further experiments and only run one test on the ResNet which performs very evenly. 
 
-\subsection{MixUp}
+\subsection{Mixup}
 
-In order to examine the effects of MixUp we created our own data generator which used two copies of our main data generator and combined the generated images in order to create the MixUp images as displayed in Figure 2.
+In order to examine the effects of Mixup we created our own data generator which used two copies of our main data generator and combined the generated images in order to create the Mixup images as displayed in Figure 2.
 
-In Table X below we showcase the results of a variety of parameter combinations for MixUp on the basic CNN. Note that the first row indicates the training without MixUp.
+In Table X below we showcase the results of a variety of parameter combinations for Mixup on the basic CNN. Note that the first row indicates the training without Mixup.
 \begin{table}[H]
-	\caption{Basic CNN and MixUp with a Beta distribution}
+	\caption{Basic CNN and Mixup with a Beta distribution}
 	\label{sample-table}
 	\centering
 	\begin{tabular}{lllll}
@@ -397,10 +416,10 @@ In Table X below we showcase the results of a variety of parameter combinations 
 	\end{tabular}
 \end{table}
 
-In Table X below we showcase the results of a variety of parameter combinations for MixUp on ResNet50.
+In Table X below we showcase the results of a variety of parameter combinations for Mixup on ResNet50.
 
 \begin{table}[H]
-	\caption{ResNet50 and MixUp with a Beta distribution}
+	\caption{ResNet50 and Mixup with a Beta distribution}
 	\label{sample-table}
 	\centering
 	\begin{tabular}{lllll}
@@ -444,25 +463,41 @@ For the basic CNN it seems as if using only the amplitudes generated the highest
 
 \medskip
 
-Due to computational constraints as well as the quite clear results from the performance on the Basic CNN we did not evaluate the effects of the Fourier transform on other datasets as well as neither on MobileNet nor ResNet50. A major reason for this is that the pre-trained weights from ImageNet are in no way compatible with our angles and amplitudes which would imply a complete re-training using the base architechtures.
+Due to computational constraints as well as the quite clear results from the performance on the Basic CNN we 
+did not evaluate the effects of the Fourier transform on other datasets as well as for ResNet50. 
+A major reason for this is that the pre-trained weights from ImageNet are in no way 
+compatible with our angles and amplitudes which would imply a complete re-training using the base architechtures.
 
 \section{Conclusions}
 
-0.25-0.5 pages
 
-\textit{Summarize your key results - what have you learned? Suggest ideas for future extensions or new applications of your ideas.}
 
-What we have implemented is \textit{input mixup} where we do all augmentation before training and input the images in the network after performing mixup, however https://arxiv.org/pdf/1806.05236.pdf 
-suggest a new algorithm called \textit{manifold mixup} where mixup is performed at an intermediate layer or final layer in the network. In an intermediate layer 
-the feature spaces are more aligned than that of the input and it is suggested that mixup will produce better augmented data if the mixup is performed on this layer. Therefore, this would be 
+I our experiments we have learned that some basic augmentations such as roatations and flipping can make a large difference in the accuracy. 
+
+SKRIV RESULTAT FÖR RANDOM ERASING
+
+Our results for the Mixup did however dissapoint since the accuracy got worse when performing Mixup compared to not. 
+The reason for this is something we would want to investigate further since Mixup has been proven to be an effective method for others.
+Our guess is that it is the nature of our data, that most birds have similar shape, and thus Mixup wont be as effective as if, for example, performed on Cifar10.
+
+What we have implemented is \textit{input Mixup} where we do all augmentation before training and input the images in the network after performing Mixup, however Verma et al (2019) 
+suggest a new algorithm called \textit{Manifold Mixup} where Mixup is performed at an intermediate layer or final layer in the network. In an intermediate layer 
+the feature spaces are more aligned than that of the input and it is suggested that Mixup will produce better augmented data if the Mixup is performed on this layer. Therefore, this would be 
 a natural possible future extention to this project. 
 
+For our experiment with the Fourier transformation we learned that it was very ineffective as a possible data augmentation method and that our hypothesis 
+that the results would be better when using the phase angles than the amplitudes were incorrect. 
+
+Finally, all our experiments could use some further optimization in the parameter choises, batch size and number of epochs, however, due to the limitations 
+in computational power, this was not possible. 
 
 \section*{References}
 
 Shorten \& Khoshgoftaar (2019) A survey on Image Data Augmentation for Deep Learning, \textit{Journal of Big data 6}
 
 Zhang et al (2018) Mixup: Beyond Empirical risk minimization \textit{ICLR conference paper 2018}
+
+Verma et al (2019) Manifold Mixup: Better Representations by Interpolating Hidden States \textit{arxiv.org/pdf/1806.05236.pdf}
 
 Exempel:
 \medskip

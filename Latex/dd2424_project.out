@@ -12,7 +12,7 @@
 \BOOKMARK [2][-]{subsection.4.5}{Underlying CNNs}{section.4}% 12
 \BOOKMARK [1][-]{section.5}{Experiments}{}% 13
 \BOOKMARK [2][-]{subsection.5.1}{Basic Augmentation}{section.5}% 14
-\BOOKMARK [2][-]{subsection.5.2}{MixUp}{section.5}% 15
+\BOOKMARK [2][-]{subsection.5.2}{Mixup}{section.5}% 15
 \BOOKMARK [2][-]{subsection.5.3}{Random Erasing}{section.5}% 16
 \BOOKMARK [2][-]{subsection.5.4}{The Fourier Transform}{section.5}% 17
 \BOOKMARK [1][-]{section.6}{Conclusions}{}% 18
