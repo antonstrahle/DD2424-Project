@@ -85,7 +85,7 @@
 
 300 words maximum, currently 100 words
 
-To obtain good results in deep learning the quality and quantity of the data is crucial. A smart and cheap way of increasing and improving the available data is data augmentation. In this project we have tried different augmentation techniques such as mix up, Fourier transforms and more ordinary manipulations such as rotations and brightness adjustments on top of a decently performing CNN as well as some experiments on Resnet and Mobilenet. We have tried to see during which circumstances the augmentations have effect, and how big that effect is. The data set used consist of about 25 000 colored images of 200 bird species, mostly from the United States. The data has further been divided into subsets of different size and difficulty. Our results show… .
+To obtain good results in deep learning the quality and quantity of the data is crucial. A smart and cheap way of increasing and improving the available data is data augmentation. In this project we have tried different augmentation techniques such as mix up, Fourier transforms and more ordinary manipulations such as rotations and brightness adjustments on top of a decently performing CNN as well as some experiments on Resnet and Mobilenet. We have tried to see during which circumstances the augmentations have effect, and how big that effect is. The data set used consist of about 25 000 colored images of 200 bird species, mostly from the United States. The data has further been divided into subsets of different size and difficulty. Our results show that the Fourier transform does not seem to have a positive effect on the accruacy. We also see that basic data augmentations techniques seem to increase the performance, whilst MixUp does not seem to impact the performance in a positive manner, in all examined cases.
 
 
 \end{abstract}
@@ -105,11 +105,9 @@ Our main focus is to try out mixup and Fourier transformation in practice, but w
 To clarify, our project does not aim to obtain the highest possible testing accuracy but rather aim to show the impact of data augmentations 
 on the accuracy. 
 
-For our experiments we set up three different convolutional neural networks with varying degrees of accuracies on the full dataset, hereafter called base accuracies. The first networks has a basic CNN architecture which is presented in Figure X below (SKA VI KÖRA bref?). Beyond our own basic CNN we also used transfer learning to implement MobileNet and ResNet 50, both trained on ImageNet and specified towards our specific task of bird classification.
+For our experiments we created a basic CNN architechture as well as implemented a fully trained version of ResNet50 in order to also examine the effects on data augmentations techniques in the case of transfer learning.
 
 To create different settings we divided the original data into different subsets with different sizes and characteristics, some random and some more targeted such as birds with bright colors, some with very little training images per species and some with more.
-
-overview of results
 
 \section{Related Work}
 
@@ -120,7 +118,7 @@ overview of results
 
 \subsection{Mixup}
 
-The concept of Mixup was introduced by \href{https://arxiv.org/pdf/1710.09412.pdf}{Zhang et al}(2018) and was published as a conference paper at ICLR 2018. Mixup is really fascinating because of its' creativeness and ability to improve performance while being very simple. As a motivation to the augmentation the authors mention that networks often pay too much attention to contradictory cases and tend to memorize instead of paying attention to the general features. Mixup aims to confuse the network enough for it to focus more on the general and essential parts and has proven to be successful on for example CIF'''AR 10 and CIFAR 100.
+The concept of Mixup was introduced by \href{https://arxiv.org/pdf/1710.09412.pdf}{Zhang et al}(2018) and was published as a conference paper at ICLR 2018. Mixup is really fascinating because of its' creativeness and ability to improve performance while being very simple. As a motivation to the augmentation the authors mention that networks often pay too much attention to contradictory cases and tend to memorize instead of paying attention to the general features. Mixup aims to confuse the network enough for it to focus more on the general and essential parts and has proven to be successful on for example CIFAR 10 and CIFAR 100.
 
 It creates virtual training example by combining two images by 
 
@@ -283,21 +281,18 @@ In Figure 3 we can see an example of the Fourier transformation on one of the im
 
 \subsection{Underlying CNNs}
 
-In order to examine the effects of our data augmentation methods we wanted to observe them for a variety of networks with different baseline performances. We used both transfer as well as deep learning in order to examine the data augmentation techniques. Below are the networks we examined and roughly their baseline, i.e. without any augmentation, accuracy on the whole birds dataset after some training.
+In order to examine the effects of our data augmentation methods we wanted to observe them for some different networks. Due to time we were only able to focus on two. Below are the networks we examined.
 
 \begin{enumerate}[(i)]
- \item Basic CNN (65\%)
- \item MobileNet trained on ImageNet (75\%)
- \item ResNet50 trained on ImageNet (95\%)
+ \item Basic CNN
+ \item ResNet50 trained on ImageNet
 \end{enumerate}
 
-For the Basic CNN the structure of the layers are shown in Figure X
+For the Basic CNN the structure of the layers are shown in Figure 6.
 
-***motivation till de valda lagertyperna***
-e.g We have chosen CNNs since they have shown to perform good, sometimes extremely good, on computer vision tasks. 
-MaxPooling to ...
-BatchNormalization has been a necessity to avoid exploding gradients and to keep the network stable. We have further used dropout to avoid overfitting which we have anticipated to encounter, both considering the fact that we have X million parameters and also that we will try the network on subsets with very few training examples. 
-Further explanations about the exact order and parameters are provided in the experiments section.
+We have chosen CNNs since they have shown to perform good, sometimes extremely good, on computer vision tasks. BatchNormalization has been a necessity in order to manage the gradients and to keep the network stable. We have further used dropout to avoid overfitting which we have anticipated to encounter, both considering the fact that we have several million parameters and also that we will try the network on subsets with very few training examples. Further explanations about the exact order and parameters are provided in the experiments section.
+
+We also chose to use ResNet50 in order to observe how the data augmentations techniques alter the performance in the case of transfer learning.
 
 \begin{figure}[H]
 	\centering
@@ -309,11 +304,7 @@ Further explanations about the exact order and parameters are provided in the ex
 
 1.5-2.5 pages
 
-\textit{Discuss the experiments that you performed todemonstrate  that  your  approach  solves  the  problem.   The  exact  ex-periments will vary depending on the project, but you might comparewith previously published methods, perform an ablation study to de-termine the impact of various components of your system, experimentwith different hyperparameters or architectural choices, use visualization  techniques  to  gain  insight  into  how  your  model  works,  discuss common failure modes of your model, etc.  You should include graphs,tables, or other figures to illustrate your experimental results.}
-
-
-\subsection{Basic CNN}
-
+\textit{Discuss the experiments that you performed todemonstrate  that  your  approach  solves  the  problem.   The  exact  ex-periments will vary depending on the project, but you might comparewith previously published methods, perform an ablation study to de-termine the impact of various components of your system, experimentwith different hyperparameters or architectural choices, use visualization  techniques  to  gain  insight  into  how  your  model  works,  discuss common failure modes of your model, etc.  You should include graphs,tables, or other figures to illustrate your experimental results.}	
 
 \subsection{Basic Augmentation}
 In table 1-3 the results are shown for the runs with all three CNNs on all subsets(except the full datasets is which is excluded since the medium ones have performed very well already) with and without data augmentations. For ResNet where the Small datasets performed very well did not run anything for the Medium size. Recall that there are the same number of species in all datasets(15), what differs is the number of training images(excluding augmentations) for each species(5 or 50).
@@ -384,14 +375,72 @@ As the Random datasets perform very similarly to the Dull ones we continue only 
 
 \subsection{MixUp}
 
+In order to examine the effects of MixUp we created our own data generator which used two copies of our main data generator and combined the generated images in order to create the MixUp images as displayed in Figure 2.
+
+In Table X below we showcase the results of a variety of parameter combinations for MixUp on the basic CNN. Note that the first row indicates the training without MixUp.
+\begin{table}[H]
+	\caption{Basic CNN and MixUp with a Beta distribution}
+	\label{sample-table}
+	\centering
+	\begin{tabular}{lllll}
+		\toprule
+		Parameter & Label & Accuracy (\%) \\
+		\midrule
+		 - & - & 64.59  \\
+		 0.2 & Majority & 58.29 \\
+		 0.2 & Fractional & 54.17 \\ 
+		 0.5 & Majority & 54.63 \\
+		 0.5 & Fractional & 53.54 \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+Below is an alternate approach to MixUp where we instead of the classical Beta distribution implement a Logit-Normal distribution.
+
+\begin{table}[H]
+	\caption{Basic CNN and MixUp with a Logit-Normal distribution}
+	\label{sample-table}
+	\centering
+	\begin{tabular}{lllll}
+		\toprule
+		Parameter & Label & Accuracy (\%) \\
+		\midrule
+		 - & - & 64.59  \\
+		 0.2 & Majority & 50.14 \\
+		 0.2 & Fractional & 48.35 \\ 
+		 0.5 & Majority & 56.84 \\
+		 0.5 & Fractional & 53.54 \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+The Logit-Normal distribution does not seem to produce results that are on par with the classical Beta distribution.
+
+\begin{table}[H]
+	\caption{ResNet50 and MixUp with a Beta distribution}
+	\label{sample-table}
+	\centering
+	\begin{tabular}{lllll}
+		\toprule
+		Parameter & Label & Accuracy (\%) \\
+		\midrule
+		 - & - & 94.78  \\
+		 0.2 & Majority & 92.14 \\
+		 0.2 & Fractional & 82.21 \\ 
+		 0.5 & Majority & 54.63 \\
+		 0.5 & Fractional & 53.54 \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
 \subsection{Random Erasing}
 
 \subsection{The Fourier Transform}
 
-In order to ascertain what components of the fourier transform, that is the angles, the amplitudes or the combination of them, which generated the best results we examined their respective performances using the basic CNN architechture. The network was trained for 20 epochs in each experiment using a batch size of 100 and a learning rate of 0.01 in combination with momentum and some decay. It should be noted that the training time increases drastically when taking both the angles and the amplitudes into account as the dimensions of the input increases.
+In order to examine which components from the Fourier transform, that is the angles, the amplitudes or the combination of them, that generated the best results we examined their respective performances using the basic CNN architechture. The network was trained for 20 epochs in each experiment using a batch size of 100 and a learning rate of 0.01 in combination with momentum and some decay. It should be noted that the training time increases drastically when taking both the angles and the amplitudes into account as the dimensions of the input increases.
 
 \begin{table}[H]
-  \caption{Basic CNN}
+  \caption{Basic CNN and Fourier Transform}
   \label{sample-table}
   \centering
   \begin{tabular}{ll}
@@ -406,11 +455,11 @@ In order to ascertain what components of the fourier transform, that is the angl
   \end{tabular}
 \end{table}
 
-For the basic CNN it seems as if using only the amplitudes generated the highest accuracy which seems to contradict what we initially thought about the phase angles containing more information about the content of the image. In all it seems as if the Fourier transform of the input data is not a valid method in order to improve the performance of a CNN, or at least not in the case of our bird data. An interesting extension could be to apply this method to different datasets with more internal variety, such as for example CIFAR-100. 
+For the basic CNN it seems as if using only the amplitudes generated the highest accuracy which seems to contradict what we initially thought about the phase angles containing more information about the content of the image. In all, it seems as if the Fourier transform of the input data is not a valid method in order to improve the performance of a CNN, or at least not in the case of our bird data. An interesting extension could be to apply this method to different datasets with more internal variety, such as for example CIFAR 100.
 
 \medskip
 
-Due to computational constraints as well as the quite clear results from the performance on the Basic CNN we did not evaluate the effects of the Fourier Transform on other datasets as well as neither on MobileNet nor ResNet50. A major reason for this is that the pre-trained weights from ImageNet are in no way compatible with our angles and amplitudes which would imply a complete re-training using the base architechtures.
+Due to computational constraints as well as the quite clear results from the performance on the Basic CNN we did not evaluate the effects of the Fourier transform on other datasets as well as neither on MobileNet nor ResNet50. A major reason for this is that the pre-trained weights from ImageNet are in no way compatible with our angles and amplitudes which would imply a complete re-training using the base architechtures.
 
 \section{Conclusions}
 
@@ -429,8 +478,6 @@ a natural possible future extention to this project.
 Shorten \& Khoshgoftaar (2019) A survey on Image Data Augmentation for Deep Learning, \textit{Journal of Big data 6}
 
 Zhang et al (2018) Mixup: Beyond Empirical risk minimization \textit{ICLR conference paper 2018}
-
-
 
 Exempel:
 \medskip
