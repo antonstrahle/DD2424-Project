@@ -387,6 +387,8 @@ In Table X below we showcase the results of a variety of parameter combinations 
 		Parameter & Label & Accuracy (\%) \\
 		\midrule
 		 - & - & 64.59  \\
+		 0.1 & Majority & X \\
+		 0.1 & Fractional & X \\ 
 		 0.2 & Majority & 58.29 \\
 		 0.2 & Fractional & 54.17 \\ 
 		 0.5 & Majority & 54.63 \\
@@ -395,26 +397,7 @@ In Table X below we showcase the results of a variety of parameter combinations 
 	\end{tabular}
 \end{table}
 
-Below is an alternate approach to MixUp where we instead of the classical Beta distribution implement a Logit-Normal distribution.
-
-\begin{table}[H]
-	\caption{Basic CNN and MixUp with a Logit-Normal distribution}
-	\label{sample-table}
-	\centering
-	\begin{tabular}{lllll}
-		\toprule
-		Parameter & Label & Accuracy (\%) \\
-		\midrule
-		 - & - & 64.59  \\
-		 0.2 & Majority & 50.14 \\
-		 0.2 & Fractional & 48.35 \\ 
-		 0.5 & Majority & 56.84 \\
-		 0.5 & Fractional & 53.54 \\
-		\bottomrule
-	\end{tabular}
-\end{table}
-
-The Logit-Normal distribution does not seem to produce results that are on par with the classical Beta distribution.
+In Table X below we showcase the results of a variety of parameter combinations for MixUp on ResNet50.
 
 \begin{table}[H]
 	\caption{ResNet50 and MixUp with a Beta distribution}
@@ -425,10 +408,12 @@ The Logit-Normal distribution does not seem to produce results that are on par w
 		Parameter & Label & Accuracy (\%) \\
 		\midrule
 		 - & - & 94.78  \\
+		 0.1 & Majority & X \\
+		 0.1 & Fractional & X \\ 
 		 0.2 & Majority & 92.14 \\
 		 0.2 & Fractional & 82.21 \\ 
-		 0.5 & Majority & 54.63 \\
-		 0.5 & Fractional & 53.54 \\
+		 0.5 & Majority & X \\
+		 0.5 & Fractional & X \\
 		\bottomrule
 	\end{tabular}
 \end{table}
@@ -445,7 +430,7 @@ In order to examine which components from the Fourier transform, that is the ang
   \centering
   \begin{tabular}{ll}
     \toprule
-    Data & Accuracy full dataset(\%) \\
+    Data & Accuracy (\%) \\
     \midrule
     Raw Images  & 64.59 \\
     Fourier Angles & 28.84   \\
