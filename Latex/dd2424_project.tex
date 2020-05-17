@@ -219,7 +219,7 @@ since our examples are randomly drawn the order of the weight should not have an
 
 The above labeling is what we call fractional labeling.
 We will also consider performing Mixup on the input vectors of the training images but letting $\tilde{y}$ keep the label of the example 
-with the highest weight. That is,
+with the highest weight, which we call majority labeling. That is,
 
 \begin{align*}
 \tilde{y} = I_{\{ \lambda \leq 0.5 \}} y_i + (1-I_{\{ \lambda \leq 0.5 \}}) y_j, 
@@ -339,12 +339,12 @@ The basic CNN had quite some problems with the RandomSmall dataset and seems to 
 
 
 \begin{table}[H]
-	\caption{Accuracies for Basic Augmentations on Basic CNN and ResNet50}
+	\caption{Accuracies for Basic Augmentations on Basic CNN and ResNet50 (Accuracy)}
 	\label{sample-table}
 	\centering
 	\begin{tabular}{lllll}
 		\toprule
-		Data & No Aug Basic CNN & Basic Aug Basic CNN & No Aug ResNet50 &Basic Aug ResNet50\\
+		Data &  Basic CNN & Basic CNN & ResNet50 w. Aug & ResNet50 w. Aug\\
 		\midrule
 		RandomSmall  & 0.13 & 0.47 & 0.81 & 0.85 \\
 		RandomMedium & 0.65 & 0.79 & 0.85 & not tested     \\
@@ -383,21 +383,20 @@ As the Random data sets perform very similarly to the Dull ones we continue only
 
 In order to examine the effects of Mixup we created our own data generator which used two copies of our main data generator and combined the generated images in order to create the Mixup images as displayed in Figure X. We run the test with $\alpha=0.2$ which has proven to be a good value, for example in XXXXXXXXX.
 
-As we can see in Table X the basic CNN Mixup performs about the same as without any augmentations at all, sometimes a bit better and sometimes even worse. The performance is a bit more stable on ResNet but not much positive effect.
+As we can see in Table X the basic CNN Mixup performs about the same as without any augmentations at all, sometimes a bit better and sometimes even worse. The performance is a bit more stable on ResNet50 but has no noteable positive effect.
 
 \begin{table}[H]
-	\caption{Mixup }
+	\caption{Mixup on Subsets (Accuracy)}
 	\label{sample-table}
 	\centering
-	\begin{tabular}{lll}
+	\begin{tabular}{lllll}
 		\toprule
-		Data &  Acc Basic CNN & Acc ResNet50 \\
+		Data &  Basic CNN & Basic CNN w. Mixup & ResNet50 & ResNet50 w. Mixup \\
 		\midrule
-		
-		BrightSmall  & 0.31 &     0.80 \\
-		BrightMedium & 0.73 &     0.97 \\
-		DullSmall    & 0.31 &     0.82 \\
-		DullMedium   & 0.57 &     0.99 \\
+		BrightSmall  & 0.40 & 0.31 & 0.79 &  0.80 \\
+		BrightMedium & 0.65 & 0.73 & 0.99 &  0.97 \\
+		DullSmall    & 0.27 & 0.31 & 0.83 &  0.82 \\
+		DullMedium   & 0.57 & 0.57 & 0.99 &  0.99 \\
 		\bottomrule
 	\end{tabular}
 \end{table}
@@ -407,12 +406,12 @@ It is a bit surprising that Mixup has not given any effect, as it has proven to 
 For $\alpha=0.1$ we see a strong effect of Mixup, for $\alpha=0.2$ however the performance is worse than for the baseline with no augmentation. We are sorry to say that we did not have time to run Mixup on the smaller subsets with $\alpha=0.1$. 
 
 \begin{table}[H]
-	\caption{Mixup with a Beta distribution on Basic CNN and ResNet}
+	\caption{Mixup with a Beta distribution on Basic CNN and ResNet50 (Accuracy)}
 	\label{sample-table}
 	\centering
 	\begin{tabular}{llll}
 		\toprule
-		Parameter & Label & Accuracy Basic CNN & Accuracy ResNet50 \\
+		Parameter & Label & Basic CNN & ResNet50 \\
 		\midrule
 		-   & -        & 0.64   & 0.95 \\
 		0.1 & Majority & X       & 0.98 \\
@@ -429,19 +428,17 @@ For $\alpha=0.1$ we see a strong effect of Mixup, for $\alpha=0.2$ however the p
 As we can see in Table 4, the performance of Random Erasing on the Basic CNN is worse than with no augmentation at all. Probably it regularizes too much for our Basic CNN and the network, which already has very little training data loses even more information. However, ResNet seems to be picking up much more details and here the regularization did good and bumped the performance quite a bit. 
 
 \begin{table}[H]
-	\caption{Random Erasing}
+	\caption{Random Erasing on Subsets (Accuracy)}
 	\label{sample-table}
 	\centering
-	\begin{tabular}{lll}
-		
+	\begin{tabular}{lllll}
 		\toprule
-		Data & Acc Basic CNN & Acc ResNet50 \\
+		Data & BasicCNN & Basic CNN w. RE & ResNet50 & ResNet50 w. RE \\
 		\midrule
-		
-		BrightSmall   & 0.34 & 0.89  \\
-		BrightMedium  & 0.83 & 0.97  \\
-		DullSmall     & 0.20 & 0.89  \\
-		DullMedium    & 0.51 & 0.99  \\
+		BrightSmall   & 0.4 & 0.34 & 0.79 & 0.89  \\
+		BrightMedium  & 0.65 & 0.83 & 0.99 & 0.97  \\
+		DullSmall     & 0.27 & 0.20 & 0.83 & 0.89  \\
+		DullMedium    & 0.57 & 0.51 & 0.99 & 0.99  \\
 		\bottomrule
 	\end{tabular}
 \end{table}
