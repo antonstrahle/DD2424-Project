@@ -209,7 +209,8 @@ An example of Mixup performed on images can be seen in Figure 2.
 The Beta$(\alpha, \alpha)$-distribution is also symmetric around $0.5$, which may be 
 a desirable property, however this should not matter since we combine our randomly drawn examples with weights $\lambda$ and $1-\lambda$ and 
 it should not matter if, for example $\lambda = 0.2$ or $\lambda = 0.8$ since it would yield the same two weights, but in different order, but 
-since our examples are randomly drawn the order of the weight should not have an impact. 
+since our examples are randomly drawn the order of the weight should not have an impact. The value of $\alpha$ is usually chosen in $[0.1, 0.4]$ and too high 
+values of $\alpha$ leads to underfitting.
 
 % When reading about Mixup, the use of the Beta-distribution is usually taken for granted, however, there are many other distribution which 
 % could be considered since the only requirement is that the distribution satisfy $\lambda \in [0,1]$. We will therfore not only consider the 
