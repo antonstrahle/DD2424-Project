@@ -309,7 +309,7 @@ For the Basic CNN the structure of the layers are shown in Figure 6.
 
 We have chosen CNNs since they have shown to perform good, sometimes extremely good, on computer vision tasks. Batch Normalization has been a necessity in order to manage the gradients and to keep the network stable. We have further used dropout to avoid overfitting which we have anticipated to encounter, both considering the fact that we have 85 million parameters and also because we will try the network on subsets with very few training examples. Overall we have tried out some standard layer structures until reaching about 60\% accuracy on the training data set.
 
-We also chose to use ResNet50 in order to observe how the data augmentations techniques alter the performance in the case of transfer learning. In the case of ResNet50 we simply flattened the output added our own predictive layer in order to accommodate to our data.
+We also chose to use ResNet50 in order to observe how the data augmentations techniques alter the performance in the case of transfer learning. In the case of ResNet50 we flattened the output and added our own predictive layer in order to accommodate to our data.
 
 \begin{figure}[H]
 	\centering
@@ -480,7 +480,7 @@ I our experiments we have learned that some basic augmentations such as rotation
 
 It is important to remember that Mixup and Random Erasing regularize, and we want different amounts of regularization depending on what kind of dataset we have, how much data we have and how much information the network is picking up. This could partially help explain why the basic CNN which implements dropout does not benefit from these two techniques as further regularization is not needed.
 
-What we have implemented is \textit{input Mixup} where we do all augmentation before training and input the images in the network after performing Mixup, however Verma et al (2019) 
+What we have implemented is \textit{input Mixup} where we do all augmentation before training and input the images in the network after performing Mixup, however \href{https://arxiv.org/pdf/1806.05236.pdf}{Verma et al} (2019) 
 suggest a new algorithm called \textit{Manifold Mixup} where Mixup is performed at an intermediate layer or final layer in the network. In an intermediate layer 
 the feature spaces are more aligned than that of the input and it is suggested that Mixup will produce better augmented data if the Mixup is performed on this layer. Therefore, this would be 
 a natural possible future extension to this project, as we think regularization later on might be good when we have little data so that the network may learn by the non-manipulated data to begin with. 
@@ -494,7 +494,7 @@ Finally, all our experiments could use some further optimization in the paramete
 
 Shorten \& Khoshgoftaar (2019) A survey on Image Data Augmentation for Deep Learning, \textit{Journal of Big data 6}
 
-Verma et al (2019) Manifold Mixup: Better Representations by Interpolating Hidden States \textit{arxiv.org/pdf/1806.05236.pdf}
+Verma et al (2019) Manifold Mixup: Better Representations by Interpolating Hidden States \textit{https://arxiv.org/pdf/1806.05236.pdf}
 
 Zhang et al (2018) Mixup: Beyond Empirical risk minimization \textit{ICLR conference paper 2018}
 
