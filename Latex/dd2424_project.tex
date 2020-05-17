@@ -89,10 +89,10 @@ augmentation techniques such as Mixup, Fourier transforms and more ordinary mani
 such as rotations and brightness adjustments on top of a decently performing CNN as well as some experiments on 
 ResNet50. We have tried to see under which circumstances the augmentations have effect and how big that 
 effect is. The data set used consists of about 25 000 colored images of 200 bird species, mostly from the United States. 
-The data has further been divided into subsets of different sizes and difficulty. We have mainly worked with subsets with little data, as most of the available papers survey the performance on massive data sets, but often one does not have that situation.
+The data has further been divided into subsets of different sizes and classification difficulty. We have mainly worked with subsets with little data, as most of the available papers survey the performance on massive data sets, but often one does not have that situation.
 Our results show that the 
 Fourier transform does not seem to have a positive effect on the accuracy. 
-We also see that basic data augmentations techniques such as flips and rotations seem to increase the performance under all circumstances, whilst Mixup and Random Erasing which manipulates the data seem to require a sophisticated network such as ResNet50 where they performed well, or they might impact the performance in a negative manner.
+We also see that basic data augmentations techniques such as flips and rotations seem to increase the performance in all examined circumstances, whilst Mixup and Random Erasing which manipulates the data seem to require a more fine tuned implementation.
 
 
 \end{abstract}
@@ -103,22 +103,19 @@ We also see that basic data augmentations techniques such as flips and rotations
 % 
 % \textit{Describe the problem you are working on and why it is important. Then also briefly describe what you did and give an overview of your results.}
 
-One of the major drawbacks of supervised learning is the need of immense amounts of labeled data, producing such in the quantity needed for optimal results can be both costly and extremely time demanding, if even possible at all, which may be the case with medical data where only a limited number of known and active cases may exist.  (Shorten \& Khoshgoftaar, 2019). 
+One of the major drawbacks of supervised learning is the need of immense amounts of labeled data. Obtaining the quantities needed for optimal results can be both costly and extremely time consuming, if even possible at all, which may be the case with medical data where only a limited number of known and active cases may exist.  (Shorten \& Khoshgoftaar, 2019). 
 
-Data augmentation provides a partly solution to this issue when it comes to image classification and after being briefly introduced to some data augmentation techniques during the lectures we wanted to explore this topic further and investigate the payoff (or the lack thereof) from some data augmentation techniques as well as getting an understanding of when it is worth the effort. We are interested in interpretability and have used this project to in an experimental way find the how, when and whys. 
+Data augmentation provides a partial solution to this issue when it comes to image classification. After being briefly introduced to some data augmentation techniques during the lectures we wanted to explore this topic further and investigate the payoff (or the lack thereof) from some data augmentation techniques as well as getting an understanding of when it is, and when it is not, worth the effort. We are interested in interpretability and have therefore used this project in an expereimental way to find the how, when and whys. 
 
 Our main focus has been to try out Mixup, Random erasing and Fourier transformation in practice, but we have also chosen to apply some more standard augmentations such as rotations simple adjustments to have something to compare with.
 
-To clarify, our project does not aim to obtain the highest possible testing accuracy but rather aims to show the impact of data augmentations 
-on the accuracy. 
+To clarify, our project does not aim to obtain the highest possible testing accuracy but rather aims to show the impact of data augmentations on the accuracy. 
 
 For our experiments we created a basic CNN architecture as well as implemented a fully trained version of ResNet50 in order to also examine the effects on data augmentations techniques in the case of transfer learning.
 
-To create different settings we divided the original data into different subsets with different sizes and characteristics, some random and some more targeted such as birds with bright colors. We have used rather small data sets because of limitations in time and computing resources, but also because that is the situation many deal with. Most papers display the performance on huge data sets and we would like to investigate if the performances remains when we decrease the size and worsen the quality of the network.
+To create different settings we divided the original data into different subsets with different sizes and characteristics, some random and some more targeted, such as birds with bright colors. We have used rather small data sets because of limitations in time and computing resources, but also because that is the situation many deal with. Most papers display the performance on huge data sets and we would like to investigate if the performances remains when we decrease the size and worsen the quality of the network.
 
-Our results show that basic geometric augmentations such as rotations give a constant positive effect, for Mixup one must spend time with tuning since it regularizes and for both Mixup and Random Erasing a more complex network, such as ResNet50, is needed for them to pay off. Fourier Transforms did not have positive effect. 
-
-
+Our results show that basic geometric augmentations such as rotations give a constant positive effect, for Mixup and Random Erasing one must spend time tuning the implementation since both techniques serve as regularizers which can lead to complications with certain network architectures, as in one of our cases. 
 
 \section{Related Work}
 
@@ -129,7 +126,7 @@ Our results show that basic geometric augmentations such as rotations give a con
 
 \subsection{Mixup}
 
-The concept of Mixup was introduced by \href{https://arxiv.org/pdf/1710.09412.pdf}{Zhang et al}(2018) and was published as a conference paper at ICLR 2018. Mixup is really fascinating because of its' creativeness and ability to improve performance while being very simple. As a motivation to the augmentation the authors mention that networks often pay too much attention to contradictory cases and tend to memorize instead of paying attention to the general features. Mixup aims to confuse the network enough for it to focus more on the general and essential parts and has proven to be successful on for example CIFAR 10 and CIFAR 100.
+The concept of Mixup was introduced by \href{https://arxiv.org/pdf/1710.09412.pdf}{Zhang et al}(2018) and was published as a conference paper at ICLR 2018. Mixup is really fascinating because of its' creativeness and ability to improve performance while being very simple. As a motivation to the augmentation the authors mention that networks often pay too much attention to contradictory cases and tend to memorize instead of paying attention to the general features. Mixup aims to confuse the network enough for it to focus more on the general and essential parts and has proven to be successful on for example CIFAR10 and CIFAR100.
 
 It creates virtual training samples by combining two images by 
 
@@ -179,9 +176,9 @@ we have chosen four different categories: \textit{Basic Data Augmentations} whic
 \textit{Fourier Transforms}, which we consider as an interesting experiment.
 
 \subsection{Basic Data Augmentations}
-The idea behind Data Augmentation is to increase the relevant training data using the available data. This is obtained by manipulating the image such that it appears to be a new image with new valuable information to the network. For this project we have chosen some of the most common and simple Data Augmentation techniques to see what difference simple changes can make (or not), and to be able to compare with more sophisticated methods. 
+The idea behind Data Augmentation is to increase the relevant training data using the available data. This is obtained by manipulating the image such that it appears to be a new image with new valuable information to the network. For this project we have chosen some of the most common and simple Data Augmentation techniques to see what difference simple changes can make (or not), and to be able to compare them with more sophisticated methods. 
 
-Figure 1 demonstrates some simple augmentations, there are 4 versions of the same picture where rotation, flipping, brightness and shearing (a kind of stretching) have been applied. Other common techniques are location shifts and zooming, but since the pictures are cropped such that at least 50\% of the pictures are covered by the bird, applying any of those techniques often lead to the bird being beheaded or loosing a big body part, which might not be a relevant image in this dataset as most images appear to be professional photos with the bird centered and having its whole body in the picture.
+Figure 1 demonstrates some simple augmentations, where we have four versions of the same picture where rotation, flipping, brightness and shearing (a kind of stretching) have been applied. Other common techniques are location shifts and zooming, but since the pictures are cropped such that at least 50\% of the pictures are covered by the bird, applying any of those techniques often leads to the bird being beheaded or loosing a major body part, which might not be a relevant image in this dataset as most images appear to be professional photos with the bird centered and having its whole body in the picture.
 
 \begin{figure}[h]
 \includegraphics[width=0.24\textwidth]{aug1.jpeg}
@@ -323,19 +320,18 @@ We also chose to use ResNet50 in order to observe how the data augmentations tec
 % 
 % \textit{Discuss the experiments that you performed todemonstrate  that  your  approach  solves  the  problem.   The  exact  ex-periments will vary depending on the project, but you might comparewith previously published methods, perform an ablation study to de-termine the impact of various components of your system, experimentwith different hyperparameters or architectural choices, use visualization  techniques  to  gain  insight  into  how  your  model  works,  discuss common failure modes of your model, etc.  You should include graphs,tables, or other figures to illustrate your experimental results.}	
 
-The networks were trained for 20 epochs in each experiment we used a batch size of 100 and a learning rate of 0.01, in combination with momentum (0.9) and some decay (1e-6). We also implemented early stopping in order to cut down on the training times. The choices of hyperparameters were made by using generally recommended values and the slightly tuning them to fit our needs. As the aim of this project is not to maximize the performance of the network but rather to examine the effects of certain methods the search for good hyperparameters could be seen as very coarse.
+The networks were trained for 20 epochs in each experiment we used a batch size of 100 and a learning rate of 0.01, in combination with momentum (0.9) and some decay (1e-6). We also implemented early stopping in order to cut down on the training times. The choices of hyperparameters were made by using generally recommended values and then slightly tuning them to fit our needs. As the aim of this project is not to maximize the performance of the network but rather to examine the effects of certain methods the search for good hyperparameters could be seen as very coarse.
 
-Recall that there are the same number of species in all subsets of the data set(15), what differs is the number of training images(excluding augmentations) for each species(5 or 50).
+Recall that there are the same number of species in all subsets of the data set (15), what differs is the number of training images(excluding augmentations) for each species (5 or 50).
 
 It should be said that each combination has only been run once and thus we do not know anything about the span of variation of the results. It would have been desirable to try out some augmentations together, run more on the whole dataset and to test ResNet50 without pre-training, but that was far too time consuming for this project.
 
 \subsection{Basic Augmentation}
-In Table 1 the results are shown for the runs with the CNNs on all subsets(except the full data sets is which is excluded since the medium ones have performed very well already) with and without data augmentations. For ResNet50, where the Small data sets performed extremely very well, we did not run anything for the Medium sized sets for that reason. 
+In Table 1 the results are shown for the runs with the CNNs on all subsets(except the full data sets is which is excluded since the medium ones have performed very well already) with and without data augmentations. For ResNet50, where the Small data sets performed extremely well, we did not run anything for the Medium sized sets for that reason. 
 
 For all subsets for both our basic CNN and ResNet50 we can see a great gain in accuracy when applying data augmentations. The difference is the biggest for the basic CNN, but improvements for already good performing networks are hard earned and it is really good that such improvements can be made for an already such good performing network with such little effort. 
 
 The basic CNN had quite some problems with the RandomSmall dataset and seems to overfit, here the augmentations made the most difference. The ResNet50 did not have such problems, maybe because it is pre-trained or was better at spotting the relevant parts. The ResNet50 also performed more evenly across different data sets. 
-
 
 \begin{table}[H]
 	\caption{Accuracies for Basic Augmentations on subsets}
@@ -380,7 +376,7 @@ As the Random data sets perform very similarly to the Dull ones we continue only
 
 \subsection{Mixup}
 
-In order to examine the effects of Mixup we created our own data generator which used two copies of our main data generator and combined the generated images in order to create the Mixup images as displayed in Figure 2. We run the test with $\alpha=0.2$ since for example in Zhang et al(2019) values between 0.2 and 0.4 are recommended.
+In order to examine the effects of Mixup we created our own data generator which used two copies of our main data generator and combines the generated images in order to create the Mixup images as displayed in Figure 2 using the formulas presented under Methods. We run the test with $\alpha=0.2$ since for example in Zhang et al(2019) values between 0.2 and 0.4 are recommended.
 
 As we can see in Table 2 the basic CNN with Mixup performs about the same as without any augmentations at all, sometimes a bit better and sometimes even worse. The performance is a bit more stable on ResNet50 but has no notable positive effect.
 
@@ -400,7 +396,7 @@ As we can see in Table 2 the basic CNN with Mixup performs about the same as wit
 	\end{tabular}
 \end{table}
 
-At first sight it was a bit surprising that Mixup has not given any effect, as it has proven to be very powerful. We thought it might be because there is quite little training data in the subsets on which we have run tests, so we try it also on the full data and try out other values of $\alpha$, the results can be seen in Table 3 below. Note that the first row indicates the training without Mixup.
+At first sight it was a bit surprising that Mixup has not given any effect, as it has proven to be very powerful. We thought it might be because there is quite little training data in the subsets on which we have run tests, so we examined it on the whole data set and tried out other values of $\alpha$, the results can be seen in Table 3 below. Note that the first row indicates the training without Mixup. 
 
 \begin{table}[H]
 	\caption{Accuracies for Mixup with different parameter settings on the whole data set}
@@ -420,12 +416,12 @@ At first sight it was a bit surprising that Mixup has not given any effect, as i
 	\end{tabular}
 \end{table}
 
-For $\alpha=0.1$ we see a strong effect of Mixup on the whole dataset, for $\alpha=0.2$ however the performance is worse than for the baseline with no augmentation, therefore we do not try for bigger values. We tried to run ResNet with Mixup with $alpha=0.1$ on the BrightSmall subset, which gave a accuracy of 0.64, which is really bad. As Mixup has a regularizing effect it probably needs fine tuning on every subset it is run, it is likely that it also needs a bit more training data than the other techniques we have tried. We did not have time to try this out.
+For $\alpha=0.1$ we see a strong effect of Mixup on the whole dataset for ResNet50, for $\alpha=0.2$ however the performance is worse than for the baseline with no augmentation, therefore we do not try for bigger values. We tried to run ResNet50 with Mixup with $\alpha=0.1$ on the BrightSmall subset, which gave a accuracy of 0.64, which is really bad. As Mixup has a regularizing effect it probably needs fine tuning on every subset it is run, it is likely that it also needs a bit more training data than the other techniques we have tried. We did not have time to try this out. This is also likely the reason as to why Mixup leads to a decrease in the accuracy of the basic CNN which already regularizes quite heavily using dropout.
 
 
 \subsection{Random Erasing}
 
-As we can see in Table 4, the performance of Random Erasing on the Basic CNN is worse than with no augmentation at all. Probably it regularizes too much for our Basic CNN and the network, which already has very little training data loses even more information. However, ResNet seems to be picking up much more details and here the regularization did good and bumped the performance quite a bit. 
+As we can see in Table 4, the performance of Random Erasing on the Basic CNN is worse than with no augmentation at all. Probably it regularizes too much for our Basic CNN and the network, which already has very little training data loses even more information. However, ResNet50 seems to be picking up much more details and here the regularization did well and bumped the performance quite a bit. 
 
 \begin{table}[H]
 	\caption{Accuracies for Random Erasing on subsets}
@@ -465,7 +461,7 @@ In order to examine which components from the Fourier transform, that is the ang
   \end{tabular}
 \end{table}
 
-For the basic CNN it seems as if using only the amplitudes generated the highest accuracy which seems to contradict what we initially thought about the phase angles containing more information about the content of the image. In all, it seems as if the Fourier transform of the input data is not a valid method in order to improve the performance of a CNN, or at least not in the case of our bird data. An interesting extension could be to apply this method to different data sets with more internal variety, such as for example CIFAR100.
+For the basic CNN it seems as if using only the amplitudes generated the highest accuracy which seems to contradict what we initially thought, given the visuals in Figure 4, about the phase angles containing more information about the content of the image. In all, it seems as if the Fourier transform of the input data is not a valid method in order to improve the performance of a CNN, or at least not in the case of our bird data. An interesting extension could be to apply this method to different data sets with more internal variety, such as for example CIFAR100.
 
 \medskip
 
