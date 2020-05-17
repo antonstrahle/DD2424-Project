@@ -114,7 +114,7 @@ on the accuracy.
 
 For our experiments we created a basic CNN architecture as well as implemented a fully trained version of ResNet50 in order to also examine the effects on data augmentations techniques in the case of transfer learning.
 
-To create different settings we divided the original data into different subsets with different sizes and characteristics, some random and some more targeted such as birds with bright colors. We have used rather small data sets because of limitations in time and computing resources, but also because that is the situation many deal with. Also most papers display the performance on huge data sets and we would like to investigate if the performances remains when we decrease the size and worsen the quality of the network.
+To create different settings we divided the original data into different subsets with different sizes and characteristics, some random and some more targeted such as birds with bright colors. We have used rather small data sets because of limitations in time and computing resources, but also because that is the situation many deal with. Most papers display the performance on huge data sets and we would like to investigate if the performances remains when we decrease the size and worsen the quality of the network.
 
 Our results show that basic geometric augmentations such as rotations give a constant positive effect, for Mixup one must spend time with tuning since it regularizes and for both Mixup and Random Erasing a more complex network, such as ResNet50, is needed for them to pay off. Fourier Transforms did not have positive effect. 
 
@@ -157,7 +157,7 @@ Both the validation set and the test set consists of $5$ images of each species.
 It should also be said that around $80\%$ of the images are of male birds and $20\%$ of female 
 birds which, by the nature of birds, may look entirely different, which has sometimes caused some trouble when the data set has been used.
 
-We will not always work with the full dataset but instead use the following subsets:
+We will not always work with the full dataset but instead use the following categories:
 
 \begin{itemize}
 	\item All birds (200 species)
@@ -165,7 +165,7 @@ We will not always work with the full dataset but instead use the following subs
 	\item Dull colored birds (41 species)
 \end{itemize}
 
-The dull and bright colored species have been determined by inspection. For each subset there is a random selection of 15 birds and a small and medium sized subset, giving the number of training images per bird species, not including augmented images. We have used 5 for small and 50 for medium, giving 6 subsets in total, 7 with the complete data.
+The dull and bright colored species have been determined by inspection. For each category we have made subsets with a random selection of 15 birds and a small and medium versions, the sizes giving the number of training images per bird species, not including augmented images. We have used 5 for small and 50 for medium, giving 6 subsets in total, 7 with the complete data.
 
 
 \section{Methods}
@@ -242,13 +242,11 @@ where $I_{\{ \lambda \leq 0.5 \}} = 1$ if $\lambda \leq 0.5$ and $0$ otherwise. 
 
 \subsection{Random Erasing}
 
-Random erasing is a bit similar to Mixup in the sense that it aim at confusing the network a little by manipulating the image, hopefully just enough for it to see the more general traits and overfit and memorize less.
-
-We wish to compare Mixup with Random Erasing and see which has the strongest effect on the birds dataset and if they may be used together.
+Random erasing is a bit similar to Mixup in the sense that it aims at confusing the network a little by manipulating the image, hopefully just enough for it to see the more general traits and overfit and memorize less.
 
 We have chosen to let the box be different nuances of gray, so that the network does not focus on the color. Random colorization of the pixels in the box has proven to often be the most successful, however we though that in this dataset using more colors might confuse, and also gray(white-black) was easier to implement.
 
-We have constrained the box to cover between 10 and 20 percent of the image and let the probability of a box being placed be 0.3. 
+We have constrained the box to cover between 10 and 20 percent of the image and let the probability of a box being placed be 0.3. Figure 3 shows possible versions of a training image.
 
 \begin{figure}[h]
 	\includegraphics[width=0.24\textwidth]{re1.jpeg}
@@ -313,7 +311,7 @@ We also chose to use ResNet50 in order to observe how the data augmentations tec
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.9\textwidth]{conv.PNG}
+	\includegraphics[height=3cm]{conv.PNG}
 	\caption{Layers of the Basic CNN}
 \end{figure}
 
@@ -324,27 +322,27 @@ We also chose to use ResNet50 in order to observe how the data augmentations tec
 % 
 % \textit{Discuss the experiments that you performed todemonstrate  that  your  approach  solves  the  problem.   The  exact  ex-periments will vary depending on the project, but you might comparewith previously published methods, perform an ablation study to de-termine the impact of various components of your system, experimentwith different hyperparameters or architectural choices, use visualization  techniques  to  gain  insight  into  how  your  model  works,  discuss common failure modes of your model, etc.  You should include graphs,tables, or other figures to illustrate your experimental results.}	
 
-The networks were trained for 20 epochs in each experiment using a batch size of 100 and a learning rate of 0.01, in combination with momentum (0.9) and some decay (1e-6). We also implemented early stopping in order to cut down on the training times. The choices of hyperparameters were made by using generally recommended values and the slightly tuning them to fit our needs. As the aim of this project is not to maximize the performance of the network but rather to examine the effects of certain methods the search for good hyperparameters could be seen as very coarse.
+The networks were trained for 20 epochs in each experiment we used a batch size of 100 and a learning rate of 0.01, in combination with momentum (0.9) and some decay (1e-6). We also implemented early stopping in order to cut down on the training times. The choices of hyperparameters were made by using generally recommended values and the slightly tuning them to fit our needs. As the aim of this project is not to maximize the performance of the network but rather to examine the effects of certain methods the search for good hyperparameters could be seen as very coarse.
 
-Recall that there are the same number of species in all subsets of the data sets(15), what differs is the number of training images(excluding augmentations) for each species(5 or 50).
+Recall that there are the same number of species in all subsets of the data set(15), what differs is the number of training images(excluding augmentations) for each species(5 or 50).
 
-It should be said that each combination have only been run once and thus we do not know anything about the span of variation of the estimates. It would also have been desirable to try out different randomized selections of species and to test ResNet50 without pre-training, but that was far too time consuming for this project.
+It should be said that each combination has only been run once and thus we do not know anything about the span of variation of the results. It would have been desirable to try out some augmentations together, run more on the whole dataset and to test ResNet50 without pre-training, but that was far too time consuming for this project.
 
 \subsection{Basic Augmentation}
-In table 1 the results are shown for the runs with the CNNs on all subsets(except the full data sets is which is excluded since the medium ones have performed very well already) with and without data augmentations. For ResNet50, where the Small data sets performed extremely very well, we did not run anything for the Medium sized sets for that reason. 
+In Table 1 the results are shown for the runs with the CNNs on all subsets(except the full data sets is which is excluded since the medium ones have performed very well already) with and without data augmentations. For ResNet50, where the Small data sets performed extremely very well, we did not run anything for the Medium sized sets for that reason. 
 
 For all subsets for both our basic CNN and ResNet50 we can see a great gain in accuracy when applying data augmentations. The difference is the biggest for the basic CNN, but improvements for already good performing networks are hard earned and it is really good that such improvements can be made for an already such good performing network with such little effort. 
 
-The basic CNN had quite some problems with the RandomSmall dataset and seems to overfit, here the augmentations made the most difference. The ResNet50 did not have such problems, maybe because it is pre-trained or was better at spotting the relevant parts. The ResNet50 also perform more evenly across different data sets. 
+The basic CNN had quite some problems with the RandomSmall dataset and seems to overfit, here the augmentations made the most difference. The ResNet50 did not have such problems, maybe because it is pre-trained or was better at spotting the relevant parts. The ResNet50 also performed more evenly across different data sets. 
 
 
 \begin{table}[H]
-	\caption{Accuracies for Basic Augmentations on Basic CNN and ResNet50 (Accuracy)}
+	\caption{Accuracies for Basic Augmentations }
 	\label{sample-table}
 	\centering
 	\begin{tabular}{lllll}
 		\toprule
-		Data &  Basic CNN & Basic CNN & ResNet50 w. Aug & ResNet50 w. Aug\\
+		Data &  Basic CNN & Basic CNN w. Aug & ResNet50 & ResNet50 w. Aug\\
 		\midrule
 		RandomSmall  & 0.13 & 0.47 & 0.81 & 0.85 \\
 		RandomMedium & 0.65 & 0.79 & 0.85 & not tested     \\
@@ -377,16 +375,16 @@ The basic CNN had quite some problems with the RandomSmall dataset and seems to 
 % 	\end{tabular}
 % \end{table}
 
-As the Random data sets perform very similarly to the Dull ones we continue only with the Bright- and Dull subsets in our further experiments and only run one test on the ResNet50 which performs very evenly. 
+As the Random data sets perform very similarly to the Dull ones we continue only with the Bright- and Dull subsets in our further experiments.
 
 \subsection{Mixup}
 
-In order to examine the effects of Mixup we created our own data generator which used two copies of our main data generator and combined the generated images in order to create the Mixup images as displayed in Figure X. We run the test with $\alpha=0.2$ which has proven to be a good value, for example in XXXXXXXXX.
+In order to examine the effects of Mixup we created our own data generator which used two copies of our main data generator and combined the generated images in order to create the Mixup images as displayed in Figure 2. We run the test with $\alpha=0.2$ since for example in Zhang et al(2019) values between 0.2 and 0.4 are recommended.
 
-As we can see in Table X the basic CNN Mixup performs about the same as without any augmentations at all, sometimes a bit better and sometimes even worse. The performance is a bit more stable on ResNet50 but has no noteable positive effect.
+As we can see in Table 2 the basic CNN with Mixup performs about the same as without any augmentations at all, sometimes a bit better and sometimes even worse. The performance is a bit more stable on ResNet50 but has no notable positive effect.
 
 \begin{table}[H]
-	\caption{Mixup on Subsets (Accuracy)}
+	\caption{Accuracies for Mixup}
 	\label{sample-table}
 	\centering
 	\begin{tabular}{lllll}
@@ -401,12 +399,10 @@ As we can see in Table X the basic CNN Mixup performs about the same as without 
 	\end{tabular}
 \end{table}
 
-It is a bit surprising that Mixup has not given any effect, as it has proven to be very powerful. As it might be because there is quite little training data in the subsets on which we have run tests we try it also on the full data and try out other values of $\alpha$, the results can be seen in the table below. Note that the first row indicates the training without Mixup.
-
-For $\alpha=0.1$ we see a strong effect of Mixup, for $\alpha=0.2$ however the performance is worse than for the baseline with no augmentation. We are sorry to say that we did not have time to run Mixup on the smaller subsets with $\alpha=0.1$. 
+At first sight it was a bit surprising that Mixup has not given any effect, as it has proven to be very powerful. We thought it might be because there is quite little training data in the subsets on which we have run tests, so we try it also on the full data and try out other values of $\alpha$, the results can be seen in Table 3 below. Note that the first row indicates the training without Mixup.
 
 \begin{table}[H]
-	\caption{Mixup with a Beta distribution on Basic CNN and ResNet50 (Accuracy)}
+	\caption{Mixup with different parameter settings on the Whole data set}
 	\label{sample-table}
 	\centering
 	\begin{tabular}{llll}
@@ -414,14 +410,17 @@ For $\alpha=0.1$ we see a strong effect of Mixup, for $\alpha=0.2$ however the p
 		Parameter & Label & Basic CNN & ResNet50 \\
 		\midrule
 		-   & -        & 0.64   & 0.95 \\
-		0.1 & Majority & X       & 0.98 \\
-		0.1 & Fractional & X     & 0.98  \\ 
+		0.1 & Majority & 0.48       & 0.98 \\
+		0.1 & Fractional & 0.51   & 0.98  \\ 
 		0.2 & Majority & 0.58   & 0.92 \\
 		0.2 & Fractional & 0.54 & 0.82 \\ 
 		
 		\bottomrule
 	\end{tabular}
 \end{table}
+
+For $\alpha=0.1$ we see a strong effect of Mixup on the whole dataset, for $\alpha=0.2$ however the performance is worse than for the baseline with no augmentation, therefore we do not try for bigger values. We tried to run ResNet with Mixup with $alpha=0.1$ on the BrightSmall subset, which gave a accuracy of 0.64, which is really bad. As Mixup has a regularizing effect it probably needs fine tuning on every subset it is run, it is likely that it also needs a bit more training data than the other techniques we have tried. We did not have time to try this out.
+
 
 \subsection{Random Erasing}
 
@@ -476,9 +475,9 @@ compatible with our angles and amplitudes which would imply a complete re-traini
 
 \section{Conclusions}
 
-I our experiments we have learned that some basic augmentations such as rotations and flipping can make a large difference in the accuracy regardless of the previous performance of the network.
+In our experiments we have learned that some basic augmentations such as rotations and flips can make a large difference in the accuracy regardless of the previous performance of the network.
 
-It is important to remember that Mixup and Random Erasing regularize, and we want different amounts of regularization depending on what kind of dataset we have, how much data we have and how much information the network is picking up. This could partially help explain why the basic CNN which implements dropout does not benefit from these two techniques as further regularization is not needed.
+It is important to remember that Mixup and Random Erasing regularize, and we want different amounts of regularization depending on what kind of dataset we have, how much data we have and how much information the network is picking up. This could partially help explain why the basic CNN which implements dropout does not benefit from these two techniques as further regularization is not needed, os opposed to for ResNet where the payoff is great.
 
 What we have implemented is \textit{input Mixup} where we do all augmentation before training and input the images in the network after performing Mixup, however \href{https://arxiv.org/pdf/1806.05236.pdf}{Verma et al} (2019) 
 suggest a new algorithm called \textit{Manifold Mixup} where Mixup is performed at an intermediate layer or final layer in the network. In an intermediate layer 
@@ -486,7 +485,7 @@ the feature spaces are more aligned than that of the input and it is suggested t
 a natural possible future extension to this project, as we think regularization later on might be good when we have little data so that the network may learn by the non-manipulated data to begin with. 
 
 For our experiment with the Fourier transformation we learned that it was very ineffective as a possible data augmentation method and that our hypothesis 
-that the results would be better when using the phase angles than the amplitudes were incorrect in this application. 
+that the results would be better when using the phase angles than the amplitudes was incorrect in this application. 
 
 Finally, all our experiments could use some further optimization in the parameter choices, batch size and number of epochs and also some different tests and on a different dataset, however due to the limitations in time and computational power, this was not possible. 
 
