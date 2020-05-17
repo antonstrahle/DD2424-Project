@@ -338,7 +338,7 @@ The basic CNN had quite some problems with the RandomSmall dataset and seems to 
 
 
 \begin{table}[H]
-	\caption{Accuracies for Basic Augmentations }
+	\caption{Accuracies for Basic Augmentations on subsets}
 	\label{sample-table}
 	\centering
 	\begin{tabular}{lllll}
@@ -385,7 +385,7 @@ In order to examine the effects of Mixup we created our own data generator which
 As we can see in Table 2 the basic CNN with Mixup performs about the same as without any augmentations at all, sometimes a bit better and sometimes even worse. The performance is a bit more stable on ResNet50 but has no notable positive effect.
 
 \begin{table}[H]
-	\caption{Accuracies for Mixup}
+	\caption{Accuracies for Mixup on subsets}
 	\label{sample-table}
 	\centering
 	\begin{tabular}{lllll}
@@ -403,7 +403,7 @@ As we can see in Table 2 the basic CNN with Mixup performs about the same as wit
 At first sight it was a bit surprising that Mixup has not given any effect, as it has proven to be very powerful. We thought it might be because there is quite little training data in the subsets on which we have run tests, so we try it also on the full data and try out other values of $\alpha$, the results can be seen in Table 3 below. Note that the first row indicates the training without Mixup.
 
 \begin{table}[H]
-	\caption{Mixup with different parameter settings on the Whole data set}
+	\caption{Accuracies for Mixup with different parameter settings on the whole data set}
 	\label{sample-table}
 	\centering
 	\begin{tabular}{llll}
@@ -428,7 +428,7 @@ For $\alpha=0.1$ we see a strong effect of Mixup on the whole dataset, for $\alp
 As we can see in Table 4, the performance of Random Erasing on the Basic CNN is worse than with no augmentation at all. Probably it regularizes too much for our Basic CNN and the network, which already has very little training data loses even more information. However, ResNet seems to be picking up much more details and here the regularization did good and bumped the performance quite a bit. 
 
 \begin{table}[H]
-	\caption{Random Erasing on Subsets (Accuracy)}
+	\caption{Accuracies for Random Erasing on subsets}
 	\label{sample-table}
 	\centering
 	\begin{tabular}{lllll}
@@ -450,7 +450,7 @@ As we can see in Table 4, the performance of Random Erasing on the Basic CNN is 
 In order to examine which components from the Fourier transform, that is the angles, the amplitudes or the combination of them, which generates the best results we examined their respective performances using the basic CNN architecture and the whole dataset. It should be noted that the training time increases drastically when taking both the angles and the amplitudes into account as the dimensions of the input increases.
 
 \begin{table}[H]
-  \caption{Basic CNN and Fourier Transform}
+  \caption{Accuracies for Basic CNN using Fourier Transform on the whole data set}
   \label{sample-table}
   \centering
   \begin{tabular}{ll}
@@ -465,13 +465,13 @@ In order to examine which components from the Fourier transform, that is the ang
   \end{tabular}
 \end{table}
 
-For the basic CNN it seems as if using only the amplitudes generated the highest accuracy which seems to contradict what we initially thought about the phase angles containing more information about the content of the image. In all, it seems as if the Fourier transform of the input data is not a valid method in order to improve the performance of a CNN, or at least not in the case of our bird data. An interesting extension could be to apply this method to different data sets with more internal variety, such as for example CIFAR 100.
+For the basic CNN it seems as if using only the amplitudes generated the highest accuracy which seems to contradict what we initially thought about the phase angles containing more information about the content of the image. In all, it seems as if the Fourier transform of the input data is not a valid method in order to improve the performance of a CNN, or at least not in the case of our bird data. An interesting extension could be to apply this method to different data sets with more internal variety, such as for example CIFAR100.
 
 \medskip
 
 Due to computational constraints as well as the quite clear results from the performance on the Basic CNN we 
-did not evaluate the effects of the Fourier transform on other data sets as well as for ResNet50. 
-A major reason for this is that the pre-trained weights from ImageNet are in no way 
+did not evaluate the effects of the Fourier transform on other data sets nor using ResNet50. 
+A major reason for this is that the pre-trained weights of ResNet50 from ImageNet are in no way 
 compatible with our angles and amplitudes which would imply a complete re-training using the base architectures.
 
 \section{Conclusions}
