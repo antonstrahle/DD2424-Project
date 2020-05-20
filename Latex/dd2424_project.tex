@@ -107,7 +107,7 @@ One of the major drawbacks of supervised learning is the need of immense amounts
 
 Data augmentation provides a partial solution to this issue when it comes to image classification. After being briefly introduced to some data augmentation techniques during the lectures we wanted to explore this topic further and investigate the payoff (or the lack thereof) from some data augmentation techniques as well as getting an understanding of when it is, and when it is not, worth the effort. We are interested in interpretability and have therefore used this project in an expereimental way to find the how, when and whys. 
 
-Our main focus has been to try out Mixup, Random erasing and Fourier transformation in practice, but we have also chosen to apply some more standard augmentations such as rotations simple adjustments to have something to compare with.
+Our main focus has been to try out Mixup, Random erasing and Fourier transformation in practice, but we have also chosen to apply some more standard augmentations such as rotations and simple adjustments to have something to compare with.
 
 To clarify, our project does not aim to obtain the highest possible testing accuracy but rather aims to show the impact of data augmentations on the accuracy. 
 
@@ -152,7 +152,7 @@ There are
 a total of $200$ species and the training data consist of $27503$ images. The data is not balanced but does however contain at least $100$ training images for each species. 
 Both the validation set and the test set consists of $5$ images of each species. 
 It should also be said that around $80\%$ of the images are of male birds and $20\%$ of female 
-birds which, by the nature of birds, may look entirely different, which has sometimes caused some trouble when the data set has been used.
+birds which, by the nature of birds, may look entirely different, which sometimes has caused some trouble when the data set has been used.
 
 We will not always work with the full dataset but instead use the following categories:
 
@@ -206,7 +206,8 @@ An example of Mixup performed on images can be seen in Figure 2.
 The Beta$(\alpha, \alpha)$-distribution is also symmetric around $0.5$, which may be 
 a desirable property, however this should not matter since we combine our randomly drawn examples with weights $\lambda$ and $1-\lambda$ and 
 it should not matter if, for example $\lambda = 0.2$ or $\lambda = 0.8$ since it would yield the same two weights, but in different order, but 
-since our examples are randomly drawn the order of the weight should not have an impact. The value of $\alpha$ is usually chosen in $[0.1, 0.4]$ and too high 
+since our examples are randomly drawn the order of the weight should not have an impact. An increase of performance
+is usually obtained for values $\alpha \in [0.1, 0.4]$ and too high 
 values of $\alpha$ leads to underfitting.
 
 % When reading about Mixup, the use of the Beta-distribution is usually taken for granted, however, there are many other distribution which 
@@ -240,7 +241,7 @@ where $I_{\{ \lambda \leq 0.5 \}} = 1$ if $\lambda \leq 0.5$ and $0$ otherwise. 
 
 \subsection{Random Erasing}
 
-Random erasing is a bit similar to Mixup in the sense that it aims at confusing the network a little by manipulating the image, hopefully just enough for it to see the more general traits and overfit and memorize less.
+Random erasing is a bit similar to Mixup in the sense that it aims at confusing the network a little by manipulating the image, hopefully just enough for it to see the more general traits and not overfit and memorize less.
 
 We have chosen to let the box be different nuances of gray, so that the network does not focus on the color. Random colorization of the pixels in the box has proven to often be the most successful, however we though that in this dataset using more colors might confuse, and also gray(white-black) was easier to implement.
 
@@ -256,9 +257,9 @@ We have constrained the box to cover between 10 and 20 percent of the image and 
 
 \subsection{Fourier Transformation}
 
-The 2D Fourier transform is used in for instance in image compression and gave us the idea of the possibility using it in deep learning and image classification. 
+The 2D Fourier transform is used in, for instance, image compression and gave us the idea of the possibility of using it in deep learning and image classification. 
 The 2D fast Fourier transform takes our image, with size $[224 \times 224 \times 3]$, as input and returns a complex valued matrix of the same size. From this output we can now get the amplitudes 
-by taking the absolute value of each element in the matrix and the phase angles by computing $arctan(y, x)$, where $x$ is the real part and $y$ is the imaginary part. 
+by taking the absolute value of each element in the matrix and the phase angles by computing $arctan(y/x)$, where $x$ is the real part and $y$ is the imaginary part. 
 An interesting property is that the phase angels are more important than the amplitudes and contain more information necessary to recreate the image again. 
 As an example, in Figure 4 the Fourier transform was applied to two images which yielded amplitudes and phase angles respectively. 
 The images were then recreated using the amplitudes from the first image and the phase angles from the second image and vise versa. 
@@ -274,7 +275,7 @@ The images were then recreated using the amplitudes from the first image and the
 Using this as the inspiration we wanted to see if it is true that the phase angles contain more essential information about the image by applying image classification on the amplitudes 
 and phase angels respectively to see if our hypothesis of higher accuracy on the phase angles is satisfied or not. 
 
-Initially we had no expectations that using the Fourier transform as augmentation would yield an increase the classification accuracy compared to using 
+Initially we had no expectations that using the Fourier transform as augmentation would yield an increase in the classification accuracy compared to using 
 the raw data, however we thought that it would be an interesting experiment. 
 In Figure 5 we can see an example of the Fourier transformation on one of the images in our dataset. 
 
@@ -331,7 +332,7 @@ In Table 1 the results are shown for the runs with the CNNs on all subsets(excep
 
 For all subsets for both our basic CNN and ResNet50 we can see a great gain in accuracy when applying data augmentations. The difference is the biggest for the basic CNN, but improvements for already good performing networks are hard earned and it is really good that such improvements can be made for an already such good performing network with such little effort. 
 
-The basic CNN had quite some problems with the RandomSmall dataset and seems to overfit, here the augmentations made the most difference. The ResNet50 did not have such problems, maybe because it is pre-trained or was better at spotting the relevant parts. The ResNet50 also performed more evenly across different data sets. 
+The basic CNN had quite some problems with the RandomSmall dataset and seems to overfit and here the augmentations made the most difference. The ResNet50 did not have such problems, maybe because it is pre-trained or was better at spotting the relevant parts. The ResNet50 also performed more evenly across different data sets. 
 
 \begin{table}[H]
 	\caption{Accuracies for Basic Augmentations on subsets}
@@ -376,7 +377,7 @@ As the Random data sets perform very similarly to the Dull ones we continue only
 
 \subsection{Mixup}
 
-In order to examine the effects of Mixup we created our own data generator which used two copies of our main data generator and combines the generated images in order to create the Mixup images as displayed in Figure 2 using the formulas presented under Methods. We run the test with $\alpha=0.2$ since for example in Zhang et al(2019) values between 0.2 and 0.4 are recommended.
+In order to examine the effects of Mixup we created our own data generator which used two copies of our main data generator and combines the generated images in order to create the Mixup images as displayed in Figure 2 using the formulas presented under Methods. We run the test with $\alpha=0.2$ since for example in Zhang et al(2019) values between 0.1 and 0.4 are recommended.
 
 As we can see in Table 2 the basic CNN with Mixup performs about the same as without any augmentations at all, sometimes a bit better and sometimes even worse. The performance is a bit more stable on ResNet50 but has no notable positive effect.
 
@@ -416,7 +417,7 @@ At first sight it was a bit surprising that Mixup has not given any effect, as i
 	\end{tabular}
 \end{table}
 
-For $\alpha=0.1$ we see a strong effect of Mixup on the whole dataset for ResNet50, for $\alpha=0.2$ however the performance is worse than for the baseline with no augmentation, therefore we do not try for bigger values. We tried to run ResNet50 with Mixup with $\alpha=0.1$ on the BrightSmall subset, which gave a accuracy of 0.64, which is really bad. As Mixup has a regularizing effect it probably needs fine tuning on every subset it is run, it is likely that it also needs a bit more training data than the other techniques we have tried. We did not have time to try this out. This is also likely the reason as to why Mixup leads to a decrease in the accuracy of the basic CNN which already regularizes quite heavily using dropout.
+For $\alpha=0.1$ we see a strong effect of Mixup on the whole dataset for ResNet50, for $\alpha=0.2$ however the performance is worse than for the baseline with no augmentation, therefore we do not try for larger values. We tried to run ResNet50 with Mixup with $\alpha=0.1$ on the BrightSmall subset, which gave a accuracy of 0.64, which is really bad. As Mixup has a regularizing effect it probably needs fine tuning on every subset it is run, it is likely that it also needs a bit more training data than the other techniques we have tried. We did not have time to try this out. This is also likely the reason as to why Mixup leads to a decrease in the accuracy of the basic CNN which already regularizes quite heavily using dropout.
 
 
 \subsection{Random Erasing}
